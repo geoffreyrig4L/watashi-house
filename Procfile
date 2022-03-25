@@ -1,1 +1,0 @@
-web: java -jar out/artifacts/api_watashihouse_jar/api_watashihouse.jar
