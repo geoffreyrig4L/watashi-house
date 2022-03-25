@@ -1,5 +1,5 @@
 
-n	java:S116+"RRename this field "nb_avis" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÆÜÖØ8­”ºÑö/
+g	java:S116+"RRename this field "nb_avis" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÆÜÖØ
 d
 java:S1128"NRemove this unused import 'com.fasterxml.jackson.annotation.JsonIdentityInfo'.(—éÑð
 f
