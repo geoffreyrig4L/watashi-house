@@ -1,0 +1,7 @@
+com\projetb3\api_watashihouse\CollectionControllerTest.class
+com\projetb3\api_watashihouse\H2TestJpaConfig.class
+com\projetb3\api_watashihouse\UtilisateurControllerTest.class
+com\projetb3\api_watashihouse\CommandeControllerTest.class
+com\projetb3\api_watashihouse\ArticleControllerTest.class
+com\projetb3\api_watashihouse\CategorieControllerTest.class
+com\projetb3\api_watashihouse\CarteDePaiementControllerTest.class
