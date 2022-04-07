@@ -35,4 +35,15 @@ public class CarteDePaiement {
     @JoinColumn(name="id_utilisateur_carte", nullable = false)
     @JsonBackReference
     private Utilisateur utilisateur;
+
+    public CarteDePaiement() {
+    }
+
+    public CarteDePaiement(String numero, String cvc, String annee_expiration, String mois_expiration, Utilisateur utilisateur) {
+        this.numero = numero;
+        this.cvc = cvc;
+        this.annee_expiration = annee_expiration;
+        this.mois_expiration = mois_expiration;
+        this.utilisateur = utilisateur;
+    }
 }

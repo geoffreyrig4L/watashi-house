@@ -1,13 +1,0 @@
-
-}	java:S116."\Rename this field "adresse_livraison" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÃÊ¨‘úÿÿÿÿ8ÉÃ¿Ñö/
-	java:S1161"^Rename this field "adresse_facturation" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÙÅ‹îÿÿÿÿÿ8ÊÃ¿Ñö/
-u	java:S1167"TRename this field "type_user" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ­¬Àúÿÿÿÿ8”†ÀÑö/
-a
-java:S1128"?Remove this unused import 'org.hibernate.annotations.OnDelete'.(¸´€áùÿÿÿÿ8åÕ÷ñö/
-g
-java:S1128"ERemove this unused import 'org.hibernate.annotations.OnDeleteAction'.(ÅöŒ”üÿÿÿÿ8æÕ÷ñö/
-M
-java:S1128
-"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8î‚ò§õ/
-M
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ğ‚ò§õ/

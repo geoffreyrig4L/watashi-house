@@ -31,36 +31,22 @@ public class ArticleControllerTest implements H2TestJpaConfig {
     @BeforeEach  // s execute avant chaque methode de test
     void insertInH2(){
         //les id sont generes automatiquements meme si on les modifies avec @GeneratedValue
+        saveArticleInH2("chaise","une magnifique chaise","images/chaise.png","rouge",2999, 75, 42, 45);
+        saveArticleInH2("table","une magnifique table","images/table.png","marron",6999,100,44,26);
+        saveArticleInH2("bureau","une magnifique bureau","images/bureau.png","chêne",9999,92,39,39);
+    }
+
+    public void saveArticleInH2(String nom, String description, String image, String couleur, int prix, int nbAvis, int note, int stock){
         Article article = new Article();
-        article.setNom("chaise");
-        article.setDescription("une magnifique chaise");
-        article.setImages("images/chaise.png");
-        article.setCouleur("rouge");
-        article.setPrix(2999);
-        article.setNb_avis(75);
-        article.setNote(42);
-        article.setStock(45);
+        article.setNom(nom);
+        article.setDescription(description);
+        article.setImages(image);
+        article.setCouleur(couleur);
+        article.setPrix(prix);
+        article.setNb_avis(nbAvis);
+        article.setNote(note);
+        article.setStock(stock);
         articleRepository.save(article);
-        Article article2 = new Article();
-        article2.setNom("table");
-        article2.setDescription("une magnifique table");
-        article2.setImages("images/table.png");
-        article2.setCouleur("marron");
-        article2.setPrix(6999);
-        article2.setNb_avis(100);
-        article2.setNote(44);
-        article2.setStock(26);
-        articleRepository.save(article2);
-        Article article3 = new Article();
-        article3.setNom("bureau");
-        article3.setDescription("une magnifique bureau");
-        article3.setImages("images/bureau.png");
-        article3.setCouleur("chêne");
-        article3.setPrix(9999);
-        article3.setNb_avis(92);
-        article3.setNote(39);
-        article3.setStock(39);
-        articleRepository.save(article3);
     }
 
     @Test

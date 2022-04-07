@@ -34,31 +34,20 @@ public class CommandeControllerTest implements H2TestJpaConfig {
 
     @BeforeEach  // s execute avant chaque methode de test
     void insertInH2(){
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
         //les id sont generes automatiquements meme si on les modifies avec @GeneratedValue
+        saveCommandeInH2("1234567890", 2000);
+        saveCommandeInH2("0987654321", 3000);
+        saveCommandeInH2("1114447770", 4000);
+    }
+
+    private void saveCommandeInH2(String numero, int prixTot) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         Commande commande = new Commande();
-        commande.setNumero("1234567890");
-        LocalDateTime date = LocalDateTime.now();
-        String strDate = formatter.format(date);
+        commande.setNumero(numero);
+        String strDate = formatter.format(LocalDateTime.now());
         commande.setDate_achat(strDate);
-        commande.setPrix_tot(2000);
+        commande.setPrix_tot(prixTot);
         commandeRepository.save(commande);
-        Commande commande2 = new Commande();
-        commande2.setNumero("0987654321");
-        LocalDateTime date2 = LocalDateTime.now();
-        String strDate2 = formatter.format(date2);
-        commande2.setDate_achat(strDate2);
-        commande2.setPrix_tot(3000);
-        commandeRepository.save(commande2);
-        Commande commande3 = new Commande();
-        commande3.setNumero("1114447770");
-        LocalDateTime date3 = LocalDateTime.now();
-        String strDate3 = formatter.format(date3);
-        commande3.setDate_achat(strDate3);
-        commande3.setPrix_tot(4000);
-        commandeRepository.save(commande3);
     }
 
     @Test
@@ -86,12 +75,12 @@ public class CommandeControllerTest implements H2TestJpaConfig {
     @Test
     void should_put_one_commande() throws Exception{
         mockMvc.perform(put("/commandes/2")
-                        .content("{\"id_commande\":2,\"date_livraison\":\"31/11/2021 13:45:23\"}")
+                        .content("{\"id_commande\":2,\"date_achat\":\"31/11/2021 13:45:23\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         mockMvc.perform(get("/commandes/2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.date_livraison",is("31/11/2021 13:45:23")));
+                .andExpect(jsonPath("$.date_achat",is("31/11/2021 13:45:23")));
     }
 
     @Test

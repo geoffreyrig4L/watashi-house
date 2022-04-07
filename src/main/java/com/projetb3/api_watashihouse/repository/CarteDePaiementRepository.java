@@ -1,9 +1,6 @@
 package com.projetb3.api_watashihouse.repository;
 
 import com.projetb3.api_watashihouse.model.CarteDePaiement;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

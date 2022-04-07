@@ -3,22 +3,16 @@ package com.projetb3.api_watashihouse.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "Utilisateur")
 public class Utilisateur {
-
-    //affichage par ID ne marche pas
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,7 +55,7 @@ public class Utilisateur {
             orphanRemoval = true
     )
     @JsonManagedReference
-    Set<CarteDePaiement> carteDePaiements = new HashSet<>();
+    List<CarteDePaiement> carteDePaiements = new ArrayList<>();
 
     @OneToMany(
             targetEntity=Commande.class,
@@ -70,6 +64,21 @@ public class Utilisateur {
             orphanRemoval = true
     )
     @JsonManagedReference
-    Set<Commande> commandes = new HashSet<>();
+    List<Commande> commandes = new ArrayList<>();
 
+    public Utilisateur(String civilite, String nom, String prenom, String email, String mdp, String tel, String adresse_livraison, String adresse_facturation, String pays) {
+        this.civilite = civilite;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.mdp = mdp;
+        this.tel = tel;
+        this.adresse_livraison = adresse_livraison;
+        this.adresse_facturation = adresse_facturation;
+        this.pays = pays;
+    }
+
+    public Utilisateur() {
+
+    }
 }

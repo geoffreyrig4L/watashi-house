@@ -4,8 +4,8 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -33,5 +33,5 @@ public class Categorie {
             joinColumns = @JoinColumn(name = "id_categorie"),
             inverseJoinColumns = @JoinColumn(name = "id_article")
     )
-    private Set<Article> articles = new HashSet<>();
+    private List<Article> articles = new ArrayList<>();
 }

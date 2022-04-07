@@ -1,8 +1,0 @@
-
-q	java:S116"URename this field "date_achat" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬Â”ô8Ì³½Ñö/
-o	java:S116!"SRename this field "prix_tot" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Á¹‘ß8Í³½Ñö/
-]	java:S125<"<This block of commented-out lines of code should be removed.(ñÛØ¬þÿÿÿÿ8Áì½Ñö/
-^
-java:S1128"<Remove this unused import 'org.hibernate.annotations.Fetch'.(”” ìþÿÿÿÿ8–òÏÐö/
-]
-java:S1128"@Remove this unused import 'org.hibernate.annotations.FetchMode'.(‹ð‡¬8—òÏÐö/

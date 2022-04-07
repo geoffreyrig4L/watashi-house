@@ -1,7 +1,9 @@
 package com.projetb3.api_watashihouse;
 
 import com.projetb3.api_watashihouse.model.CarteDePaiement;
+import com.projetb3.api_watashihouse.model.Utilisateur;
 import com.projetb3.api_watashihouse.repository.CarteDePaiementRepository;
+import com.projetb3.api_watashihouse.repository.UtilisateurRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,27 +30,27 @@ public class CarteDePaiementControllerTest implements H2TestJpaConfig {
     @Autowired
     public CarteDePaiementRepository carteDePaiementRepository;
 
-    @BeforeEach  // s execute avant chaque methode de test
+    @Autowired
+    public UtilisateurRepository utilisateurRepository;
+
+    @BeforeEach
     void insertInH2(){
         //les id sont generes automatiquements meme si on les modifies avec @GeneratedValue
+        Utilisateur utilisateur = new Utilisateur("Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo 95210 Argenteuil", "31 rue de Victor Hugo 95210 Argenteuil", "France");
+        utilisateurRepository.save(utilisateur);
+        saveCarteInH2("4973556787121109","659","25","12", utilisateur);
+        saveCarteInH2("4973231467874433","098","24","10", utilisateur);
+        saveCarteInH2("4677088731314765","236","23","01", utilisateur);
+    }
+
+    private void saveCarteInH2(String numero, String cvc, String annee, String mois, Utilisateur utilisateur) {
         CarteDePaiement carteDePaiement = new CarteDePaiement();
-        carteDePaiement.setNumero("4973556787121109");
-        carteDePaiement.setCvc("659");
-        carteDePaiement.setAnnee_expiration("25");
-        carteDePaiement.setMois_expiration("12");
+        carteDePaiement.setNumero(numero);
+        carteDePaiement.setCvc(cvc);
+        carteDePaiement.setAnnee_expiration(annee);
+        carteDePaiement.setMois_expiration(mois);
+        carteDePaiement.setUtilisateur(utilisateur);
         carteDePaiementRepository.save(carteDePaiement);
-        CarteDePaiement carteDePaiement2 = new CarteDePaiement();
-        carteDePaiement2.setNumero("4973231467874433");
-        carteDePaiement2.setCvc("098");
-        carteDePaiement2.setAnnee_expiration("24");
-        carteDePaiement2.setMois_expiration("10");
-        carteDePaiementRepository.save(carteDePaiement2);
-        CarteDePaiement carteDePaiement3 = new CarteDePaiement();
-        carteDePaiement3.setNumero("4677088731314765");
-        carteDePaiement3.setCvc("236");
-        carteDePaiement3.setAnnee_expiration("23");
-        carteDePaiement3.setMois_expiration("01");
-        carteDePaiementRepository.save(carteDePaiement3);
     }
 
     @Test

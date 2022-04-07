@@ -1,5 +1,7 @@
 package com.projetb3.api_watashihouse;
 
+import com.projetb3.api_watashihouse.model.CarteDePaiement;
+import com.projetb3.api_watashihouse.model.Commande;
 import com.projetb3.api_watashihouse.model.Utilisateur;
 import com.projetb3.api_watashihouse.repository.UtilisateurRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +11,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,43 +36,60 @@ public class UtilisateurControllerTest implements H2TestJpaConfig {
 
     @Autowired
     public UtilisateurRepository utilisateurRepository;
+//
+//    @BeforeEach  // s execute avant chaque methode de test
+//    void insertInH2(){
+//        //les id sont generes automatiquements meme si on les modifies avec @GeneratedValue
+//        saveUtilisateurInH2(1,"Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo 95210 Argenteuil", "31 rue de Victor Hugo 95210 Argenteuil", "France");
+//        saveUtilisateurInH2(2,"Madame", "Talia", "Zhao", "talia.zhao@gmail.com", "tzao", "0602020202", "42 avenue du général de Gaulle 93421 Pantin", "42 avenue du général de Gaulle 93421 Pantin", "France");
+//        saveUtilisateurInH2(3,"Monsieur", "Helio", "Pinto", "helio.pinto@gmail.com", "hpinto", "0603030303", "45 rue de Marie Curie 77231 Meaux", "45 rue de Marie Curie 77231 Meaux", "France");
+//    }
+//
+//    private void saveUtilisateurInH2(int id, String civilite, String prenom, String nom, String email, String mdp, String telephone, String adresseLivraison, String adresseFacturation, String pays) {
+//        Utilisateur utilisateur = new Utilisateur();
+//        utilisateur.setId(id);
+//        utilisateur.setCivilite(civilite);
+//        utilisateur.setPrenom(prenom);
+//        utilisateur.setNom(nom);
+//        utilisateur.setEmail(email);
+//        utilisateur.setMdp(mdp);
+//        utilisateur.setTel(telephone);
+//        utilisateur.setAdresse_livraison(adresseLivraison);
+//        utilisateur.setAdresse_facturation(adresseFacturation);
+//        utilisateur.setPays(pays);
+//        utilisateur.setCarteDePaiements(List.of(mock(CarteDePaiement.class)));
+//        utilisateur.setCommandes(List.of(mock(Commande.class)));
+//        utilisateurRepository.save(utilisateur);
+//    }
 
     @BeforeEach  // s execute avant chaque methode de test
     void insertInH2(){
         //les id sont generes automatiquements meme si on les modifies avec @GeneratedValue
+        Utilisateur utilisateur1 = saveUtilisateurInH2(1,"Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo 95210 Argenteuil", "31 rue de Victor Hugo 95210 Argenteuil", "France");
+        Utilisateur utilisateur2 = saveUtilisateurInH2(2,"Madame", "Talia", "Zhao", "talia.zhao@gmail.com", "tzao", "0602020202", "42 avenue du général de Gaulle 93421 Pantin", "42 avenue du général de Gaulle 93421 Pantin", "France");
+        Utilisateur utilisateur3 = saveUtilisateurInH2(3,"Monsieur", "Helio", "Pinto", "helio.pinto@gmail.com", "hpinto", "0603030303", "45 rue de Marie Curie 77231 Meaux", "45 rue de Marie Curie 77231 Meaux", "France");
+        utilisateur1.setCarteDePaiements(List.of(new CarteDePaiement("24356","474","12","02",utilisateur1)));
+        utilisateur2.setCarteDePaiements(List.of(new CarteDePaiement("24356","474","12","02",utilisateur2)));
+        utilisateur3.setCarteDePaiements(List.of(new CarteDePaiement("24356","474","12","02",utilisateur3)));
+       for(Utilisateur utilisateur : List.of(utilisateur1,utilisateur2,utilisateur3)) {
+           utilisateurRepository.save(utilisateur);
+       }
+    }
+
+    private Utilisateur saveUtilisateurInH2(int id, String civilite, String prenom, String nom, String email, String mdp, String telephone, String adresseLivraison, String adresseFacturation, String pays) {
         Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setCivilite("Madame");
-        utilisateur.setPrenom("Olivia");
-        utilisateur.setNom("Hamer");
-        utilisateur.setEmail("olivia.hamer@gmail.com");
-        utilisateur.setMdp("ohamer");
-        utilisateur.setTel("0601010101");
-        utilisateur.setAdresse_livraison("31 rue de Victor Hugo 95210 Argenteuil");
-        utilisateur.setAdresse_facturation("31 rue de Victor Hugo 95210 Argenteuil");
-        utilisateur.setPays("France");
-        utilisateurRepository.save(utilisateur);
-        Utilisateur utilisateur2 = new Utilisateur();
-        utilisateur2.setCivilite("Madame");
-        utilisateur2.setPrenom("Talia");
-        utilisateur2.setNom("Zhao");
-        utilisateur2.setEmail("talia.zhao@gmail.com");
-        utilisateur2.setMdp("tzao");
-        utilisateur2.setTel("0602020202");
-        utilisateur2.setAdresse_livraison("42 avenue du général de Gaulle 93421 Pantin");
-        utilisateur2.setAdresse_facturation("42 avenue du général de Gaulle 93421 Pantin");
-        utilisateur2.setPays("France");
-        utilisateurRepository.save(utilisateur2);
-        Utilisateur utilisateur10 = new Utilisateur();
-        utilisateur10.setCivilite("Monsieur");
-        utilisateur10.setPrenom("Helio");
-        utilisateur10.setNom("Pinto");
-        utilisateur10.setEmail("helio.pinto@gmail.com");
-        utilisateur10.setMdp("hpinto");
-        utilisateur10.setTel("0603030303");
-        utilisateur10.setAdresse_livraison("45 rue de Marie Curie 77231 Meaux");
-        utilisateur10.setAdresse_facturation("45 rue de Marie Curie 77231 Meaux");
-        utilisateur10.setPays("France");
-        utilisateurRepository.save(utilisateur10);
+        utilisateur.setId(id);
+        utilisateur.setCivilite(civilite);
+        utilisateur.setPrenom(prenom);
+        utilisateur.setNom(nom);
+        utilisateur.setEmail(email);
+        utilisateur.setMdp(mdp);
+        utilisateur.setTel(telephone);
+        utilisateur.setAdresse_livraison(adresseLivraison);
+        utilisateur.setAdresse_facturation(adresseFacturation);
+        utilisateur.setPays(pays);
+        System.out.println(utilisateur.getId());
+        return utilisateur;
     }
 
     @Test
@@ -94,9 +120,7 @@ public class UtilisateurControllerTest implements H2TestJpaConfig {
                         .content("{\"id_utilisateur\":2,\"prenom\":\"Olivier\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/utilisateurs/2"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.prenom",is("Olivier")));
+
     }
 
     @Test

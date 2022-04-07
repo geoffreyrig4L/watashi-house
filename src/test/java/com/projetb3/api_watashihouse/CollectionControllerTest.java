@@ -31,15 +31,15 @@ public class CollectionControllerTest implements H2TestJpaConfig {
     @BeforeEach  // s execute avant chaque methode de test
     void insertInH2(){
         //les id sont generes automatiquements meme si on les modifies avec @GeneratedValue
+        saveCollectionInH2("WatSakura no hana");
+        saveCollectionInH2("Hoken");
+        saveCollectionInH2("Collection 3");
+    }
+
+    private void saveCollectionInH2(String nom) {
         Collection collection = new Collection();
-        collection.setNom("WatSakura no hana");
+        collection.setNom(nom);
         collectionRepository.save(collection);
-        Collection collection2 = new Collection();
-        collection2.setNom("Hoken");
-        collectionRepository.save(collection2);
-        Collection collection3 = new Collection();
-        collection3.setNom("Collection 3");
-        collectionRepository.save(collection3);
     }
 
     @Test

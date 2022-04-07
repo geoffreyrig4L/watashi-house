@@ -56,12 +56,4 @@ public class Commande {
         LocalDateTime date = LocalDateTime.now();
         return formatter.format(date);
     }
-
-//    public void addAll(List<Article> articles){
-//        articles.addAll(articles);
-//    }
-//
-//    public void remove(Article article){
-//        articles.remove(article);
-//    }
 }

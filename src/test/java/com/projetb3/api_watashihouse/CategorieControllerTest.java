@@ -31,15 +31,15 @@ public class CategorieControllerTest implements H2TestJpaConfig {
     @BeforeEach  // s execute avant chaque methode de test
     void insertInH2(){
         //les id sont generes automatiquements meme si on les modifies avec @GeneratedValue
+        saveCategorieInH2("table");
+        saveCategorieInH2("chaise");
+        saveCategorieInH2("bureau");
+    }
+
+    private void saveCategorieInH2(String nom) {
         Categorie categorie = new Categorie();
-        categorie.setNom("table");
+        categorie.setNom(nom);
         categorieRepository.save(categorie);
-        Categorie categorie2 = new Categorie();
-        categorie2.setNom("chaise");
-        categorieRepository.save(categorie2);
-        Categorie categorie3 = new Categorie();
-        categorie3.setNom("bureau");
-        categorieRepository.save(categorie3);
     }
 
     @Test
