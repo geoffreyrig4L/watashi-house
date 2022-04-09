@@ -1,1 +1,1 @@
-web: java -Dserver.port=9013 $JAVA_OPTS -jar out/artifacts/api_watashihouse_jar/api_watashihouse.jar
+web:java -Dserver.port=9013 $JAVA_OPTS -jar out/artifacts/api_watashihouse_jar/api_watashihouse.jar
