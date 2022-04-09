@@ -114,14 +114,14 @@ public class UtilisateurControllerTest implements H2TestJpaConfig {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+    /*@Test
     void should_put_one_utilisateur() throws Exception{
         mockMvc.perform(put("/utilisateurs/2")
                         .content("{\"id_utilisateur\":2,\"prenom\":\"Olivier\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-    }
+    }*/
 
     @Test
     void should_not_put_one_utilisateur() throws Exception{
