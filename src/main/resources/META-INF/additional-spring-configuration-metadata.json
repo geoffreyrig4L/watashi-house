@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "JAVA_OPTS",
-      "type": "java.lang.String",
-      "description": "Description for JAVA_OPTS."
-  }
-] }

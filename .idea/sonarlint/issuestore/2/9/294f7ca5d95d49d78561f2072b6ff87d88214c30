@@ -1,8 +1,0 @@
-
-[
-java:S4684&"@Replace this persistent entity with a simple POJO or DTO object.(øÉ¬ïúÿÿÿÿ
-m
-java:S3776:"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(ªÆûÿÿÿÿ
-[
-java:S4684:"@Replace this persistent entity with a simple POJO or DTO object.(ªÆûÿÿÿÿ
-f	java:S117C"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ş“‹»
