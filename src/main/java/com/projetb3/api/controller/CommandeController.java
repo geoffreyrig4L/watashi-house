@@ -45,11 +45,11 @@ public class CommandeController {
         commande.setDate_achat(Commande.now());
         int total = getPrixTot(commande.getArticles());
         commande.setPrix_tot(total);
-        if(commande.getArticles().isEmpty() || commande.getUtilisateur().getId() != 0){
+        if(commande.getArticles().isEmpty() || commande.getUtilisateur().getId_utilisateur() != 0){
             return ResponseEntity.badRequest().body("Veuillez entrer une requete valide.");
         }
         commandeService.saveCommande(commande);
-        return ResponseEntity.ok().body("Creation de la commande reussie !");
+        return ResponseEntity.ok().body("Creation de la commande réussie !");
     }
 
     private int getPrixTot(List<Article> articles) {

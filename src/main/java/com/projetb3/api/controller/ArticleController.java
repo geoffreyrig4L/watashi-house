@@ -35,27 +35,29 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createArticle(@RequestBody Article article) {
+    public ResponseEntity<String> createArticle(@RequestBody Article article) {
+        System.out.println("article to string : " + article.toString());
+        System.out.println(article.getCategories());
         if(article.getCategories().isEmpty()){
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("L'article doit être associé à une catégorie. " + article.getCategories());
         }
         articleService.saveArticle(article);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable("id") final int id) {
+    public ResponseEntity<String> deleteArticle(@PathVariable("id") final int id) {
         Optional<Article> optArticle = articleService.getArticle(id);
 
         if (optArticle.isPresent()){
             articleService.deleteArticle(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("L'article a été supprimé.");
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateArticle(@PathVariable("id") final int id, @RequestBody Article article) {
+    public ResponseEntity<String> updateArticle(@PathVariable("id") final int id, @RequestBody Article article) {
         Optional<Article> optArticle = articleService.getArticle(id);
         if (optArticle.isPresent()) {
             Article currentArticle = optArticle.get();
@@ -92,7 +94,7 @@ public class ArticleController {
                 currentArticle.setNote(stock);
             }
             articleService.saveArticle(currentArticle);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("L'article a été modifié.");
         }
         return ResponseEntity.badRequest().build();
     }

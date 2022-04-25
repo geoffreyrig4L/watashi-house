@@ -63,7 +63,7 @@ public class UtilisateurController {
             Utilisateur currentUtilisateur = optUtilisateur.get();
 
             //recupere les variables du utilisateur fourni en parametre pour les manipuler
-            int newId = utilisateur.getId();
+            int newId = utilisateur.getId_utilisateur();
             String civilite = utilisateur.getCivilite();
             String prenom = utilisateur.getPrenom();
             String nom = utilisateur.getNom();
@@ -75,7 +75,7 @@ public class UtilisateurController {
             String pays = utilisateur.getPays();
             String type_user = utilisateur.getType_user();
             if (newId != 0) {
-                currentUtilisateur.setId(newId);
+                currentUtilisateur.setId_utilisateur(newId);
             }
             if (civilite != null) {
                 currentUtilisateur.setCivilite(civilite);

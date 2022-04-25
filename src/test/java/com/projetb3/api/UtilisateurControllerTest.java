@@ -74,7 +74,7 @@ public class UtilisateurControllerTest implements H2TestJpaConfig {
 
     private Utilisateur saveUtilisateurInH2(int id, String civilite, String prenom, String nom, String email, String mdp, String telephone, String adresseLivraison, String adresseFacturation, String pays) {
         Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setId(id);
+        utilisateur.setId_utilisateur(id);
         utilisateur.setCivilite(civilite);
         utilisateur.setPrenom(prenom);
         utilisateur.setNom(nom);
@@ -84,7 +84,7 @@ public class UtilisateurControllerTest implements H2TestJpaConfig {
         utilisateur.setAdresse_livraison(adresseLivraison);
         utilisateur.setAdresse_facturation(adresseFacturation);
         utilisateur.setPays(pays);
-        System.out.println(utilisateur.getId());
+        System.out.println(utilisateur.getId_utilisateur());
         return utilisateur;
     }
 

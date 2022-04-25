@@ -11,12 +11,12 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "Collection")
+@Table(name = "collection")
 public class Collection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id_collection;
 
     @Column(name = "nom")
     private String nom;

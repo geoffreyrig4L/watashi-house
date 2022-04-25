@@ -1,5 +1,6 @@
 package com.projetb3.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -9,12 +10,12 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name="Categorie")
+@Table(name="categorie")
 public class Categorie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id_categorie;
 
     @Column(name="nom")
     private String nom;
@@ -24,14 +25,13 @@ public class Categorie {
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
-                    //,CascadeType.REMOVE //pour supprimer les articles si on supprime la categorie
-            },
-            targetEntity=Article.class
+            }
     )
     @JoinTable(
-            name = "Article_Categorie",
+            name = "article_categorie",
             joinColumns = @JoinColumn(name = "id_categorie"),
             inverseJoinColumns = @JoinColumn(name = "id_article")
     )
+    @JsonIgnore
     private List<Article> articles = new ArrayList<>();
 }
