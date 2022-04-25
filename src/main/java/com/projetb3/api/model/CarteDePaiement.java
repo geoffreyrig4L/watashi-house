@@ -9,12 +9,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name="carte_de_paiement")
+@Table(name="Carte_de_paiement")
 public class CarteDePaiement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(name="numero")
     private String numero;

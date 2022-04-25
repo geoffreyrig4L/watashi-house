@@ -14,12 +14,12 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="commande")
+@Table(name="Commande")
 public class Commande {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(name="numero")
     private String numero;

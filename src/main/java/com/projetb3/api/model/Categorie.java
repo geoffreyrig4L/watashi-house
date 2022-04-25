@@ -14,7 +14,7 @@ public class Categorie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(name="nom")
     private String nom;
