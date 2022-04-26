@@ -22,19 +22,12 @@ public class UtilisateurService {
 
     public Page<Utilisateur> getAllUtilisateurs(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy) {
         return utilisateurRepository.findAll(
-                PageRequest.of( //Pour créer la page
-                        page.orElse(0), //si page est null = on commence à la page 0
-                        40,  //taille de la page
-                        getOrder(orderBy), sortBy.orElse("id") //si sortBy est null = on trie par id
+                PageRequest.of(                                                       //Pour créer la page
+                        page.orElse(0),                                         //si page est null = on commence à la page 0
+                        40,                                                      //taille de la page
+                        Orderer.getOrder(orderBy), sortBy.orElse("id")                  //si sortBy est null = on trie par id
                 )
         );
-    }
-
-    private Sort.Direction getOrder(Optional<String> orderBy) {
-        if (orderBy.isPresent() && "ASC".equals(orderBy)) {
-            return Sort.Direction.ASC;
-        }
-        return Sort.Direction.DESC;
     }
 
     public void deleteUtilisateur(final int id) {

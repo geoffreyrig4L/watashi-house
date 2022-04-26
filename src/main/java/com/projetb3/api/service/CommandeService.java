@@ -20,12 +20,12 @@ public class CommandeService {
         return commandeRepository.findById(id);
     }
 
-    public Page<Commande> getAllCommandes(Optional<Integer> page, Optional<String> sortBy) {
+    public Page<Commande> getAllCommandes(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy) {
         return commandeRepository.findAll(
                 PageRequest.of(
                         page.orElse(0),
                         10,
-                        Sort.Direction.ASC, sortBy.orElse("id_commande")
+                        Orderer.getOrder(orderBy), sortBy.orElse("id")
                 )
         );
     }

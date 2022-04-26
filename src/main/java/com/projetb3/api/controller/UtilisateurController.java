@@ -28,22 +28,22 @@ public class UtilisateurController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Utilisateur> getUtilisateur(@PathVariable("id") final int id) {     //PathVariable -> permet de manipuler des variables dans l'URI de la requete mapping
+    public ResponseEntity<Utilisateur> getUtilisateur(@PathVariable("id") final int id) { //PathVariable -> permet de manipuler des variables dans l'URI de la requete mapping
         Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateur(id);
-        if (utilisateur.isPresent()) {   //si il existe dans la bdd
-            return ResponseEntity.ok(utilisateur.get());  //recupere la valeur de utilisateur
+        if (utilisateur.isPresent()) {
+            return ResponseEntity.ok(utilisateur.get());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<Void> createUtilisateur(@RequestBody Utilisateur utilisateur) { // le JSON saisie par l'user dans le body sera donc utiliser pour générer une instance de Utilisateur
+    public ResponseEntity<Void> createUtilisateur(@RequestBody Utilisateur utilisateur) { // le JSON saisi dans le body sera utiliser pour générer une instance d'Utilisateur
         utilisateurService.saveUtilisateur(utilisateur);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUtilisateur(@PathVariable("id") final int id) {  //void sgnifie qu'il n'y a aucun objet dans le body
+    public ResponseEntity<Void> deleteUtilisateur(@PathVariable("id") final int id) {
         Optional<Utilisateur> optUtilisateur = utilisateurService.getUtilisateur(id);
         if (optUtilisateur.isPresent()){
             utilisateurService.deleteUtilisateur(id);
@@ -53,49 +53,48 @@ public class UtilisateurController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUtilisateur(@PathVariable("id") final int id, @RequestBody Utilisateur utilisateur) { //utilisateur contenu dans le body
+    public ResponseEntity<String> updateUtilisateur(@PathVariable("id") final int id, @RequestBody Utilisateur modification) {
         Optional<Utilisateur> optUtilisateur = utilisateurService.getUtilisateur(id);
-
         if (optUtilisateur.isPresent()) {
-            Utilisateur currentUtilisateur = optUtilisateur.get();
-            if (utilisateur.getId() != 0) {
-                currentUtilisateur.setId(utilisateur.getId());
+            Utilisateur current = optUtilisateur.get();
+            if (modification.getId() != 0) {
+                current.setId(modification.getId());
             }
-            if (utilisateur.getCivilite() != null) {
-                currentUtilisateur.setCivilite(utilisateur.getCivilite());
+            if (modification.getCivilite() != null) {
+                current.setCivilite(modification.getCivilite());
             }
-            if (utilisateur.getPrenom() != null) {
-                currentUtilisateur.setPrenom(utilisateur.getPrenom());
+            if (modification.getPrenom() != null) {
+                current.setPrenom(modification.getPrenom());
             }
-            if (utilisateur.getNom() != null) {
-                currentUtilisateur.setNom(utilisateur.getNom());
+            if (modification.getNom() != null) {
+                current.setNom(modification.getNom());
             }
-            if (utilisateur.getEmail() != null) {
-                currentUtilisateur.setEmail(utilisateur.getEmail());
+            if (modification.getEmail() != null) {
+                current.setEmail(modification.getEmail());
             }
-            if (utilisateur.getMdp() != null) {
-                currentUtilisateur.setMdp(utilisateur.getMdp());
+            if (modification.getMdp() != null) {
+                current.setMdp(modification.getMdp());
             }
-            if (utilisateur.getTel() != null) {
-                currentUtilisateur.setTel(utilisateur.getTel());
+            if (modification.getTel() != null) {
+                current.setTel(modification.getTel());
             }
-            if(utilisateur.getAdresse() != null) {
-                currentUtilisateur.setAdresse(utilisateur.getAdresse());
+            if(modification.getAdresse() != null) {
+                current.setAdresse(modification.getAdresse());
             }
-            if(utilisateur.getCodepostal() != null) {
-                currentUtilisateur.setCodepostal(utilisateur.getCodepostal());
+            if(modification.getCodepostal() != null) {
+                current.setCodepostal(modification.getCodepostal());
             }
-            if(utilisateur.getVille() != null){
-                currentUtilisateur.setVille(utilisateur.getVille());
+            if(modification.getVille() != null){
+                current.setVille(modification.getVille());
             }
-            if (utilisateur.getPays() != null) {
-                currentUtilisateur.setPays(utilisateur.getPays());
+            if (modification.getPays() != null) {
+                current.setPays(modification.getPays());
             }
-            if (utilisateur.getTypeuser() != null) {
-                currentUtilisateur.setTypeuser(utilisateur.getTypeuser());
+            if (modification.getTypeuser() != null) {
+                current.setTypeuser(modification.getTypeuser());
             }
-            utilisateurService.saveUtilisateur(currentUtilisateur);
-            return ResponseEntity.ok().body("L'utilisateur " + currentUtilisateur.getId() + " a bien été modifié.");
+            utilisateurService.saveUtilisateur(current);
+            return ResponseEntity.ok().body("L'utilisateur " + current.getId() + " a été modifié.");
         }
         return ResponseEntity.badRequest().body("L'utilisateur est introuvable.");
     }

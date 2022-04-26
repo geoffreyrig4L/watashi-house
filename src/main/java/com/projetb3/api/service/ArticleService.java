@@ -17,12 +17,12 @@ public class ArticleService {
 
     public Optional<Article> getArticle(final int id_article){return articleRepository.findById(id_article); }
 
-    public Page<Article> getAllArticles (Optional<Integer> page, Optional<String> sortBy){
+    public Page<Article> getAllArticles (Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy){
         return articleRepository.findAll(
                 PageRequest.of(
                         page.orElse(0),
                         40,
-                        Sort.Direction.ASC, sortBy.orElse("id_article")
+                        Orderer.getOrder(orderBy), sortBy.orElse("id_article")
                 )
         );
     }

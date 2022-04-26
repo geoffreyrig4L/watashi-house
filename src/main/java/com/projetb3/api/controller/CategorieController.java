@@ -20,60 +20,50 @@ public class CategorieController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Categorie>> getAllCategoriesToWatch(@RequestParam("page") final Optional<Integer> page, @RequestParam("sortBy") final Optional<String> sortBy) {
-        Page<Categorie> listeCategorie = categorieService.getAllCategories(page, sortBy);
-        return ResponseEntity.ok(listeCategorie);
+    public ResponseEntity<Page<Categorie>> getAllCategories(@RequestParam("page") final Optional<Integer> page,
+                                                            @RequestParam("sortBy") final Optional<String> sortBy,
+                                                            @RequestParam("orderBy") final Optional<String> orderBy) {
+        Page<Categorie> listeCategories = categorieService.getAllCategories(page, sortBy, orderBy);
+        return ResponseEntity.ok(listeCategories);
     }
 
-    /*
-        @RequestParam recupere des infos concernant les ressources, tout ce qu'on peut trouver apres le ?, ses infos servent principalement de filtrage
-        @PathVariable récupère la ressource directement soit les champs contenu dans notre bdd (id, title, date_released)
-     */
-
     @GetMapping("/{id}")
-    public ResponseEntity<Categorie> getCategorie(@PathVariable("id") final int id) {     //PathVariable -> permet de manipuler des variables dans l'URI de la requete mapping
-        Optional<Categorie> categorie = categorieService.getCategorie(id); //Optional -> encapsule un objet dont la valeur peut être null
-        if (categorie.isPresent()) {   //si il existe dans la bdd
-            return ResponseEntity.ok(categorie.get());  //recupere la valeur de categorie
+    public ResponseEntity<Categorie> getCategorie(@PathVariable("id") final int id) {
+        Optional<Categorie> categorie = categorieService.getCategorie(id);
+        if (categorie.isPresent()) {
+            return ResponseEntity.ok(categorie.get());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCategorie(@RequestBody Categorie categorie) {         // deserialise les JSON dans un langage Java -> regroupe des données séparées dans un meme flux
-        // le JSON saisie par l'user dans le body sera donc utiliser pour générer une instance de Categorie
+    public ResponseEntity<String> createCategorie(@RequestBody Categorie categorie) {
         categorieService.saveCategorie(categorie);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("La catégorie a été créée.");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategorie(@PathVariable("id") final int id) {  //void sgnifie qu'il n'y a aucun objet dans le body
-        Optional<Categorie> optCategorie = categorieService.getCategorie(id);  //Optional -> encapsule un objet dont la valeur peut être null
-
-        if (optCategorie.isPresent()){
+    public ResponseEntity<String> deleteCategorie(@PathVariable("id") final int id) {
+        Optional<Categorie> optCategorie = categorieService.getCategorie(id);
+        if (optCategorie.isPresent()) {
             categorieService.deleteCategorie(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("La catégorie a été supprimée.");
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateCategorie(@PathVariable("id") final int id, @RequestBody Categorie categorie) { //categorie contenu dans le body
-        Optional<Categorie> optCategorie = categorieService.getCategorie(id);  //Optional -> encapsule un objet dont la valeur peut être null
-
+    public ResponseEntity<String> updateCategorie(@PathVariable("id") final int id, @RequestBody Categorie modification) {
+        Optional<Categorie> optCategorie = categorieService.getCategorie(id);
         if (optCategorie.isPresent()) {
-            Categorie currentCategorie = optCategorie.get();
-
-            //recupere les variables du categorie fourni en parametre pour les manipuler
-            String nom = categorie.getNom();
-
-            if (nom != null) {
-                currentCategorie.setNom(nom);
+            Categorie current = optCategorie.get();
+            if (modification.getNom() != null) {
+                current.setNom(modification.getNom());
             }
-            categorieService.saveCategorie(currentCategorie);
-            return ResponseEntity.ok().build();
+            categorieService.saveCategorie(current);
+            return ResponseEntity.ok().body("La catégorie " + current.getId() + " a été modifiée.");
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.notFound().build();
     }
 
 }

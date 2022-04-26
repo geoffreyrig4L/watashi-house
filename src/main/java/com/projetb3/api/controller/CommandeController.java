@@ -25,10 +25,11 @@ public class CommandeController {
     @GetMapping
     public ResponseEntity<Page<Commande>> getAllCommandesToWatch(
             @RequestParam("page") final Optional<Integer> page,
-            @RequestParam("sortBy") final Optional<String> sortBy
+            @RequestParam("sortBy") final Optional<String> sortBy,
+            @RequestParam("orderBy") final Optional<String> orderBy
     ) {
-        Page<Commande> commandeList = commandeService.getAllCommandes(page, sortBy);
-        return ResponseEntity.ok(commandeList);
+        Page<Commande> listeCommandes = commandeService.getAllCommandes(page, sortBy, orderBy);
+        return ResponseEntity.ok(listeCommandes);
     }
 
     @GetMapping("/{id}")
@@ -49,7 +50,7 @@ public class CommandeController {
             return ResponseEntity.badRequest().body("Veuillez entrer une requete valide.");
         }
         commandeService.saveCommande(commande);
-        return ResponseEntity.ok().body("Creation de la commande réussie !");
+        return ResponseEntity.ok().body("La commande a été créée.");
     }
 
     private int getPrixTot(List<Article> articles) {
@@ -63,36 +64,29 @@ public class CommandeController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCommande(@PathVariable("id") final int id) {  //void sgnifie qu'il n'y a aucun objet dans le body
-        Optional<Commande> optCommande = commandeService.getCommande(id);  //Optional -> encapsule un objet dont la valeur peut être null
+    public ResponseEntity<String> deleteCommande(@PathVariable("id") final int id) {
+        Optional<Commande> optCommande = commandeService.getCommande(id);
         if (optCommande.isPresent()){
             commandeService.deleteCommande(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("La commande a été supprimée.");
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateCommande(@PathVariable("id") final int id, @RequestBody Commande commande) {
+    public ResponseEntity<String> updateCommande(@PathVariable("id") final int id, @RequestBody Commande modification) {
         Optional<Commande> optCommande = commandeService.getCommande(id);
         if (optCommande.isPresent()) {
-            Commande currentCommande = optCommande.get();
-            String numero = commande.getNumero();
-            String date = commande.getDate_achat();
-            int prix_tot = commande.getPrix_tot();
-
-            if (numero != null) {
-                currentCommande.setNumero(numero);
+            Commande current = optCommande.get();
+            if (modification.getNumero() != null) {
+                current.setNumero(modification.getNumero());
             }
-            if (prix_tot != 0) {
-                currentCommande.setPrix_tot(prix_tot);
+            if (modification.getPrix_tot() != 0) {
+                current.setPrix_tot(modification.getPrix_tot());
             }
-            if (date != null) {
-                currentCommande.setDate_achat(date);
-            }
-            commandeService.saveCommande(currentCommande);
-            return ResponseEntity.ok().build();
+            commandeService.saveCommande(current);
+            return ResponseEntity.ok().body("La commande " + current.getId() + " a été modifiée.");
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.notFound().build();
     }
 }
