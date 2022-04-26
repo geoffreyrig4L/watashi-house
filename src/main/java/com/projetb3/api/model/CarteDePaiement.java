@@ -2,12 +2,10 @@ package com.projetb3.api.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name="cartes")
 public class CarteDePaiement {

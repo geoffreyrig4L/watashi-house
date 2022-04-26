@@ -1,16 +1,14 @@
 package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "collections")
 public class Collection {
 
