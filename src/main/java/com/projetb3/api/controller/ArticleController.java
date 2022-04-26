@@ -1,7 +1,9 @@
 package com.projetb3.api.controller;
 
 import com.projetb3.api.model.Article;
+import com.projetb3.api.repository.jpa.ArticleJPARepository;
 import com.projetb3.api.service.ArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,10 +38,9 @@ public class ArticleController {
 
     @PostMapping
     public ResponseEntity<String> createArticle(@RequestBody Article article) {
-        System.out.println("article to string : " + article.toString());
-        System.out.println(article.getCategories());
+        System.out.println(article.toString());
         if(article.getCategories().isEmpty()){
-            return ResponseEntity.ok().body("L'article doit être associé à une catégorie. " + article.getCategories());
+            return ResponseEntity.ok().body("L'article doit être associé à une catégorie. Catégorie : " + article.getCategories());
         }
         articleService.saveArticle(article);
         return ResponseEntity.ok().build();

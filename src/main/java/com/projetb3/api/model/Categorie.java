@@ -5,12 +5,12 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
-@Table(name="categorie")
+@Table(name="categories")
 public class Categorie {
 
     @Id
@@ -20,18 +20,13 @@ public class Categorie {
     @Column(name="nom")
     private String nom;
 
-    @ManyToMany(
-            fetch = FetchType.EAGER,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
-    )
-    @JoinTable(
-            name = "article_categorie",
-            joinColumns = @JoinColumn(name = "id_categorie"),
-            inverseJoinColumns = @JoinColumn(name = "id_article")
-    )
-    @JsonIgnore
-    private List<Article> articles = new ArrayList<>();
+//    @ManyToMany(
+//            fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            },
+//            mappedBy = "categories")
+//    @JsonIgnore
+//    private Set<Article> articles = new HashSet<>();
 }

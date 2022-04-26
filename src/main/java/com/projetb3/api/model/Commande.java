@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name="commande")
+@Table(name="commandes")
 public class Commande {
 
     @Id
@@ -46,7 +46,7 @@ public class Commande {
             fetch = FetchType.EAGER
     )
     @JoinTable(
-            name="article_commande",
+            name="articles_commandes",
             joinColumns = @JoinColumn(name = "id_commande"),
             inverseJoinColumns = @JoinColumn(name = "id_article")
     )

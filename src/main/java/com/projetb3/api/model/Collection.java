@@ -11,7 +11,7 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "collection")
+@Table(name = "collections")
 public class Collection {
 
     @Id

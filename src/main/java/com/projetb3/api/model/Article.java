@@ -7,12 +7,12 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "article")
+@Table(name = "articles")
 public class Article {
 
     @Id
@@ -44,19 +44,17 @@ public class Article {
     private int stock;
 
     @ManyToMany(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             }
     )
-    @JoinTable(
-            name = "article_categorie",
-            joinColumns = @JoinColumn(name = "id_article"),
-            inverseJoinColumns = @JoinColumn(name = "id_categorie")
+    @JoinTable(name = "categorie_articles",
+            joinColumns = {@JoinColumn(name = "article_id")},
+            inverseJoinColumns = {@JoinColumn(name = "categorie_id")}
     )
-    @JsonIgnore
-    private List<Categorie> categories = new ArrayList<>();
+    private Set<Categorie> categories = new HashSet<>();
 
     @ManyToOne(
             cascade = CascadeType.MERGE,

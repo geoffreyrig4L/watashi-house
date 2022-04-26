@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name="carte_de_paiement")
+@Table(name="cartes")
 public class CarteDePaiement {
 
     @Id
