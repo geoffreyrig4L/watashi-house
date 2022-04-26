@@ -28,9 +28,6 @@ public class CollectionController {
         return ResponseEntity.ok(listeCollections);
     }
 
-    //@RequestParam recupere des infos concernant les ressources, tout ce qu'on peut trouver apres le ?, ses infos servent principalement de filtrage
-    //@PathVariable récupère la ressource directement soit les champs contenu dans notre bdd (id, title, date_released)
-
     @GetMapping("/{id}")
     public ResponseEntity<Collection> getCollection(@PathVariable("id") final int id) {
         Optional<Collection> collection = collectionService.getCollection(id);

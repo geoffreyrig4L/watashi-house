@@ -20,11 +20,19 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Article>> getAllArticlesToWatch(@RequestParam("page") final Optional<Integer> page,
-                                                               @RequestParam("sortBy") final Optional<String> sortBy,
-                                                               @RequestParam("orderBy") final Optional<String> orderBy) {
+    public ResponseEntity<Page<Article>> getAllArticles(@RequestParam("page") final Optional<Integer> page,
+                                                        @RequestParam("sortBy") final Optional<String> sortBy,
+                                                        @RequestParam("orderBy") final Optional<String> orderBy) {
         Page<Article> listeArticles = articleService.getAllArticles(page, sortBy, orderBy);
         return ResponseEntity.ok(listeArticles);
+    }
+
+    @GetMapping("/couleur={couleur}")
+    public ResponseEntity<Page<Article>> getArticlesFiltreesParCouleur(@RequestParam("page") final Optional<Integer> page,
+                                                                       @RequestParam("sortBy") final Optional<String> sortBy,
+                                                                       @RequestParam("orderBy") final Optional<String> orderBy,
+                                                                       @PathVariable("couleur") final String couleur) {
+        return ResponseEntity.ok(articleService.getArticlesFiltreesParCouleur(page,sortBy,orderBy,couleur));
     }
 
     @GetMapping("/{id}")
@@ -38,7 +46,7 @@ public class ArticleController {
 
     @PostMapping
     public ResponseEntity<String> createArticle(@RequestBody Article article) {
-        if(article.getCategories().isEmpty()){
+        if (article.getCategories().isEmpty()) {
             return ResponseEntity.ok().body("L'article doit être associé à une catégorie. Catégorie : " + article.getCategories());
         }
         articleService.saveArticle(article);
@@ -48,7 +56,7 @@ public class ArticleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteArticle(@PathVariable("id") final int id) {
         Optional<Article> optArticle = articleService.getArticle(id);
-        if (optArticle.isPresent()){
+        if (optArticle.isPresent()) {
             articleService.deleteArticle(id);
             return ResponseEntity.ok().body("L'article a été supprimé.");
         }
@@ -75,17 +83,8 @@ public class ArticleController {
             if (modification.getPrix() != 0) {
                 current.setPrix(modification.getPrix());
             }
-            if (modification.getNb_avis() != 0) {
-                current.setNb_avis(modification.getNb_avis());
-            }
-            if (modification.getNote() != 0) {
-                current.setNote(modification.getNote());
-            }
-            if (modification.getStock() != 0) {
-                current.setNote(modification.getStock());
-            }
             articleService.saveArticle(current);
-            return ResponseEntity.ok().body("L'article " + current.getId()+" a été modifié.");
+            return ResponseEntity.ok().body("L'article " + current.getId() + " a été modifié.");
         }
         return ResponseEntity.notFound().build();
     }

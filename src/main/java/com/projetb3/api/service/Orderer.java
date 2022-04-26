@@ -7,7 +7,8 @@ import java.util.Optional;
 public class Orderer {
 
     public static Sort.Direction getOrder(Optional<String> orderBy) {
-        if (orderBy.isPresent() && "ASC".equals(orderBy)) {
+        if (orderBy.isPresent() && orderBy.get().equals("ASC")) {
+            System.out.println("ASC");
             return Sort.Direction.ASC;
         }
         return Sort.Direction.DESC;

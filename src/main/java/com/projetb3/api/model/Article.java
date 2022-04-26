@@ -34,15 +34,6 @@ public class Article {
     @Column(name = "prix")
     private int prix;
 
-    @Column(name = "nb_avis")
-    private int nb_avis;
-
-    @Column(name = "note")
-    private int note;
-
-    @Column(name = "stock")
-    private int stock;
-
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {

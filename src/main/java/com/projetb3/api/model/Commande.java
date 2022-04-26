@@ -1,12 +1,15 @@
 package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -35,17 +38,17 @@ public class Commande {
     @JsonBackReference
     private Utilisateur utilisateur;
 
-//    @ManyToMany(
-//            cascade = CascadeType.MERGE,
-//            fetch = FetchType.EAGER
-//    )
-//    @JoinTable(
-//            name="articles_commandes",
-//            joinColumns = @JoinColumn(name = "id_commande"),
-//            inverseJoinColumns = @JoinColumn(name = "id_article")
-//    )
-//    @JsonIgnore
-//    private List<Article> articles = new ArrayList<>();
+    @ManyToMany(
+            cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name="articles_commandes",
+            joinColumns = @JoinColumn(name = "id_commande"),
+            inverseJoinColumns = @JoinColumn(name = "id_article")
+    )
+    @JsonIgnore
+    private List<Article> articles = new ArrayList<>();
 
     public static String now(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
