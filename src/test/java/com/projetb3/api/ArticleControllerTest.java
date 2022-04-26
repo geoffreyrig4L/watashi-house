@@ -40,7 +40,7 @@ public class ArticleControllerTest implements H2TestJpaConfig {
         Article article = new Article();
         article.setNom(nom);
         article.setDescription(description);
-        article.setImages(image);
+        article.setImages1(image);
         article.setCouleur(couleur);
         article.setPrix(prix);
         articleRepository.save(article);

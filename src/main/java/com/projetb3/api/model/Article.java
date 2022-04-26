@@ -22,17 +22,29 @@ public class Article {
     @Column(name = "nom")
     private String nom;
 
-    @Column(name = "description")
+    @Column(name = "details")
     private String description;
 
-    @Column(name = "images")
-    private String images;
+    @Column(name = "images1")
+    private String images1;
+
+    @Column(name = "images2")
+    private String images2;
+
+    @Column(name = "images3")
+    private String images3;
+
+    @Column(name = "images4")
+    private String images4;
 
     @Column(name = "couleur")
     private String couleur;
 
     @Column(name = "prix")
     private int prix;
+
+    @Column(name = "stock")
+    private int stock;
 
     @ManyToMany(
             fetch = FetchType.LAZY,

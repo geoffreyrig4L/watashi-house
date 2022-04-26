@@ -35,6 +35,16 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.getArticlesFiltreesParCouleur(page,sortBy,orderBy,couleur));
     }
 
+    @GetMapping("/prix")
+    public ResponseEntity<Page<Article>> getArticlesFiltreesParCouleur(@RequestParam("page") final Optional<Integer> page,
+                                                                       @RequestParam("sortBy") final Optional<String> sortBy,
+                                                                       @RequestParam("orderBy") final Optional<String> orderBy,
+                                                                       @RequestParam("min") final int min,
+                                                                       @RequestParam("max") final int max) {
+        System.out.println(min + max);
+        return ResponseEntity.ok(articleService.getArticlesFiltreesParPrix(page,sortBy,orderBy,min, max));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Article> getArticle(@PathVariable("id") final int id) {
         Optional<Article> article = articleService.getArticle(id);
@@ -74,8 +84,20 @@ public class ArticleController {
             if (modification.getDescription() != null) {
                 current.setDescription(modification.getDescription());
             }
-            if (modification.getImages() != null) {
-                current.setImages(modification.getImages());
+            if (modification.getImages1() != null) {
+                current.setImages1(modification.getImages1());
+            }
+            if (modification.getImages2() != null) {
+                current.setImages2(modification.getImages2());
+            }
+            if (modification.getImages3() != null) {
+                current.setImages3(modification.getImages3());
+            }
+            if (modification.getImages4() != null) {
+                current.setImages1(modification.getImages4());
+            }
+            if (modification.getStock() != 0) {
+                current.setStock(modification.getStock());
             }
             if (modification.getCouleur() != null) {
                 current.setCouleur(modification.getCouleur());
