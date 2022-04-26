@@ -61,9 +61,9 @@ public class UtilisateurControllerTest implements H2TestJpaConfig {
     @BeforeEach  // s execute avant chaque methode de test
     void insertInH2(){
         //les id sont generes automatiquements meme si on les modifies avec @GeneratedValue
-        Utilisateur utilisateur1 = saveUtilisateurInH2(1,"Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo 95210 Argenteuil", "31 rue de Victor Hugo 95210 Argenteuil", "France");
-        Utilisateur utilisateur2 = saveUtilisateurInH2(2,"Madame", "Talia", "Zhao", "talia.zhao@gmail.com", "tzao", "0602020202", "42 avenue du général de Gaulle 93421 Pantin", "42 avenue du général de Gaulle 93421 Pantin", "France");
-        Utilisateur utilisateur3 = saveUtilisateurInH2(3,"Monsieur", "Helio", "Pinto", "helio.pinto@gmail.com", "hpinto", "0603030303", "45 rue de Marie Curie 77231 Meaux", "45 rue de Marie Curie 77231 Meaux", "France");
+        Utilisateur utilisateur1 = saveUtilisateurInH2(1,"Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo 95210 Argenteuil", "France");
+        Utilisateur utilisateur2 = saveUtilisateurInH2(2,"Madame", "Talia", "Zhao", "talia.zhao@gmail.com", "tzao", "0602020202", "42 avenue du général de Gaulle 93421 Pantin", "France");
+        Utilisateur utilisateur3 = saveUtilisateurInH2(3,"Monsieur", "Helio", "Pinto", "helio.pinto@gmail.com", "hpinto", "0603030303", "45 rue de Marie Curie 77231 Meaux", "France");
         utilisateur1.setCarteDePaiements(List.of(new CarteDePaiement("24356","474","12","02",utilisateur1)));
         utilisateur2.setCarteDePaiements(List.of(new CarteDePaiement("24356","474","12","02",utilisateur2)));
         utilisateur3.setCarteDePaiements(List.of(new CarteDePaiement("24356","474","12","02",utilisateur3)));
@@ -72,19 +72,18 @@ public class UtilisateurControllerTest implements H2TestJpaConfig {
        }
     }
 
-    private Utilisateur saveUtilisateurInH2(int id, String civilite, String prenom, String nom, String email, String mdp, String telephone, String adresseLivraison, String adresseFacturation, String pays) {
+    private Utilisateur saveUtilisateurInH2(int id, String civilite, String prenom, String nom, String email, String mdp, String telephone, String adresse, String pays) {
         Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setId_utilisateur(id);
+        utilisateur.setId(id);
         utilisateur.setCivilite(civilite);
         utilisateur.setPrenom(prenom);
         utilisateur.setNom(nom);
         utilisateur.setEmail(email);
         utilisateur.setMdp(mdp);
         utilisateur.setTel(telephone);
-        utilisateur.setAdresse_livraison(adresseLivraison);
-        utilisateur.setAdresse_facturation(adresseFacturation);
+        utilisateur.setAdresse(adresse);
         utilisateur.setPays(pays);
-        System.out.println(utilisateur.getId_utilisateur());
+        System.out.println(utilisateur.getId());
         return utilisateur;
     }
 

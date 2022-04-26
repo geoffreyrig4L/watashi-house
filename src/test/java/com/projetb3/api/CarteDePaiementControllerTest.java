@@ -36,7 +36,7 @@ public class CarteDePaiementControllerTest implements H2TestJpaConfig {
     @BeforeEach
     void insertInH2(){
         //les id sont generes automatiquements meme si on les modifies avec @GeneratedValue
-        Utilisateur utilisateur = new Utilisateur("Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo 95210 Argenteuil", "31 rue de Victor Hugo 95210 Argenteuil", "France");
+        Utilisateur utilisateur = new Utilisateur("Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo 95210 Argenteuil", "France");
         utilisateurRepository.save(utilisateur);
         saveCarteInH2("4973556787121109","659","25","12", utilisateur);
         saveCarteInH2("4973231467874433","098","24","10", utilisateur);

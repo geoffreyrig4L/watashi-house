@@ -16,7 +16,8 @@ public class Utilisateur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_utilisateur;
+    @Column(name="id_utilisateur")
+    private int id;
 
     @Column(name = "civilite")
     private String civilite;
@@ -36,17 +37,20 @@ public class Utilisateur {
     @Column(name = "tel")
     private String tel;
 
-    @Column(name = "adresse_livraison")
-    private String adresse_livraison;
+    @Column(name = "adresse")
+    private String adresse;
 
-    @Column(name = "adresse_facturation")
-    private String adresse_facturation;
+    @Column(name = "codepostal")
+    private String codepostal;
+
+    @Column(name = "ville")
+    private String ville;
 
     @Column(name = "pays")
     private String pays;
 
-    @Column(name = "type_user")
-    private String type_user;
+    @Column(name = "typeuser")
+    private String typeuser;
 
     @OneToMany(
             targetEntity=CarteDePaiement.class,
@@ -66,15 +70,14 @@ public class Utilisateur {
     @JsonManagedReference
     List<Commande> commandes = new ArrayList<>();
 
-    public Utilisateur(String civilite, String nom, String prenom, String email, String mdp, String tel, String adresse_livraison, String adresse_facturation, String pays) {
+    public Utilisateur(String civilite, String nom, String prenom, String email, String mdp, String tel, String adresse, String pays) {
         this.civilite = civilite;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.mdp = mdp;
         this.tel = tel;
-        this.adresse_livraison = adresse_livraison;
-        this.adresse_facturation = adresse_facturation;
+        this.adresse = adresse;
         this.pays = pays;
     }
 

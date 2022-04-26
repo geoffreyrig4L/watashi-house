@@ -22,7 +22,8 @@ public class Commande {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_commande;
+    @Column(name="id_commande")
+    private int id;
 
     @Column(name="numero")
     private String numero;

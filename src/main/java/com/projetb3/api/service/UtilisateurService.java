@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 @Service
@@ -19,21 +20,28 @@ public class UtilisateurService {
         return utilisateurRepository.findById(id);
     }
 
-    public Page<Utilisateur> getAllUtilisateurs (Optional<Integer> page, Optional<String> sortBy) {
+    public Page<Utilisateur> getAllUtilisateurs(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy) {
         return utilisateurRepository.findAll(
                 PageRequest.of( //Pour créer la page
                         page.orElse(0), //si page est null = on commence à la page 0
                         40,  //taille de la page
-                        Sort.Direction.ASC, sortBy.orElse("id_utilisateur") //trier par ordre croissant, avec le param sortBy si il est null = on trie par id
+                        getOrder(orderBy), sortBy.orElse("id") //si sortBy est null = on trie par id
                 )
         );
+    }
+
+    private Sort.Direction getOrder(Optional<String> orderBy) {
+        if (orderBy.isPresent() && "ASC".equals(orderBy)) {
+            return Sort.Direction.ASC;
+        }
+        return Sort.Direction.DESC;
     }
 
     public void deleteUtilisateur(final int id) {
         utilisateurRepository.deleteById(id);
     }
 
-    public Utilisateur saveUtilisateur(Utilisateur utilisateur) {           //creer une instance de la table et genere automatiquement l'id
+    public Utilisateur saveUtilisateur(Utilisateur utilisateur) {
         Utilisateur savedUtilisateur = utilisateurRepository.save(utilisateur);
         return savedUtilisateur;
     }

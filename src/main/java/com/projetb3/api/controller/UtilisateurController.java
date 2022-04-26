@@ -20,15 +20,12 @@ public class UtilisateurController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Utilisateur>> getAllUtilisateursToWatch(@RequestParam("page") final Optional<Integer> page, @RequestParam("sortBy") final Optional<String> sortBy) {
-        Page<Utilisateur> utilisateurList = utilisateurService.getAllUtilisateurs(page, sortBy);
-        return ResponseEntity.ok(utilisateurList);
+    public ResponseEntity<Page<Utilisateur>> getAllUtilisateurs(@RequestParam("page") final Optional<Integer> page,
+                                                                @RequestParam("sortBy") final Optional<String> sortBy,
+                                                                @RequestParam("orderBy") final Optional<String> orderBy) {
+        Page<Utilisateur> listeUtilisateurs = utilisateurService.getAllUtilisateurs(page, sortBy, orderBy);
+        return ResponseEntity.ok(listeUtilisateurs);
     }
-
-    /*
-        @RequestParam recupere des infos concernant les ressources, tout ce qu'on peut trouver apres le ?, ses infos servent principalement de filtrage
-        @PathVariable récupère la ressource directement soit les champs contenu dans notre bdd (id, title, date_released)
-     */
 
     @GetMapping("/{id}")
     public ResponseEntity<Utilisateur> getUtilisateur(@PathVariable("id") final int id) {     //PathVariable -> permet de manipuler des variables dans l'URI de la requete mapping
@@ -56,61 +53,50 @@ public class UtilisateurController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUtilisateur(@PathVariable("id") final int id, @RequestBody Utilisateur utilisateur) { //utilisateur contenu dans le body
+    public ResponseEntity<String> updateUtilisateur(@PathVariable("id") final int id, @RequestBody Utilisateur utilisateur) { //utilisateur contenu dans le body
         Optional<Utilisateur> optUtilisateur = utilisateurService.getUtilisateur(id);
 
         if (optUtilisateur.isPresent()) {
             Utilisateur currentUtilisateur = optUtilisateur.get();
-
-            //recupere les variables du utilisateur fourni en parametre pour les manipuler
-            int newId = utilisateur.getId_utilisateur();
-            String civilite = utilisateur.getCivilite();
-            String prenom = utilisateur.getPrenom();
-            String nom = utilisateur.getNom();
-            String email = utilisateur.getEmail();
-            String mdp = utilisateur.getMdp();
-            String tel = utilisateur.getTel();
-            String adresse_livraison = utilisateur.getAdresse_livraison();
-            String adresse_facturation = utilisateur.getAdresse_facturation();
-            String pays = utilisateur.getPays();
-            String type_user = utilisateur.getType_user();
-            if (newId != 0) {
-                currentUtilisateur.setId_utilisateur(newId);
+            if (utilisateur.getId() != 0) {
+                currentUtilisateur.setId(utilisateur.getId());
             }
-            if (civilite != null) {
-                currentUtilisateur.setCivilite(civilite);
+            if (utilisateur.getCivilite() != null) {
+                currentUtilisateur.setCivilite(utilisateur.getCivilite());
             }
-            if (prenom != null) {
-                currentUtilisateur.setPrenom(prenom);
+            if (utilisateur.getPrenom() != null) {
+                currentUtilisateur.setPrenom(utilisateur.getPrenom());
             }
-            if (nom != null) {
-                currentUtilisateur.setNom(nom);
+            if (utilisateur.getNom() != null) {
+                currentUtilisateur.setNom(utilisateur.getNom());
             }
-            if (email != null) {
-                currentUtilisateur.setEmail(email);
+            if (utilisateur.getEmail() != null) {
+                currentUtilisateur.setEmail(utilisateur.getEmail());
             }
-            if (mdp != null) {
-                currentUtilisateur.setMdp(mdp);
+            if (utilisateur.getMdp() != null) {
+                currentUtilisateur.setMdp(utilisateur.getMdp());
             }
-            if (tel != null) {
-                currentUtilisateur.setTel(tel);
+            if (utilisateur.getTel() != null) {
+                currentUtilisateur.setTel(utilisateur.getTel());
             }
-            if(adresse_livraison != null) {
-                currentUtilisateur.setAdresse_livraison(adresse_livraison);
+            if(utilisateur.getAdresse() != null) {
+                currentUtilisateur.setAdresse(utilisateur.getAdresse());
             }
-            if (adresse_facturation != null) {
-                currentUtilisateur.setAdresse_facturation(adresse_facturation);
+            if(utilisateur.getCodepostal() != null) {
+                currentUtilisateur.setCodepostal(utilisateur.getCodepostal());
             }
-            if (pays != null) {
-                currentUtilisateur.setPays(pays);
+            if(utilisateur.getVille() != null){
+                currentUtilisateur.setVille(utilisateur.getVille());
             }
-            if (type_user != null) {
-                currentUtilisateur.setType_user(type_user);
+            if (utilisateur.getPays() != null) {
+                currentUtilisateur.setPays(utilisateur.getPays());
             }
-
+            if (utilisateur.getTypeuser() != null) {
+                currentUtilisateur.setTypeuser(utilisateur.getTypeuser());
+            }
             utilisateurService.saveUtilisateur(currentUtilisateur);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("L'utilisateur " + currentUtilisateur.getId() + " a bien été modifié.");
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("L'utilisateur est introuvable.");
     }
 }
