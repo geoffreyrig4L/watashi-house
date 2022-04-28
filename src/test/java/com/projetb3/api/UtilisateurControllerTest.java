@@ -83,7 +83,6 @@ public class UtilisateurControllerTest implements H2TestJpaConfig {
         utilisateur.setTel(telephone);
         utilisateur.setAdresse(adresse);
         utilisateur.setPays(pays);
-        System.out.println(utilisateur.getId());
         return utilisateur;
     }
 

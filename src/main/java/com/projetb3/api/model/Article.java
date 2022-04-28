@@ -53,7 +53,7 @@ public class Article {
                     CascadeType.MERGE
             }
     )
-    @JoinTable(name = "categorie_articles",
+    @JoinTable(name = "categories_articles",
             joinColumns = {@JoinColumn(name = "article_id")},
             inverseJoinColumns = {@JoinColumn(name = "categorie_id")}
     )

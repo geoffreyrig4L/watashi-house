@@ -27,7 +27,7 @@ public class ArticleService {
                         page.orElse(0),
                         20,
                         Orderer.getOrder(orderBy),
-                        sortBy.orElse("id_article")
+                        sortBy.orElse("id")
                 )
         );
     }
@@ -41,15 +41,14 @@ public class ArticleService {
     }
 
     public Page<Article> getArticlesFiltreesParCouleur(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, String couleur) {
-        List<Article> listeArticles = articleRepository.articlesParCouleur(couleur, sortBy.orElse("id_article"), Orderer.getOrder(orderBy));
-        Pageable pageable = PageRequest.of(page.orElse(0), 20, Orderer.getOrder(orderBy),sortBy.orElse("id_article"));
+        List<Article> listeArticles = articleRepository.articlesParCouleur(couleur);
+        Pageable pageable = PageRequest.of(page.orElse(0), 20, Orderer.getOrder(orderBy),sortBy.orElse("id"));
         return new PageImpl<>(listeArticles, pageable, listeArticles.size());
     }
 
     public Page<Article> getArticlesFiltreesParPrix(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int min, int max) {
-        System.out.println(min + " + " + max + " + " + sortBy.orElse("id_article") + " + " + Orderer.getOrder(orderBy).toString());
-        List<Article> listeArticles = articleRepository.articlesParPrix(min, max, sortBy.orElse("id_article"), Orderer.getOrder(orderBy).toString());
-        Pageable pageable = PageRequest.of(page.orElse(0), 20, Orderer.getOrder(orderBy),sortBy.orElse("id_article"));
+        List<Article> listeArticles = articleRepository.articlesParPrix(min, max);
+        Pageable pageable = PageRequest.of(page.orElse(0), 20, Orderer.getOrder(orderBy),sortBy.orElse("id"));
         return new PageImpl<>(listeArticles, pageable, listeArticles.size());
     }
 }

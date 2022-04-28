@@ -41,7 +41,6 @@ public class ArticleController {
                                                                        @RequestParam("orderBy") final Optional<String> orderBy,
                                                                        @RequestParam("min") final int min,
                                                                        @RequestParam("max") final int max) {
-        System.out.println(min + max);
         return ResponseEntity.ok(articleService.getArticlesFiltreesParPrix(page,sortBy,orderBy,min, max));
     }
 
