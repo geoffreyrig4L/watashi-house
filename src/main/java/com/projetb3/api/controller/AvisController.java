@@ -3,10 +3,12 @@ package com.projetb3.api.controller;
 import com.projetb3.api.model.Avis;
 import com.projetb3.api.service.AvisService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
 
+@Controller
+@RequestMapping("/avis")
 public class AvisController {
 
     private AvisService avisService;
@@ -19,7 +21,7 @@ public class AvisController {
         return ResponseEntity.ok(listeAvis);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAvis(@PathVariable("id") final int id){
         Optional<Avis> optAvis = avisService.getAvis(id);
         if(optAvis.isPresent()){

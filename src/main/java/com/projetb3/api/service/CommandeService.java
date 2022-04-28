@@ -3,9 +3,6 @@ package com.projetb3.api.service;
 import com.projetb3.api.model.Commande;
 import com.projetb3.api.repository.CommandeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,14 +17,8 @@ public class CommandeService {
         return commandeRepository.findById(id);
     }
 
-    public Page<Commande> getAllCommandes(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy) {
-        return commandeRepository.findAll(
-                PageRequest.of(
-                        page.orElse(0),
-                        10,
-                        Orderer.getOrder(orderBy), sortBy.orElse("id")
-                )
-        );
+    public Iterable<Commande> getAllCommandes() {
+        return commandeRepository.findAll();
     }
 
     public void deleteCommande(final int id) {

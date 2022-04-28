@@ -8,8 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -34,7 +34,7 @@ public class Commande {
             cascade = CascadeType.MERGE,
             targetEntity=Utilisateur.class
     )
-    @JoinColumn(name="id_utilisateur_commande")
+    @JoinColumn(name="utilisateur_id")
     @JsonBackReference
     private Utilisateur utilisateur;
 
@@ -48,7 +48,7 @@ public class Commande {
             inverseJoinColumns = @JoinColumn(name = "id_article")
     )
     @JsonIgnore
-    private List<Article> articles = new ArrayList<>();
+    private Set<Article> articles = new HashSet<>();
 
     public static String now(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");

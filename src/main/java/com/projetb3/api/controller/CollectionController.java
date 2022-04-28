@@ -20,11 +20,8 @@ public class CollectionController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Collection>> getAllCollectionsToWatch(
-            @RequestParam("page") final Optional<Integer> page,
-            @RequestParam("sortBy") final Optional<String> sortBy,
-            @RequestParam("orderBy") final Optional<String> orderBy) {
-        Page<Collection> listeCollections = collectionService.getAllCollections(page, sortBy, orderBy);
+    public ResponseEntity<Iterable<Collection>> getAllCollections() {
+        Iterable<Collection> listeCollections = collectionService.getAllCollections();
         return ResponseEntity.ok(listeCollections);
     }
 

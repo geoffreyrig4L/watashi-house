@@ -1,8 +1,11 @@
 package com.projetb3.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -16,4 +19,16 @@ public class Piece {
 
     @Column(name = "nom")
     private String nom;
+
+    @ManyToMany(
+            cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name="pieces_articles",
+            joinColumns = @JoinColumn(name = "piece_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id")
+    )
+    @JsonIgnore
+    private Set<Article> articles = new HashSet<>();
 }

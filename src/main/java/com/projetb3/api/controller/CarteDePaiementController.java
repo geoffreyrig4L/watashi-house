@@ -20,10 +20,8 @@ public class CarteDePaiementController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CarteDePaiement>> getAllCarteDePaiementsToWatch(@RequestParam("page") final Optional<Integer> page,
-                                                                               @RequestParam("sortBy") final Optional<String> sortBy,
-                                                                               @RequestParam("orderBy") final Optional<String> orderBy) {
-        Page<CarteDePaiement> listeCartes = carteDePaiementService.getAllCartesDePaiement(page, sortBy, orderBy);
+    public ResponseEntity<Iterable<CarteDePaiement>> getAllCarteDePaiements() {
+        Iterable<CarteDePaiement> listeCartes = carteDePaiementService.getAllCartesDePaiement();
         return ResponseEntity.ok(listeCartes);
     }
 

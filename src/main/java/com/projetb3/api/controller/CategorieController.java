@@ -20,10 +20,8 @@ public class CategorieController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Categorie>> getAllCategories(@RequestParam("page") final Optional<Integer> page,
-                                                            @RequestParam("sortBy") final Optional<String> sortBy,
-                                                            @RequestParam("orderBy") final Optional<String> orderBy) {
-        Page<Categorie> listeCategories = categorieService.getAllCategories(page, sortBy, orderBy);
+    public ResponseEntity<Iterable<Categorie>> getAllCategories() {
+        Iterable<Categorie> listeCategories = categorieService.getAllCategories();
         return ResponseEntity.ok(listeCategories);
     }
 

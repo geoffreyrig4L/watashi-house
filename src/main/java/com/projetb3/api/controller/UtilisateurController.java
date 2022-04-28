@@ -2,11 +2,9 @@ package com.projetb3.api.controller;
 
 import com.projetb3.api.model.Utilisateur;
 import com.projetb3.api.service.UtilisateurService;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
 
 @Controller
@@ -20,10 +18,8 @@ public class UtilisateurController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Utilisateur>> getAllUtilisateurs(@RequestParam("page") final Optional<Integer> page,
-                                                                @RequestParam("sortBy") final Optional<String> sortBy,
-                                                                @RequestParam("orderBy") final Optional<String> orderBy) {
-        Page<Utilisateur> listeUtilisateurs = utilisateurService.getAllUtilisateurs(page, sortBy, orderBy);
+    public ResponseEntity<Iterable<Utilisateur>> getAllUtilisateurs() {
+        Iterable<Utilisateur> listeUtilisateurs = utilisateurService.getAllUtilisateurs();
         return ResponseEntity.ok(listeUtilisateurs);
     }
 

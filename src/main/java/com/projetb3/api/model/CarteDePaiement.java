@@ -31,7 +31,7 @@ public class CarteDePaiement {
             cascade = CascadeType.MERGE,
             targetEntity=Utilisateur.class
     )
-    @JoinColumn(name="id_utilisateur_carte", nullable = false)
+    @JoinColumn(name="utilisateur_id", nullable = false)
     @JsonBackReference
     private Utilisateur utilisateur;
 

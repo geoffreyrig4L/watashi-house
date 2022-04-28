@@ -8,9 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/commandes")
@@ -23,12 +21,8 @@ public class CommandeController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Commande>> getAllCommandesToWatch(
-            @RequestParam("page") final Optional<Integer> page,
-            @RequestParam("sortBy") final Optional<String> sortBy,
-            @RequestParam("orderBy") final Optional<String> orderBy
-    ) {
-        Page<Commande> listeCommandes = commandeService.getAllCommandes(page, sortBy, orderBy);
+    public ResponseEntity<Iterable<Commande>> getAllCommandes() {
+        Iterable<Commande> listeCommandes = commandeService.getAllCommandes();
         return ResponseEntity.ok(listeCommandes);
     }
 
@@ -53,8 +47,8 @@ public class CommandeController {
         return ResponseEntity.ok().body("La commande a été créée.");
     }
 
-    private int getPrixTot(List<Article> articles) {
-        List<Integer> listePrix = new ArrayList<>();
+    private int getPrixTot(Set<Article> articles) {
+        Set<Integer> listePrix = new HashSet<>();
         for (Article article : articles) {
             listePrix.add(article.getPrix());
         }

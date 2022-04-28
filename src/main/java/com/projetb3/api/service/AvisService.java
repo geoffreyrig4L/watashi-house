@@ -4,7 +4,6 @@ import com.projetb3.api.model.Avis;
 import com.projetb3.api.repository.AvisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service

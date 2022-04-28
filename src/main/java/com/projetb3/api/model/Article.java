@@ -1,6 +1,8 @@
 package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -46,6 +48,23 @@ public class Article {
     @Column(name = "stock")
     private int stock;
 
+    @ManyToOne(
+            cascade = CascadeType.MERGE,
+            targetEntity = Collection.class
+    )
+    @JoinColumn(name = "collection_id")
+    @JsonBackReference
+    private Collection collection;
+
+    @OneToMany(
+            targetEntity=Avis.class,
+            mappedBy = "article",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
+    private Set<Avis> avis = new HashSet<>();
+
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
@@ -59,13 +78,28 @@ public class Article {
     )
     private Set<Categorie> categories = new HashSet<>();
 
-    @ManyToOne(
+    @ManyToMany(
             cascade = CascadeType.MERGE,
-            targetEntity = Collection.class
+            fetch = FetchType.EAGER
     )
-    @JoinColumn(name = "id_collection_article")
-    @JsonBackReference
-    private Collection collection;
+    @JoinTable(
+            name="pieces_articles",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "piece_id")
+    )
+    @JsonIgnore
+    private Set<Piece> pieces = new HashSet<>();
 
+    @ManyToMany(
+            cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name="souscategories_articles",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "souscategorie_id")
+    )
+    @JsonIgnore
+    private Set<SousCategorie> sousCategories = new HashSet<>();
 
 }
