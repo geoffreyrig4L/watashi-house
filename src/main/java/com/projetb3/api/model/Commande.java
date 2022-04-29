@@ -8,8 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -48,7 +48,7 @@ public class Commande {
             inverseJoinColumns = @JoinColumn(name = "id_article")
     )
     @JsonIgnore
-    private Set<Article> articles = new HashSet<>();
+    private List<Article> articles = new ArrayList<>();
 
     public static String now(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");

@@ -26,14 +26,14 @@ public class Avis {
             targetEntity=Article.class
     )
     @JoinColumn(name="article_id", nullable = false)
-    @JsonIgnore
-    private Article article;
+    @JsonBackReference
+    private Article articlee;
 
     @ManyToOne(
             cascade = CascadeType.MERGE,
             targetEntity=Utilisateur.class
     )
     @JoinColumn(name="utilisateur_id")
-    @JsonIgnore
+    @JsonBackReference
     private Utilisateur utilisateur;
 }

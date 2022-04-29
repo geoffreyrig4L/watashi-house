@@ -26,5 +26,5 @@ public class Collection {
             cascade = CascadeType.ALL
     )
     @JsonManagedReference
-    Set<Article> articles = new HashSet<>();
+    List<Article> articles = new ArrayList<>();
 }

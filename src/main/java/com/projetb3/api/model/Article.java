@@ -8,7 +8,9 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -52,18 +54,18 @@ public class Article {
             cascade = CascadeType.MERGE,
             targetEntity = Collection.class
     )
-    @JoinColumn(name = "collection_id")
+    @JoinColumn(name = "collection_id", nullable = false)
     @JsonBackReference
     private Collection collection;
 
     @OneToMany(
             targetEntity=Avis.class,
-            mappedBy = "article",
+            mappedBy = "articlee",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @JsonManagedReference
-    private Set<Avis> avis = new HashSet<>();
+    private List<Avis> avis = new ArrayList<>();
 
     @ManyToMany(
             fetch = FetchType.LAZY,
@@ -76,7 +78,7 @@ public class Article {
             joinColumns = {@JoinColumn(name = "article_id")},
             inverseJoinColumns = {@JoinColumn(name = "categorie_id")}
     )
-    private Set<Categorie> categories = new HashSet<>();
+    private List<Categorie> categories = new ArrayList<>();
 
     @ManyToMany(
             cascade = CascadeType.MERGE,

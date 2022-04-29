@@ -1,12 +1,12 @@
 package com.projetb3.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -58,7 +58,7 @@ public class Utilisateur {
             orphanRemoval = true
     )
     @JsonManagedReference
-    Set<CarteDePaiement> carteDePaiements = new HashSet<>();
+    List<CarteDePaiement> carteDePaiements = new ArrayList<>();
 
     @OneToMany(
             targetEntity=Commande.class,
@@ -67,7 +67,7 @@ public class Utilisateur {
             orphanRemoval = true
     )
     @JsonManagedReference
-    Set<Commande> commandes = new HashSet<>();
+    List<Commande> commandes = new ArrayList<>();
 
     @OneToMany(
             targetEntity=Avis.class,
@@ -75,8 +75,8 @@ public class Utilisateur {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonBackReference
-    private Set<Avis> avis = new HashSet<>();
+    @JsonIgnore
+    private List<Avis> avis = new ArrayList<>();
 
     public Utilisateur(String civilite, String nom, String prenom, String email, String mdp, String tel, String adresse, String pays) {
         this.civilite = civilite;

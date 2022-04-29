@@ -12,7 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.Set;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.mock;
@@ -65,10 +65,10 @@ public class UtilisateurControllerTest implements H2TestJpaConfig {
         Utilisateur utilisateur1 = saveUtilisateurInH2(1,"Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo 95210 Argenteuil", "France");
         Utilisateur utilisateur2 = saveUtilisateurInH2(2,"Madame", "Talia", "Zhao", "talia.zhao@gmail.com", "tzao", "0602020202", "42 avenue du général de Gaulle 93421 Pantin", "France");
         Utilisateur utilisateur3 = saveUtilisateurInH2(3,"Monsieur", "Helio", "Pinto", "helio.pinto@gmail.com", "hpinto", "0603030303", "45 rue de Marie Curie 77231 Meaux", "France");
-        utilisateur1.setCarteDePaiements(Set.of(new CarteDePaiement("24356","474","12","02",utilisateur1)));
-        utilisateur2.setCarteDePaiements(Set.of(new CarteDePaiement("24356","474","12","02",utilisateur2)));
-        utilisateur3.setCarteDePaiements(Set.of(new CarteDePaiement("24356","474","12","02",utilisateur3)));
-       for(Utilisateur utilisateur : Set.of(utilisateur1,utilisateur2,utilisateur3)) {
+        utilisateur1.setCarteDePaiements(List.of(new CarteDePaiement("24356","474","12","02",utilisateur1)));
+        utilisateur2.setCarteDePaiements(List.of(new CarteDePaiement("24356","474","12","02",utilisateur2)));
+        utilisateur3.setCarteDePaiements(List.of(new CarteDePaiement("24356","474","12","02",utilisateur3)));
+       for(Utilisateur utilisateur : List.of(utilisateur1,utilisateur2,utilisateur3)) {
            utilisateurRepository.save(utilisateur);
        }
     }

@@ -47,8 +47,8 @@ public class CommandeController {
         return ResponseEntity.ok().body("La commande a été créée.");
     }
 
-    private int getPrixTot(Set<Article> articles) {
-        Set<Integer> listePrix = new HashSet<>();
+    private int getPrixTot(List<Article> articles) {
+        List<Integer> listePrix = new ArrayList<>();
         for (Article article : articles) {
             listePrix.add(article.getPrix());
         }

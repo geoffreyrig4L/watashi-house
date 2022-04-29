@@ -14,7 +14,7 @@ public class Piece {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_categorie")
+    @Column(name = "id_piece")
     private int id;
 
     @Column(name = "nom")
