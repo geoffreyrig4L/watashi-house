@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/sous_categories")
+@RequestMapping("/sous-categories")
 public class SousCategorieController {
 
     private SousCategorieService sousCategorieService;

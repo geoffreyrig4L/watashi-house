@@ -22,13 +22,7 @@ public class Categorie {
     private String nom;
 
     @ManyToMany(
-            cascade = CascadeType.MERGE,
-            fetch = FetchType.EAGER
-    )
-    @JoinTable(
-            name="categories_articles",
-            joinColumns = @JoinColumn(name = "categorie_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id")
+            mappedBy = "categories"
     )
     @JsonIgnore
     private List<Article> articles = new ArrayList<>();

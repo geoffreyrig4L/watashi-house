@@ -2,16 +2,13 @@ package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -60,11 +57,11 @@ public class Article {
 
     @OneToMany(
             targetEntity=Avis.class,
-            mappedBy = "articlee",
+            mappedBy = "article",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
+    @JsonIgnore
     private List<Avis> avis = new ArrayList<>();
 
     @ManyToMany(
@@ -80,28 +77,32 @@ public class Article {
     )
     private List<Categorie> categories = new ArrayList<>();
 
-    @ManyToMany(
-            cascade = CascadeType.MERGE,
-            fetch = FetchType.EAGER
-    )
-    @JoinTable(
-            name="pieces_articles",
-            joinColumns = @JoinColumn(name = "article_id"),
-            inverseJoinColumns = @JoinColumn(name = "piece_id")
-    )
-    @JsonIgnore
-    private Set<Piece> pieces = new HashSet<>();
+//
+//    @ManyToMany(
+//            cascade = CascadeType.MERGE,
+//            fetch = FetchType.EAGER
+//    )
+//    @JoinTable(
+//            name="pieces_articles",
+//            joinColumns = @JoinColumn(name = "article_id"),
+//            inverseJoinColumns = @JoinColumn(name = "piece_id")
+//    )
+//    @JsonIgnore
+//    private Set<Piece> pieces = new HashSet<>();
 
-    @ManyToMany(
-            cascade = CascadeType.MERGE,
-            fetch = FetchType.EAGER
-    )
-    @JoinTable(
-            name="souscategories_articles",
-            joinColumns = @JoinColumn(name = "article_id"),
-            inverseJoinColumns = @JoinColumn(name = "souscategorie_id")
-    )
-    @JsonIgnore
-    private Set<SousCategorie> sousCategories = new HashSet<>();
+//    @ManyToMany(
+//            fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            }
+//    )
+//    @JoinTable(
+//            name="souscategories_articles",
+//            joinColumns = { @JoinColumn(name = "article_id") },
+//            inverseJoinColumns = { @JoinColumn(name = "souscategorie_id") }
+//    )
+//    private Set<SousCategorie> sousCategories = new HashSet<>();
 
 }
+

@@ -27,7 +27,7 @@ public class Avis {
     )
     @JoinColumn(name="article_id", nullable = false)
     @JsonBackReference
-    private Article articlee;
+    private Article article;
 
     @ManyToOne(
             cascade = CascadeType.MERGE,

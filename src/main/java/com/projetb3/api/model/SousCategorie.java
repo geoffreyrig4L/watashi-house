@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(name="sous_categories")
+@Table(name="souscategories")
 public class SousCategorie {
 
     @Id
@@ -20,15 +20,9 @@ public class SousCategorie {
     @Column(name = "nom")
     private String nom;
 
-    @ManyToMany(
-            cascade = CascadeType.MERGE,
-            fetch = FetchType.EAGER
-    )
-    @JoinTable(
-            name="souscategories_articles",
-            joinColumns = @JoinColumn(name = "souscategorie_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id")
-    )
-    @JsonIgnore
-    private Set<Article> articles = new HashSet<>();
+//    @ManyToMany(
+//            mappedBy = "sousCategories"
+//    )
+//    @JsonIgnore
+//    private Set<Article> articles = new HashSet<>();
 }

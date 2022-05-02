@@ -32,7 +32,7 @@ public class ArticleController {
                                                                        @RequestParam("sortBy") final Optional<String> sortBy,
                                                                        @RequestParam("orderBy") final Optional<String> orderBy,
                                                                        @PathVariable("couleur") final String couleur) {
-        return ResponseEntity.ok(articleService.getArticlesFiltreesParCouleur(page,sortBy,orderBy,couleur));
+        return ResponseEntity.ok(articleService.getArticlesFiltreesParCouleur(page, sortBy, orderBy, couleur));
     }
 
     @GetMapping("/prix")
@@ -41,7 +41,7 @@ public class ArticleController {
                                                                        @RequestParam("orderBy") final Optional<String> orderBy,
                                                                        @RequestParam("min") final int min,
                                                                        @RequestParam("max") final int max) {
-        return ResponseEntity.ok(articleService.getArticlesFiltreesParPrix(page,sortBy,orderBy,min, max));
+        return ResponseEntity.ok(articleService.getArticlesFiltreesParPrix(page, sortBy, orderBy, min, max));
     }
 
     @GetMapping("/{id}")
@@ -51,6 +51,15 @@ public class ArticleController {
             return ResponseEntity.ok(article.get());
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/categorie={id_categorie}")
+    public ResponseEntity<Page<Article>> getArticlesDUneCategorie(@PathVariable("id_categorie") final int id_categorie,
+                                                            @RequestParam("page") final Optional<Integer> page,
+                                                            @RequestParam("sortBy") final Optional<String> sortBy,
+                                                            @RequestParam("orderBy") final Optional<String> orderBy) {
+        Page<Article> listeArticles = articleService.getArticlesDUneCategorie(page, sortBy, orderBy, id_categorie);
+        return ResponseEntity.ok(listeArticles);
     }
 
     @PostMapping
@@ -73,7 +82,8 @@ public class ArticleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateArticle(@PathVariable("id") final int id, @RequestBody Article modification) {
+    public ResponseEntity<String> updateArticle(@PathVariable("id") final int id,
+                                                @RequestBody Article modification) {
         Optional<Article> optArticle = articleService.getArticle(id);
         if (optArticle.isPresent()) {
             Article current = optArticle.get();

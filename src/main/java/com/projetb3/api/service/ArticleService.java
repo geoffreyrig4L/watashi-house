@@ -55,4 +55,10 @@ public class ArticleService {
         }
         return Sort.Direction.DESC;
     }
+
+    public Page<Article> getArticlesDUneCategorie(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int id_categorie) {
+        List<Article> listeArticles = articleRepository.articlesDUneCategorie(id_categorie);
+        Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
+        return new PageImpl<>(listeArticles, pageable, listeArticles.size());
+    }
 }
