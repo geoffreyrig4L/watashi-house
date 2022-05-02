@@ -20,15 +20,9 @@ public class Piece {
     @Column(name = "nom")
     private String nom;
 
-//    @ManyToMany(
-//            cascade = CascadeType.MERGE,
-//            fetch = FetchType.EAGER
-//    )
-//    @JoinTable(
-//            name="pieces_articles",
-//            joinColumns = @JoinColumn(name = "piece_id"),
-//            inverseJoinColumns = @JoinColumn(name = "article_id")
-//    )
-//    @JsonIgnore
-//    private Set<Article> articles = new HashSet<>();
+    /**@ManyToMany(
+            mappedBy = "pieces"
+    )
+    @JsonIgnore
+    private Set<Article> articles = new HashSet<>();*/
 }

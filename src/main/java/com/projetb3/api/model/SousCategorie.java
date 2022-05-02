@@ -20,9 +20,9 @@ public class SousCategorie {
     @Column(name = "nom")
     private String nom;
 
-//    @ManyToMany(
-//            mappedBy = "sousCategories"
-//    )
-//    @JsonIgnore
-//    private Set<Article> articles = new HashSet<>();
+    /**@ManyToMany(
+            mappedBy = "sousCategories"
+    )
+    @JsonIgnore
+    private Set<Article> articles = new HashSet<>();*/
 }
