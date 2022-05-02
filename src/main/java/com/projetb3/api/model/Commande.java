@@ -3,6 +3,7 @@ package com.projetb3.api.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.cglib.core.Local;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class Commande {
     private String numero;
 
     @Column(name="date_achat")
-    private String date_achat;
+    private LocalDateTime date_achat;
 
     @Column(name="prix_tot")
     private int prix_tot;
@@ -44,15 +45,9 @@ public class Commande {
     )
     @JoinTable(
             name="articles_commandes",
-            joinColumns = @JoinColumn(name = "id_commande"),
-            inverseJoinColumns = @JoinColumn(name = "id_article")
+            joinColumns = @JoinColumn(name = "commande_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id")
     )
     @JsonIgnore
     private List<Article> articles = new ArrayList<>();
-
-    public static String now(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        LocalDateTime date = LocalDateTime.now();
-        return formatter.format(date);
-    }
 }

@@ -53,8 +53,7 @@ public class Article {
             cascade = CascadeType.MERGE,
             targetEntity = Collection.class
     )
-    @JoinColumn(name = "collection_id", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "collection_id")
     private Collection collection;
 
     @OneToMany(

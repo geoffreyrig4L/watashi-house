@@ -41,11 +41,9 @@ public class CommandeControllerTest implements H2TestJpaConfig {
     }
 
     private void saveCommandeInH2(String numero, int prixTot) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         Commande commande = new Commande();
         commande.setNumero(numero);
-        String strDate = formatter.format(LocalDateTime.now());
-        commande.setDate_achat(strDate);
+        commande.setDate_achat(LocalDateTime.now());
         commande.setPrix_tot(prixTot);
         commandeRepository.save(commande);
     }

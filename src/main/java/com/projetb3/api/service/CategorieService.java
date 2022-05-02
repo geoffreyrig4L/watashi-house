@@ -5,6 +5,7 @@ import com.projetb3.api.repository.CategorieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,5 +29,9 @@ public class CategorieService {
     public Categorie saveCategorie(Categorie categorie) {
         Categorie savedCategorie = categorieRepository.save(categorie);
         return savedCategorie;
+    }
+
+    public List<Categorie> getCategoriesDUnePiece(int id_piece) {
+        return categorieRepository.categoriesDUnePiece(id_piece);
     }
 }

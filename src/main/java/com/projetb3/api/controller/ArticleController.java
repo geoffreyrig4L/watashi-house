@@ -62,6 +62,24 @@ public class ArticleController {
         return ResponseEntity.ok(listeArticles);
     }
 
+    @GetMapping("/souscategorie={id_souscategorie}")
+    public ResponseEntity<Page<Article>> getArticlesDUneSousCategorie(@PathVariable("id_souscategorie") final int id_souscategorie,
+                                                                  @RequestParam("page") final Optional<Integer> page,
+                                                                  @RequestParam("sortBy") final Optional<String> sortBy,
+                                                                  @RequestParam("orderBy") final Optional<String> orderBy) {
+        Page<Article> listeArticles = articleService.getArticlesDUneSousCategorie(page, sortBy, orderBy, id_souscategorie);
+        return ResponseEntity.ok(listeArticles);
+    }
+
+    @GetMapping("/piece={id_piece}")
+    public ResponseEntity<Page<Article>> getArticlesDUnePiece(@PathVariable("id_piece") final int id_piece,
+                                                                      @RequestParam("page") final Optional<Integer> page,
+                                                                      @RequestParam("sortBy") final Optional<String> sortBy,
+                                                                      @RequestParam("orderBy") final Optional<String> orderBy) {
+        Page<Article> listeArticles = articleService.getArticlesDUnePiece(page, sortBy, orderBy, id_piece);
+        return ResponseEntity.ok(listeArticles);
+    }
+
     @PostMapping
     public ResponseEntity<String> createArticle(@RequestBody Article article) {
         if (article.getCategories().isEmpty()) {

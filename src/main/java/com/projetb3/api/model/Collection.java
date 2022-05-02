@@ -1,5 +1,6 @@
 package com.projetb3.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
@@ -25,6 +26,6 @@ public class Collection {
             mappedBy = "collection",
             cascade = CascadeType.ALL
     )
-    @JsonManagedReference
+    @JsonIgnore
     List<Article> articles = new ArrayList<>();
 }

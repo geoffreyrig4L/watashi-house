@@ -1,12 +1,14 @@
 package com.projetb3.api.controller;
 
 import com.projetb3.api.model.Categorie;
+import com.projetb3.api.model.SousCategorie;
 import com.projetb3.api.service.CategorieService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -62,6 +64,12 @@ public class CategorieController {
             return ResponseEntity.ok().body("La catégorie " + current.getId() + " a été modifiée.");
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/piece={id_piece}")
+    public ResponseEntity<List<Categorie>> getArticlesDUnePiece(@PathVariable("id_piece") final int id_piece) {
+        List<Categorie> listeCategories = categorieService.getCategoriesDUnePiece(id_piece);
+        return ResponseEntity.ok(listeCategories);
     }
 
 }

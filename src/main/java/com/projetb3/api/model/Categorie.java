@@ -1,6 +1,8 @@
 package com.projetb3.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -26,4 +28,21 @@ public class Categorie {
     )
     @JsonIgnore
     private List<Article> articles = new ArrayList<>();
+
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }
+    )
+    @JoinColumn(name = "categorie_id")
+    @JsonIgnore
+    private List<SousCategorie> sousCategories = new ArrayList<>();
+
+    @ManyToMany(
+            mappedBy = "sousCategories"
+    )
+    @JsonIgnore
+    private List<Piece> pieces = new ArrayList<>();
 }

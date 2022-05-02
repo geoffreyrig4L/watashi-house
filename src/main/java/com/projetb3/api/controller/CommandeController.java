@@ -35,17 +35,17 @@ public class CommandeController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public ResponseEntity<String> createCommande(@RequestBody Commande commande) {
-        commande.setDate_achat(Commande.now());
-        int total = getPrixTot(commande.getArticles());
-        commande.setPrix_tot(total);
-        if(commande.getArticles().isEmpty() || commande.getUtilisateur().getId() != 0){
-            return ResponseEntity.badRequest().body("Veuillez entrer une requete valide.");
-        }
-        commandeService.saveCommande(commande);
-        return ResponseEntity.ok().body("La commande a été créée.");
-    }
+//    @PostMapping
+//    public ResponseEntity<String> createCommande(@RequestBody Commande commande) {
+//        commande.setDate_achat(Commande.now());
+//        int total = getPrixTot(commande.getArticles());
+//        commande.setPrix_tot(total);
+//        if(commande.getArticles().isEmpty() || commande.getUtilisateur().getId() != 0){
+//            return ResponseEntity.badRequest().body("Veuillez entrer une requete valide.");
+//        }
+//        commandeService.saveCommande(commande);
+//        return ResponseEntity.ok().body("La commande a été créée.");
+//    }
 
     private int getPrixTot(List<Article> articles) {
         List<Integer> listePrix = new ArrayList<>();

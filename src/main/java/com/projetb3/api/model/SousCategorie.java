@@ -1,11 +1,10 @@
 package com.projetb3.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Data
@@ -25,4 +24,12 @@ public class SousCategorie {
     )
     @JsonIgnore
     private Set<Article> articles = new HashSet<>();*/
+
+    @ManyToOne(
+            cascade = CascadeType.MERGE,
+            targetEntity=Categorie.class
+    )
+    @JoinColumn(name="categorie_id", nullable = false)
+    @JsonIgnore
+    private Categorie categorie;
 }

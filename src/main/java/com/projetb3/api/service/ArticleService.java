@@ -61,4 +61,15 @@ public class ArticleService {
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
         return new PageImpl<>(listeArticles, pageable, listeArticles.size());
     }
+
+    public Page<Article> getArticlesDUneSousCategorie(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int id_souscategorie) {
+        List<Article> listeArticles = articleRepository.articlesDUneSousCategorie(id_souscategorie);
+        Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
+        return new PageImpl<>(listeArticles, pageable, listeArticles.size());
+    }
+    public Page<Article> getArticlesDUnePiece(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int id_piece) {
+        List<Article> listeArticles = articleRepository.articlesDUnePiece(id_piece);
+        Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
+        return new PageImpl<>(listeArticles, pageable, listeArticles.size());
+    }
 }
