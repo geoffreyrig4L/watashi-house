@@ -1,0 +1,32 @@
+-------------------------------------------------------------------------------
+Test set: com.projetb3.api.CollectionControllerTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 7, Skipped: 0, Time elapsed: 6.155 s <<< FAILURE! - in com.projetb3.api.CollectionControllerTest
+should_delete_one_collection  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: java.lang.IllegalArgumentException: A database name must be provided.
+
+should_not_delete_one_collection  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: java.lang.IllegalArgumentException: A database name must be provided.
+
+should_not_put_one_collection  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: java.lang.IllegalArgumentException: A database name must be provided.
+
+should_get_all_collections  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: java.lang.IllegalArgumentException: A database name must be provided.
+
+should_not_get_one_collection  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: java.lang.IllegalArgumentException: A database name must be provided.
+
+should_put_one_collection  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: java.lang.IllegalArgumentException: A database name must be provided.
+
+should_get_one_collection  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: java.lang.IllegalArgumentException: A database name must be provided.
+
