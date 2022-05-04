@@ -1,7 +1,6 @@
 package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -19,13 +18,13 @@ public class Collection {
     private int id;
 
     @Column(name = "nom")
-    private String nom;
+    private String name;
 
     @OneToMany(
-            targetEntity = Article.class,
+            targetEntity = Item.class,
             mappedBy = "collection",
             cascade = CascadeType.ALL
     )
     @JsonIgnore
-    List<Article> articles = new ArrayList<>();
+    List<Item> items = new ArrayList<>();
 }

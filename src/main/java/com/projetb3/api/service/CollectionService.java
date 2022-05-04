@@ -13,11 +13,11 @@ public class CollectionService {
     @Autowired
     private CollectionRepository collectionRepository;
 
-    public Optional<Collection> getCollection(final int id) {           //Optional -> encapsule un objet dont la valeur peut être null
+    public Optional<Collection> get(final int id) {           //Optional -> encapsule un objet dont la valeur peut être null
         return collectionRepository.findById(id);
     }
 
-    public Iterable<Collection> getAllCollections() {
+    public Iterable<Collection> getAll() {
         return collectionRepository.findAll();
     }
 
@@ -25,7 +25,7 @@ public class CollectionService {
         collectionRepository.deleteById(id);
     }
 
-    public Collection saveCollection(Collection collection) {
+    public Collection save(Collection collection) {
         Collection savedCollection = collectionRepository.save(collection);
         return savedCollection;
     }

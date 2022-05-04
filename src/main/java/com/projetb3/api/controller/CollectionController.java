@@ -2,7 +2,6 @@ package com.projetb3.api.controller;
 
 import com.projetb3.api.model.Collection;
 import com.projetb3.api.service.CollectionService;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +19,14 @@ public class CollectionController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Collection>> getAllCollections() {
-        Iterable<Collection> listeCollections = collectionService.getAllCollections();
-        return ResponseEntity.ok(listeCollections);
+    public ResponseEntity<Iterable<Collection>> getAll() {
+        Iterable<Collection> collectionsList = collectionService.getAll();
+        return ResponseEntity.ok(collectionsList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Collection> getCollection(@PathVariable("id") final int id) {
-        Optional<Collection> collection = collectionService.getCollection(id);
+    public ResponseEntity<Collection> get(@PathVariable("id") final int id) {
+        Optional<Collection> collection = collectionService.get(id);
         if (collection.isPresent()) {
             return ResponseEntity.ok(collection.get());
         }
@@ -35,14 +34,14 @@ public class CollectionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createCollection(@RequestBody Collection collection) {
-        collectionService.saveCollection(collection);
+    public ResponseEntity<String> create(@RequestBody Collection collection) {
+        collectionService.save(collection);
         return ResponseEntity.ok().body("La collection a été créée.");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCollection(@PathVariable("id") final int id) {
-        Optional<Collection> optCollection = collectionService.getCollection(id);
+    public ResponseEntity<String> delete(@PathVariable("id") final int id) {
+        Optional<Collection> optCollection = collectionService.get(id);
         if (optCollection.isPresent()) {
             collectionService.deleteCollection(id);
             return ResponseEntity.ok().body("La collection a été supprimée.");
@@ -51,14 +50,14 @@ public class CollectionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCollection(@PathVariable("id") final int id, @RequestBody Collection modification) {
-        Optional<Collection> optCollection = collectionService.getCollection(id);
+    public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody Collection modified) {
+        Optional<Collection> optCollection = collectionService.get(id);
         if (optCollection.isPresent()) {
             Collection current = optCollection.get();
-            if (modification.getNom() != null) {
-                current.setNom(modification.getNom());
+            if (modified.getName() != null) {
+                current.setName(modified.getName());
             }
-            collectionService.saveCollection(current);
+            collectionService.save(current);
             return ResponseEntity.ok().body("La collection " + current.getId() + " a été modifiée.");
         }
         return ResponseEntity.notFound().build();

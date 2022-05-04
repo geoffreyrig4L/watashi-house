@@ -38,7 +38,7 @@ public class CollectionControllerTest implements H2TestJpaConfig {
 
     private void saveCollectionInH2(String nom) {
         Collection collection = new Collection();
-        collection.setNom(nom);
+        collection.setName(nom);
         collectionRepository.save(collection);
     }
 
