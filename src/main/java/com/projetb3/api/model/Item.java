@@ -64,10 +64,7 @@ public class Item {
 
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
+            cascade = CascadeType.MERGE
     )
     @JoinTable(
             name = "categories_articles",
@@ -78,10 +75,7 @@ public class Item {
 
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
+            cascade = CascadeType.MERGE
     )
     @JoinTable(
             name="pieces_articles",
@@ -92,10 +86,7 @@ public class Item {
 
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
+            cascade = CascadeType.MERGE
     )
     @JoinTable(
             name="souscategories_articles",

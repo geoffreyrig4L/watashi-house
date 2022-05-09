@@ -28,10 +28,7 @@ public class Room {
 
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
+            cascade = CascadeType.MERGE
     )
     @JoinTable(
             name="pieces_souscategories",

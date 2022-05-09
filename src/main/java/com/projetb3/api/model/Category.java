@@ -29,10 +29,7 @@ public class Category {
 
     @OneToMany(
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
+            cascade = CascadeType.MERGE
     )
     @JoinColumn(name = "categorie_id")
     @JsonIgnore

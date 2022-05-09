@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -18,11 +20,11 @@ public class SubCategory {
     @Column(name = "nom")
     private String name;
 
-    /**@ManyToMany(
-            mappedBy = "sousCategories"
+    @ManyToMany(
+            mappedBy = "subCategories"
     )
     @JsonIgnore
-    private Set<Item> items = new HashSet<>();*/
+    private Set<Item> items = new HashSet<>();
 
     @ManyToOne(
             cascade = CascadeType.MERGE,

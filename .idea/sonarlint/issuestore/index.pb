@@ -3,16 +3,8 @@ d
 4src/main/java/com/projetb3/api/model/Collection.java,f\6\f606571822d8de0a55479f04d52999314de55b45
 c
 3src/main/java/com/projetb3/api/model/DebitCard.java,1\2\1220b37d69be742733c28472128a2222e47f11b6
-b
-2src/main/java/com/projetb3/api/model/Category.java,3\f\3fd6bbf561a560cb1908cfc3dbe243b87acb227d
-^
-.src/main/java/com/projetb3/api/model/Room.java,5\d\5de462c43dfa65eb8f607fb851ef65592dbd7ea4
-e
-5src/main/java/com/projetb3/api/model/SubCategory.java,c\a\ca894559399723292326cb72c16807be4a73e55c
 g
 7src/main/java/com/projetb3/api/service/ItemService.java,9\5\9582d5cd6781261ad1bf28c9223c0a12a7b6e6c1
-^
-.src/main/java/com/projetb3/api/model/User.java,c\3\c3aab4839433acc38fda651ae82f7b06a2c3e055
 j
 :src/main/java/com/projetb3/api/service/OpinionService.java,2\0\20286bfef2f12c3b483184a8abea22d6b795a945
 a
@@ -37,8 +29,6 @@ k
 ;src/test/java/com/projetb3/api/DebitCardControllerTest.java,b\6\b63bddb764d7abd9633acb21cc3e41333eb3e825
 m
 =src/main/java/com/projetb3/api/repository/UserRepository.java,9\d\9d05118aa9b6443caa5ce51f55fba02e1d4e9609
-t
-Dsrc/main/java/com/projetb3/api/repository/SubCategoryRepository.java,3\6\368f2431cbd0714f36797e5d2aa87281dde3ca56
 n
 >src/main/java/com/projetb3/api/repository/OrderRepository.java,f\0\f0e73b9b79d17a9f70c739bcd165f24c90954060
 p
@@ -55,3 +45,15 @@ Asrc/main/java/com/projetb3/api/repository/CategoryRepository.java,0\1\018dd81d
 .gcloudignore,2\a\2a591b76d5e5cf55816010dd517fa4667c09cfed
 ;
 service.txt,4\a\4a752b8bc4f38e31b01c3bdf61486a80ff693378
+n
+>src/main/java/com/projetb3/api/ApiWatashihouseApplication.java,9\0\904c2a4b0921c30780ce2a682969d7061da1f016
+s
+Csrc/main/java/com/projetb3/api/controller/CollectionController.java,a\9\a9c59730fe36e521e0e06252b59aceea921962c5
+r
+Bsrc/main/java/com/projetb3/api/controller/DebitCardController.java,a\f\afa83a49855d2b5b3080d9d163fdd8e1c6629418
+p
+@src/main/java/com/projetb3/api/controller/OpinionController.java,c\2\c2d9a62502028144d925c53b625371029b3a8157
+q
+Asrc/main/java/com/projetb3/api/controller/CategoryController.java,d\0\d0633c6565318749407b4d6ef1b3be38d20bebae
+m
+=src/main/java/com/projetb3/api/controller/ItemController.java,f\8\f89d600e22f19217f9faaa0e499ab177d9ff4ac3
