@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/items")
+@RequestMapping("/articles")
 public class ItemController {
 
     private ItemService itemService;

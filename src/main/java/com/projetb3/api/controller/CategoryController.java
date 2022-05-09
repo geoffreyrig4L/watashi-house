@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/categorys")
+@RequestMapping("/categories")
 public class CategoryController {
 
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;

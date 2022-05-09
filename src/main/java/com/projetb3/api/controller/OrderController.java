@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @Controller
-@RequestMapping("/orders")
+@RequestMapping("/commandes")
 public class OrderController {
 
     private final OrderService orderService;
@@ -50,7 +50,7 @@ public class OrderController {
 
     private boolean canItCreate(Order order) {
         return !order.getItems().isEmpty() &&
-                order.getUser().getId() != 0;
+                order.getUser().getId() > 0;
     }
 
 

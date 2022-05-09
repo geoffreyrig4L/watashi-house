@@ -10,35 +10,33 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import static org.apache.commons.lang3.RandomUtils.nextInt;
 
 @Data
 @Entity
-@Table(name="orders")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+@Table(name = "commandes")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_commande")
+    @Column(name = "id_commande")
     private int id;
 
-    @Column(name="numero")
+    @Column(name = "numero")
     private String number;
 
-    @Column(name="date_achat")
+    @Column(name = "date_achat")
     private LocalDateTime dateOfPurchase;
 
-    @Column(name="prix_tot")
+    @Column(name = "prix_tot")
     private int totalPrice;
 
     @ManyToOne(
             cascade = CascadeType.MERGE,
-            targetEntity= User.class
+            targetEntity = User.class
     )
-    @JoinColumn(name="utilisateur_id")
+    @JoinColumn(name = "utilisateur_id")
     @JsonBackReference
     private User user;
 
@@ -46,7 +44,7 @@ public class Order {
             cascade = CascadeType.MERGE
     )
     @JoinTable(
-            name="articles_commandes",
+            name = "articles_commandes",
             joinColumns = @JoinColumn(name = "commande_id"),
             inverseJoinColumns = @JoinColumn(name = "article_id")
     )
@@ -58,11 +56,10 @@ public class Order {
     }
 
     private void number() {
-        String number = "";
-        Random random = new Random();
-        for(int i=0;i<10;i++){
-            number += Integer.toString(random.nextInt(0,9));
+        StringBuilder number = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            number.append(nextInt(0, 9));
         }
-        this.setNumber(number);
+        this.setNumber(number.toString());
     }
 }

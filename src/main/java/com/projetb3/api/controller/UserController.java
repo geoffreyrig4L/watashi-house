@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/utilisateurs")
 public class UserController {
 
     private UserService userService;

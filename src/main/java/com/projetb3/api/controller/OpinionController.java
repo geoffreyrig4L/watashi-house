@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/opinion")
+@RequestMapping("/avis")
 public class OpinionController {
 
     private OpinionService opinionService;

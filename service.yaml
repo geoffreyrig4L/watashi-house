@@ -1,4 +1,4 @@
-runtime: java17
+runtime: java15
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
