@@ -1,6 +1,7 @@
 package com.projetb3.api.controller;
 
 import com.projetb3.api.model.User;
+import com.projetb3.api.security.AuthenticationWithJWT;
 import com.projetb3.api.security.Password;
 import com.projetb3.api.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -99,5 +100,15 @@ public class UserController {
             return ResponseEntity.ok().body("L'utilisateur " + current.getId() + " a été modifié.");
         }
         return ResponseEntity.badRequest().body("L'utilisateur est introuvable.");
+    }
+
+    @PostMapping("/connexion")
+    public ResponseEntity<String> signIn(@RequestBody User user){
+        char[] password = user.getPassword().toCharArray();
+        var userFound = userService.getByEmail(user.getEmail());
+        if(userFound == null || Password.checkPassword(password)){
+            return ResponseEntity.ok("Email et / ou mot de passe invalide");
+        }
+        return ResponseEntity.status(200).body("Vous êtes désormais connecté");
     }
 }

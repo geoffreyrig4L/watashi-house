@@ -29,8 +29,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public boolean userExists(String email, String password) {
-        User user = userRepository.findByLogins(email, password);
-        return userRepository.existsById(user.getId());
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
