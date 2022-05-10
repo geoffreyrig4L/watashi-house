@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
 import java.util.Optional;
 
 @Controller
@@ -39,7 +38,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody User user) throws NoSuchAlgorithmException, InvalidKeySpecException { // le JSON saisi dans le body sera utiliser pour générer une instance d'User
-        String password = Password.init().salt().hash(user.getPassword()).getHashedPassword();
+        String password = Password.init().hash(user.getPassword().toCharArray()).getHashedPassword();
         user.setPassword(password);
         userService.save(user);
         return ResponseEntity.ok().body("L'utilisateur a été créé.");
@@ -50,7 +49,7 @@ public class UserController {
         Optional<User> optUser = userService.get(id);
         if (optUser.isPresent()){
             userService.delete(id);
-            return ResponseEntity.ok().body("L'utilisateur a été modifié.");
+            return ResponseEntity.ok().body("L'utilisateur a été supprimé.");
         }
         return ResponseEntity.badRequest().build();
     }
