@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Optional;
 
 @Controller
@@ -37,12 +35,13 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public ResponseEntity<String> create(@RequestBody User user) throws NoSuchAlgorithmException, InvalidKeySpecException { // le JSON saisi dans le body sera utiliser pour générer une instance d'User
-        String password = Password.init().hash(user.getPassword().toCharArray()).getHashedPassword();
-        user.setPassword(password);
-        userService.save(user);
-        return ResponseEntity.ok().body("L'utilisateur a été créé.");
+    @GetMapping("/nom={nom}")
+    public ResponseEntity<User> getByName(@PathVariable("nom") final String lastname) {
+        Optional<User> user = userService.getByName(lastname);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
@@ -104,11 +103,24 @@ public class UserController {
 
     @PostMapping("/connexion")
     public ResponseEntity<String> signIn(@RequestBody User user){
-        char[] password = user.getPassword().toCharArray();
         var userFound = userService.getByEmail(user.getEmail());
-        if(userFound == null || Password.checkPassword(password)){
-            return ResponseEntity.ok("Email et / ou mot de passe invalide");
+        if(userFound.isEmpty() || checkPassword(user.getPassword(), userFound.get().getPassword())){
+            return ResponseEntity.ok("L'email et / ou le mot de passe sont invalides");
         }
-        return ResponseEntity.status(200).body("Vous êtes désormais connecté");
+        String jwt = AuthenticationWithJWT.create();
+        return ResponseEntity.ok(jwt);
+    }
+
+    private boolean checkPassword(String password, String passwordUser) {
+        String passwordHashed = Password.init().hash(password.toCharArray());
+        return passwordUser == passwordHashed;
+    }
+
+    @PostMapping("/inscription")
+    public ResponseEntity<String> signUp(@RequestBody User user){
+        user.setPassword(Password.init().hash(user.getPassword().toCharArray()));
+        userService.save(user);
+        String jwt = AuthenticationWithJWT.create();
+        return ResponseEntity.ok(jwt);
     }
 }

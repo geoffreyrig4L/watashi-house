@@ -33,6 +33,5 @@ public class AuthenticationWithJWT {
         } catch (JWTVerificationException exception){
             throw new JWTVerificationException("Le token est invalide", exception);
         }
-
     }
 }
