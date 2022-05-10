@@ -1,10 +1,15 @@
 package com.projetb3.api.controller;
 
 import com.projetb3.api.model.User;
+import com.projetb3.api.security.Password;
 import com.projetb3.api.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Controller
@@ -33,7 +38,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody User user) { // le JSON saisi dans le body sera utiliser pour générer une instance d'User
+    public ResponseEntity<String> create(@RequestBody User user) throws NoSuchAlgorithmException, InvalidKeySpecException { // le JSON saisi dans le body sera utiliser pour générer une instance d'User
+        String password = Password.init().salt().hash(user.getPassword()).getHashedPassword();
+        user.setPassword(password);
         userService.save(user);
         return ResponseEntity.ok().body("L'utilisateur a été créé.");
     }
