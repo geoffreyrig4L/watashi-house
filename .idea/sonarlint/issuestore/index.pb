@@ -69,3 +69,15 @@ _
 .src/main/java/com/projetb3/api/model/Item.java,e\3\e36c8ba798b3cb7eebbd8d1883dc35f21453a6a7
 e
 5src/main/java/com/projetb3/api/model/SubCategory.java,c\a\ca894559399723292326cb72c16807be4a73e55c
+q
+Asrc/main/java/com/projetb3/api/repository/CategoryRepository.java,0\1\018dd81d6f92294d019498603a266e43f370638e
+p
+@src/main/java/com/projetb3/api/controller/OpinionController.java,c\2\c2d9a62502028144d925c53b625371029b3a8157
+m
+=src/main/java/com/projetb3/api/controller/RoomController.java,c\2\c2d635cfff7a3546492569abc061dbb3240b5067
+n
+>src/main/java/com/projetb3/api/controller/OrderController.java,7\1\717031789333fe5a9068d29923af28c1d57a243a
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+m
+=src/main/java/com/projetb3/api/repository/UserRepository.java,9\d\9d05118aa9b6443caa5ce51f55fba02e1d4e9609

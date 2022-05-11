@@ -6,15 +6,27 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.projetb3.api.model.User;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class AuthenticationWithJWT {
 
     private final static Algorithm ALGORITHM = Algorithm.HMAC256("zabuifbauickbdc");
 
-    public static String create() {
+    public static String create(User user) {
         try{
             return JWT.create()
-                    //.withPayload()
+                    .withClaim("firstname", user.getFirstname())
+                    .withClaim("lastname", user.getLastname())
+                    .withClaim("email", user.getEmail())
+                    .withClaim("typeUser", user.getTypeUser())
+                    .withExpiresAt(Date.from(Instant.now().plus(3600, ChronoUnit.SECONDS)))
                     .sign(ALGORITHM);
         } catch(JWTCreationException exception){
             throw new JWTCreationException("Erreur lors de la création du token", exception);
