@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
 import java.util.Optional;
 
 @Controller
@@ -74,9 +75,6 @@ public class UserController {
             if (modified.getEmail() != null) {
                 current.setEmail(modified.getEmail());
             }
-            if (modified.getPassword() != null) {
-                current.setPassword(modified.getPassword());
-            }
             if (modified.getPhone() != null) {
                 current.setPhone(modified.getPhone());
             }
@@ -101,27 +99,52 @@ public class UserController {
         return ResponseEntity.badRequest().body("L'utilisateur est introuvable.");
     }
 
-    @PostMapping("/connexion")
-    public ResponseEntity<String> signIn(@RequestBody User user){
-        var userFound = userService.getByEmail(user.getEmail());
-        if(userFound == null || !isHashSame(user.getPassword(), userFound.getPassword())){
-            return ResponseEntity.ok("L'email et / ou le mot de passe sont invalides");
+    /*@PostMapping("/connexion")
+    public ResponseEntity<String> signIn(@RequestBody User userSupplied){
+        var userFound = userService.getByEmail(userSupplied.getEmail());
+        if(userFound == null || !isHashSame(userSupplied, userFound.getHash())){
+            return ResponseEntity.ok("L'email et / ou le mot de passe sont invalides.");
         }
         String jwt = AuthenticationWithJWT.create(userFound);
         return ResponseEntity.ok(jwt);
     }
 
-    private boolean isHashSame(String password, String passwordUser) {
-        String passwordHashed = Password.init().hash(password.toCharArray());
-        System.out.println(passwordHashed + " - " + passwordUser);
-        return passwordUser == passwordHashed;
+    private boolean isHashSame(User userSupplied, String hashUserFound) {
+        String hash = Password.init().hash(userSupplied.getHash().toCharArray(), userSupplied.getSalt() );
+        System.out.println(hash + " - " + hashUserFound);
+        return hashUserFound.equals(hash);
+    }*/
+
+    @PostMapping("/connexion")
+    public ResponseEntity<String> signIn(@RequestBody User userSupplied){
+        var userFound = userService.getByEmail(userSupplied.getEmail());
+        if(userFound == null){
+            return ResponseEntity.ok("L'email et / ou le mot de passe sont invalides.");
+        }
+        String jwt = AuthenticationWithJWT.create(userFound);
+        return ResponseEntity.ok(jwt);
     }
 
     @PostMapping("/inscription")
     public ResponseEntity<String> signUp(@RequestBody User user){
-        user.setPassword(Password.init().hash(user.getPassword().toCharArray()));
-        userService.save(user);
-        String jwt = AuthenticationWithJWT.create(user);
-        return ResponseEntity.ok(jwt);
+        password(user);
+        //userService.save(user);
+        return ResponseEntity.ok().body("Vous êtes désormais inscrit.");
+    }
+
+    public void password(User user) {
+        System.out.println("password");
+        byte[] salt = salt();
+        System.out.println("salt : " + salt);
+        user.setHash(Password.hash(user.getHash().toCharArray(), salt));
+        user.setSalt(salt);
+        System.out.println(user.getSalt() + " ----------" + user.getHash());
+    }
+
+    private byte[] salt() {
+        var random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        return salt;
     }
 }

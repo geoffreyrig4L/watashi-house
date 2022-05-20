@@ -30,8 +30,11 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "mdp")
-    private String password;
+    @Column(name = "mdphash")
+    private String hash;
+
+    @Column(name = "mdpsalt")
+    private String salt;
 
     @Column(name = "tel")
     private String phone;
@@ -78,4 +81,11 @@ public class User {
     @JsonIgnore
     private List<Opinion> opinions = new ArrayList<>();
 
+    public void setSalt(byte[] salt){
+        this.salt = salt.toString();
+    }
+
+    public void setHash(byte[] hash){
+        this.hash = hash.toString();
+    }
 }

@@ -61,9 +61,9 @@
 //    @BeforeEach  // s execute avant chaque methode de test
 //    void insertInH2(){
 //        //les id sont generes automatiquements meme si on les modifies avec @GeneratedValue
-//        User user1 = saveUtilisateurInH2(1,"Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo 95210 Argenteuil", "France");
-//        User user2 = saveUtilisateurInH2(2,"Madame", "Talia", "Zhao", "talia.zhao@gmail.com", "tzao", "0602020202", "42 avenue du général de Gaulle 93421 Pantin", "France");
-//        User user3 = saveUtilisateurInH2(3,"Monsieur", "Helio", "Pinto", "helio.pinto@gmail.com", "hpinto", "0603030303", "45 rue de Marie Curie 77231 Meaux", "France");
+//        User user1 = saveUtilisateurInH2(1,"Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo", "95210" ,"Argenteuil", "France", "client");
+//        User user2 = saveUtilisateurInH2(2,"Madame", "Talia", "Zhao", "talia.zhao@gmail.com", "tzao", "0602020202", "42 avenue du général de Gaulle","93421" ,"Pantin", "France", "client");
+//        User user3 = saveUtilisateurInH2(3,"Monsieur", "Helio", "Pinto", "helio.pinto@gmail.com", "hpinto", "0603030303", "45 rue de Marie Curie", "77231" ,"Meaux", "France", "client");
 //        user1.setDebitCards(List.of(new DebitCard("24356","474","12","02", user1)));
 //        user2.setDebitCards(List.of(new DebitCard("24356","474","12","02", user2)));
 //        user3.setDebitCards(List.of(new DebitCard("24356","474","12","02", user3)));
@@ -72,17 +72,31 @@
 //       }
 //    }
 //
-//    private User saveUtilisateurInH2(int id, String civilite, String prenom, String nom, String email, String mdp, String telephone, String adresse, String pays) {
+//    private User saveUtilisateurInH2(int id,
+//                                     String gender,
+//                                     String firstname,
+//                                     String lastname,
+//                                     String email,
+//                                     String password,
+//                                     String phone,
+//                                     String address,
+//                                     String zipCode,
+//                                     String city,
+//                                     String country,
+//                                     String typeUser) {
 //        User user = new User();
 //        user.setId(id);
-//        user.setGender(civilite);
-//        user.setFirstname(prenom);
-//        user.setLastname(nom);
+//        user.setGender(gender);
+//        user.setFirstname(firstname);
+//        user.setLastname(lastname);
 //        user.setEmail(email);
-//        user.setPassword(mdp);
-//        user.setPhone(telephone);
-//        user.setAddress(adresse);
-//        user.setCountry(pays);
+//        user.setHash(password);
+//        user.setPhone(phone);
+//        user.setAddress(address);
+//        user.setZipCode(zipCode);
+//        user.setCity(city);
+//        user.setCountry(country);
+//        user.setTypeUser(typeUser);
 //        return user;
 //    }
 //
