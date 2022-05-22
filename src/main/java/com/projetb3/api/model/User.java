@@ -81,11 +81,11 @@ public class User {
     @JsonIgnore
     private List<Opinion> opinions = new ArrayList<>();
 
-    public void setSalt(byte[] salt){
+    public void saltToString(byte[] salt){
         this.salt = salt.toString();
     }
 
-    public void setHash(byte[] hash){
+    public void hashToString(byte[] hash){
         this.hash = hash.toString();
     }
 }

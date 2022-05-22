@@ -5,6 +5,7 @@ import com.projetb3.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,7 +35,7 @@ public class UserService {
         return user.orElse(null);
     }
 
-    public Optional<User> getByName(String lastname) {
-        return userRepository.findByName(lastname);
+    public List<User> getByName(String lastname) {
+        return userRepository.findAllByName(lastname);
     }
 }

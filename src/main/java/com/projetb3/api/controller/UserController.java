@@ -37,12 +37,9 @@ public class UserController {
     }
 
     @GetMapping("/nom={nom}")
-    public ResponseEntity<User> getByName(@PathVariable("nom") final String lastname) {
-        Optional<User> user = userService.getByName(lastname);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Iterable<User>> getByName(@PathVariable("nom") final String lastname) {
+        Iterable<User> usersList = userService.getByName(lastname);
+        return ResponseEntity.ok(usersList);
     }
 
     @DeleteMapping("/{id}")
@@ -58,11 +55,9 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody User modified) {
         Optional<User> optUser = userService.get(id);
+        System.out.println(modified.toString());
         if (optUser.isPresent()) {
             User current = optUser.get();
-            if (modified.getId() != 0) {
-                current.setId(modified.getId());
-            }
             if (modified.getGender() != null) {
                 current.setGender(modified.getGender());
             }
@@ -83,6 +78,12 @@ public class UserController {
             }
             if(modified.getZipCode() != null) {
                 current.setZipCode(modified.getZipCode());
+            }
+            if(modified.getHash() != null){
+                current.setHash(modified.getHash());
+            }
+            if(modified.getSalt() != null){
+                current.setSalt(modified.getSalt());
             }
             if(modified.getCity() != null){
                 current.setCity(modified.getCity());
@@ -116,28 +117,27 @@ public class UserController {
     }*/
 
     @PostMapping("/connexion")
-    public ResponseEntity<String> signIn(@RequestBody User userSupplied){
-        var userFound = userService.getByEmail(userSupplied.getEmail());
+    public ResponseEntity<String> signIn(@RequestBody User user){
+        System.out.println(user.toString());
+        var userFound = userService.getByEmail(user.getEmail());
         if(userFound == null){
-            return ResponseEntity.ok("L'email et / ou le mot de passe sont invalides.");
+            return ResponseEntity.ok("L'email et / ou le mot de passe sont invalides");
         }
         String jwt = AuthenticationWithJWT.create(userFound);
         return ResponseEntity.ok(jwt);
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/inscription")
     public ResponseEntity<String> signUp(@RequestBody User user){
-        System.out.println("sign up");
-        System.out.println(user.toString());
-//        password(user);
-//        userService.save(user);
+        password(user);
+        userService.save(user);
         return ResponseEntity.ok().body("Vous êtes désormais inscrit.");
     }
 
     public void password(User user) {
         byte[] salt = salt();
-        user.setHash(Password.hash(user.getHash().toCharArray(), salt));
-        user.setSalt(salt);
+        user.hashToString(Password.hash(user.getHash().toCharArray(), salt));
+        user.saltToString(salt);
         System.out.println(user.getSalt() + " ---------- " + user.getHash());
     }
 

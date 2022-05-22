@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,5 +16,5 @@ public interface UserRepository extends CrudRepository<User,Integer> {
     Optional<User> findByEmail(@Param("email") String email);
 
     @Query(value="select * from utilisateurs u WHERE u.nom = :nom", nativeQuery = true)
-    Optional<User> findByName(@Param("nom") String nom);
+    List<User> findAllByName(@Param("nom") String nom);
 }
