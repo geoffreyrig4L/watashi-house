@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,8 @@ public class OpinionController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Opinion opinion) {
+        System.out.println(opinion.toString());
+        opinion.setDateOfPublication(LocalDateTime.now());
         opinionService.save(opinion);
         return ResponseEntity.ok().body("L'avis a été crée.");
     }

@@ -125,20 +125,20 @@ public class UserController {
         return ResponseEntity.ok(jwt);
     }
 
-    @PostMapping("/inscription")
+    @PostMapping("/sign-up")
     public ResponseEntity<String> signUp(@RequestBody User user){
-        password(user);
-        //userService.save(user);
+        System.out.println("sign up");
+        System.out.println(user.toString());
+//        password(user);
+//        userService.save(user);
         return ResponseEntity.ok().body("Vous êtes désormais inscrit.");
     }
 
     public void password(User user) {
-        System.out.println("password");
         byte[] salt = salt();
-        System.out.println("salt : " + salt);
         user.setHash(Password.hash(user.getHash().toCharArray(), salt));
         user.setSalt(salt);
-        System.out.println(user.getSalt() + " ----------" + user.getHash());
+        System.out.println(user.getSalt() + " ---------- " + user.getHash());
     }
 
     private byte[] salt() {

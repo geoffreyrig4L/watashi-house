@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -21,6 +22,9 @@ public class Opinion {
     @Column(name = "commentaire")
     private String comment;
 
+    @Column(name= "datecreation")
+    private LocalDateTime dateOfPublication;
+
     @ManyToOne(
             cascade = CascadeType.MERGE,
             targetEntity= Item.class
@@ -34,6 +38,6 @@ public class Opinion {
             targetEntity= User.class
     )
     @JoinColumn(name="utilisateur_id")
-    @JsonBackReference
+    @JsonIgnore   //doit récupérer uniquement le nom de l'user
     private User user;
 }
