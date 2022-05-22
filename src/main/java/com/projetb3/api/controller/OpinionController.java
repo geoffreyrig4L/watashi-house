@@ -1,6 +1,5 @@
 package com.projetb3.api.controller;
 
-import com.projetb3.api.model.Item;
 import com.projetb3.api.model.Opinion;
 import com.projetb3.api.service.OpinionService;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,12 @@ public class OpinionController {
     public ResponseEntity<Iterable<Opinion>> getAll() {
         Iterable<Opinion> listOpinion = opinionService.getAll();
         return ResponseEntity.ok(listOpinion);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Opinion> get(@PathVariable("id") final int id) {
+        Optional<Opinion> opinion = opinionService.get(id);
+        return opinion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
@@ -54,5 +59,22 @@ public class OpinionController {
         opinion.setDateOfPublication(LocalDateTime.now());
         opinionService.save(opinion);
         return ResponseEntity.ok().body("L'avis a été crée.");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody Opinion modified) {
+        Optional<Opinion> optOpinion = opinionService.get(id);
+        if (optOpinion.isPresent()) {
+            Opinion current = optOpinion.get();
+            if(!modified.equals(current.getNote())){
+                current.setNote(current.getNote());
+            }
+            if(!modified.equals(current.getComment())){
+                current.setComment(current.getComment());
+            }
+            opinionService.save(current);
+            return ResponseEntity.ok().body("L'avis " + current.getId() + " a été modifié.");
+        }
+        return ResponseEntity.badRequest().body("L'avis est introuvable.");
     }
 }
