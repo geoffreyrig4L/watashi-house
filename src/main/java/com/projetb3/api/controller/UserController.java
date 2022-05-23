@@ -4,11 +4,14 @@ import com.projetb3.api.model.User;
 import com.projetb3.api.security.AuthenticationWithJWT;
 import com.projetb3.api.security.Password;
 import com.projetb3.api.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -28,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> get(@PathVariable("id") final int id) { //PathVariable -> permet de manipuler des variables dans l'URI de la requete mapping
+    public ResponseEntity<User> get(@PathVariable("id") final int id) {
         Optional<User> user = userService.get(id);
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
@@ -45,7 +48,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") final int id) {
         Optional<User> optUser = userService.get(id);
-        if (optUser.isPresent()){
+        if (optUser.isPresent()) {
             userService.delete(id);
             return ResponseEntity.ok().body("L'utilisateur a été supprimé.");
         }
@@ -73,19 +76,19 @@ public class UserController {
             if (modified.getPhone() != null) {
                 current.setPhone(modified.getPhone());
             }
-            if(modified.getAddress() != null) {
+            if (modified.getAddress() != null) {
                 current.setAddress(modified.getAddress());
             }
-            if(modified.getZipCode() != null) {
+            if (modified.getZipCode() != null) {
                 current.setZipCode(modified.getZipCode());
             }
-            if(modified.getHash() != null){
+            if (modified.getHash() != null) {
                 current.setHash(modified.getHash());
             }
-            if(modified.getSalt() != null){
+            if (modified.getSalt() != null) {
                 current.setSalt(modified.getSalt());
             }
-            if(modified.getCity() != null){
+            if (modified.getCity() != null) {
                 current.setCity(modified.getCity());
             }
             if (modified.getCountry() != null) {
@@ -107,18 +110,19 @@ public class UserController {
     }*/
 
     @PostMapping("/connexion")
-    public ResponseEntity<String> signIn(@RequestBody User user){
-        System.out.println(user.toString());
+    public ResponseEntity<Object> signIn(@RequestBody User user) {
         var userFound = userService.getByEmail(user.getEmail());
-        if(userFound == null /* || !isHashSame(userSupplied, userFound.getHash()*/){
-            return ResponseEntity.ok("L'email et / ou le mot de passe sont invalides");
+        if (userFound == null) {
+            return ResponseEntity.badRequest().build();
         }
         String jwt = AuthenticationWithJWT.create(userFound);
-        return ResponseEntity.ok(jwt);
+        Map<String, Object> json = new HashMap<>();
+        json.put("token", jwt);
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
     @PostMapping("/inscription")
-    public ResponseEntity<String> signUp(@RequestBody User user){
+    public ResponseEntity<String> signUp(@RequestBody User user) {
         password(user);
         userService.save(user);
         return ResponseEntity.ok().body("Vous êtes désormais inscrit.");
@@ -128,7 +132,6 @@ public class UserController {
         byte[] salt = salt();
         user.hashToString(Password.hash(user.getHash().toCharArray(), salt));
         user.saltToString(salt);
-        System.out.println(user.getSalt() + " ---------- " + user.getHash());
     }
 
     private byte[] salt() {

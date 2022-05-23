@@ -72,7 +72,10 @@ public class OrderController {
             if (modified.getNumber() != null) {
                 current.setNumber(modified.getNumber());
             }
-            if (modified.getTotalPrice() != 0) {
+            if (modified.getDateOfPurchase() != null) {
+                current.setDateOfPurchase(modified.getDateOfPurchase());
+            }
+            if (modified.getTotalPrice() >= 0) {
                 current.setTotalPrice(modified.getTotalPrice());
             }
             orderService.save(current);

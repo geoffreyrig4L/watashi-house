@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="api_watashihouse" />
         <module name="watashi-house-back" />
+        <module name="api" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api" options="-parameters" />
       <module name="api_watashihouse" options="-parameters" />
       <module name="watashi-house-back" options="-parameters" />
     </option>

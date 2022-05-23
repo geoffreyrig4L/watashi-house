@@ -66,10 +66,10 @@ public class OpinionController {
         Optional<Opinion> optOpinion = opinionService.get(id);
         if (optOpinion.isPresent()) {
             Opinion current = optOpinion.get();
-            if(!modified.equals(current.getNote())){
+            if(modified.getNote() >= 0){
                 current.setNote(current.getNote());
             }
-            if(!modified.equals(current.getComment())){
+            if(modified.getComment() != null){
                 current.setComment(current.getComment());
             }
             opinionService.save(current);
