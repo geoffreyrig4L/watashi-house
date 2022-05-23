@@ -53,12 +53,12 @@ public class ItemController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/categorie={id_categorie}")
-    public ResponseEntity<Page<Item>> getItemsOfCategory(@PathVariable("id_categorie") final int id_categorie,
+    @GetMapping("/categorie={id_category}")
+    public ResponseEntity<Page<Item>> getItemsOfCategory(@PathVariable("id_category") final int id_category,
                                                                @RequestParam("page") final Optional<Integer> page,
                                                                @RequestParam("sortBy") final Optional<String> sortBy,
                                                                @RequestParam("orderBy") final Optional<String> orderBy) {
-        Page<Item> itemsList = itemService.getItemsOfCategory(page, sortBy, orderBy, id_categorie);
+        Page<Item> itemsList = itemService.getItemsOfCategory(page, sortBy, orderBy, id_category);
         return ResponseEntity.ok(itemsList);
     }
 

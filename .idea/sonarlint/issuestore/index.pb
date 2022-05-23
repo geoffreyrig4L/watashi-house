@@ -3,8 +3,6 @@ d
 4src/main/java/com/projetb3/api/model/Collection.java,f\6\f606571822d8de0a55479f04d52999314de55b45
 c
 3src/main/java/com/projetb3/api/model/DebitCard.java,1\2\1220b37d69be742733c28472128a2222e47f11b6
-g
-7src/main/java/com/projetb3/api/service/ItemService.java,9\5\9582d5cd6781261ad1bf28c9223c0a12a7b6e6c1
 m
 =src/main/java/com/projetb3/api/repository/RoomRepository.java,7\6\76be41d5e6a40866abf7337bc39501fec1a5ee04
 l
@@ -39,8 +37,6 @@ t
 Dsrc/main/java/com/projetb3/api/repository/SubCategoryRepository.java,3\6\368f2431cbd0714f36797e5d2aa87281dde3ca56
 8
 app.yaml,0\c\0cf0bb82cc508190c215cbfa97023ebc538ede19
-t
-Dsrc/main/java/com/projetb3/api/controller/SubCategoryController.java,4\4\44db889ef7663431ac2bf3e7c2fcccd4bdb00880
 ^
 .src/main/java/com/projetb3/api/model/Room.java,5\d\5de462c43dfa65eb8f607fb851ef65592dbd7ea4
 ^
@@ -57,7 +53,3 @@ e
 5src/main/java/com/projetb3/api/security/Password.java,8\6\86286a77306ce7c1bd73c4d88edc40a725303bf6
 f
 6src/test/java/com/projetb3/api/UserControllerTest.java,1\4\144f18aeb86fe046b66796d46d7b651e926c312a
-m
-=src/main/java/com/projetb3/api/controller/ItemController.java,f\8\f89d600e22f19217f9faaa0e499ab177d9ff4ac3
-m
-=src/main/java/com/projetb3/api/repository/ItemRepository.java,3\7\3718fda517acc6d9ecde524c83d4eba1b5f8b255

@@ -16,7 +16,6 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     public Optional<Item> get(final int id_item) {
-        System.out.println(itemRepository);
         return itemRepository.findById(id_item);
     }
 
@@ -39,15 +38,13 @@ public class ItemService {
     }
 
     public Page<Item> getItemsFilteredByColor(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, String color) {
-        List<Item> itemsList = itemRepository.itemsByColor(color);
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
-        return new PageImpl<>(itemsList, pageable, itemsList.size());
+        return itemRepository.itemsByColor(color, pageable);
     }
 
     public Page<Item> getItemsFilteredByPrice(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int min, int max) {
-        List<Item> itemsList = itemRepository.itemsByPrice(min, max);
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
-        return new PageImpl<>(itemsList, pageable, itemsList.size());
+        return itemRepository.itemsByPrice(min, max, pageable);
     }
 
     public static Sort.Direction getOrder(Optional<String> orderBy) {
@@ -58,19 +55,16 @@ public class ItemService {
     }
 
     public Page<Item> getItemsOfCategory(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int id_category) {
-        List<Item> itemsList = itemRepository.itemsOfCategory(id_category);
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
-        return new PageImpl<>(itemsList, pageable, itemsList.size());
+        return itemRepository.itemsOfCategory(id_category, pageable);
     }
 
     public Page<Item> getItemsOfSubCategory(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int id_subCategory) {
-        List<Item> itemsList = itemRepository.itemsOfSubCategory(id_subCategory);
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
-        return new PageImpl<>(itemsList, pageable, itemsList.size());
+        return itemRepository.itemsOfSubCategory(id_subCategory, pageable);
     }
     public Page<Item> getItemsOfRoom(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int id_room) {
-        List<Item> itemsList = itemRepository.itemsOfRoom(id_room);
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
-        return new PageImpl<>(itemsList, pageable, itemsList.size());
+        return itemRepository.itemsOfRoom(id_room, pageable);
     }
 }

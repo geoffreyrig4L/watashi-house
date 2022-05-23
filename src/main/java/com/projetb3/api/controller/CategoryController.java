@@ -64,10 +64,10 @@ public class CategoryController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/piece={id_piece}")
+    @GetMapping("/piece={id_room}")
     public ResponseEntity<List<Category>> getCategoriesOfRoom(@PathVariable("id_room") final int id_room) {
-        List<Category> listeCategorys = categoryService.getCategoriesOfRoom(id_room);
-        return ResponseEntity.ok(listeCategorys);
+        List<Category> listCategories = categoryService.getCategoriesOfRoom(id_room);
+        return ResponseEntity.ok(listCategories);
     }
 
 }
