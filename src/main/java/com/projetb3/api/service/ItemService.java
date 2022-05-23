@@ -16,11 +16,35 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     public Optional<Item> get(final int id_item) {
-        System.out.println(itemRepository);
         return itemRepository.findById(id_item);
     }
 
-    public Page<Item> getAll(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy) {
+    public Page<Item> getAll(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, Optional<String> color, Optional<Integer> priceMin, Optional<Integer> priceMax) {
+        Page<Item> itemsList;
+        switch (filterParam(color, priceMin, priceMax)) {
+            case "without" : itemsList = withoutFilter(page, sortBy, orderBy); break;
+            case "color" : itemsList = filteredByColor(page, sortBy, orderBy, color.get()); break;
+            case "price" : itemsList = filteredByPrice(page, sortBy, orderBy, priceMin.get(), priceMax.get()); break;
+            case "colorprice" : itemsList = filteredByBoth(page, sortBy, orderBy, color.get(), priceMin.get(), priceMax.get()); break;
+            default : itemsList = null; break;
+        }
+        return itemsList;
+    }
+
+    private String filterParam(Optional<String> color, Optional<Integer> priceMin, Optional<Integer> priceMax) {
+        if(color.isEmpty() && priceMin.isEmpty() && priceMax.isEmpty()){
+            return "without";
+        } else if (color.isPresent() && priceMin.isEmpty() && priceMax.isEmpty()){
+            return "color";
+        } else if (color.isEmpty() && priceMin.isPresent() && priceMax.isPresent()){
+            return "price";
+        } else if (color.isPresent() && priceMin.isPresent() && priceMax.isPresent()){
+            return "colorprice";
+        }
+        return "";
+    }
+
+    private Page<Item> withoutFilter(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy) {
         return itemRepository.findAll(PageRequest.of(
                         page.orElse(0),
                         20,
@@ -30,22 +54,20 @@ public class ItemService {
         );
     }
 
-    public void delete(final int id_item) {
-        itemRepository.deleteById(id_item);
-    }
-
-    public Item save(Item item) {
-        return itemRepository.save(item);
-    }
-
-    public Page<Item> getItemsFilteredByColor(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, String color) {
+    public Page<Item> filteredByColor(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, String color) {
         List<Item> itemsList = itemRepository.itemsByColor(color);
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
         return new PageImpl<>(itemsList, pageable, itemsList.size());
     }
 
-    public Page<Item> getItemsFilteredByPrice(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int min, int max) {
+    public Page<Item> filteredByPrice(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int min, int max) {
         List<Item> itemsList = itemRepository.itemsByPrice(min, max);
+        Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
+        return new PageImpl<>(itemsList, pageable, itemsList.size());
+    }
+
+    private Page<Item> filteredByBoth(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, String color, Integer priceMin, Integer priceMax) {
+        List<Item> itemsList = itemRepository.itemsByColorAndPrice(priceMin, priceMax);
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
         return new PageImpl<>(itemsList, pageable, itemsList.size());
     }
@@ -72,5 +94,13 @@ public class ItemService {
         List<Item> itemsList = itemRepository.itemsOfRoom(id_room);
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
         return new PageImpl<>(itemsList, pageable, itemsList.size());
+    }
+
+    public void delete(final int id_item) {
+        itemRepository.deleteById(id_item);
+    }
+
+    public Item save(Item item) {
+        return itemRepository.save(item);
     }
 }

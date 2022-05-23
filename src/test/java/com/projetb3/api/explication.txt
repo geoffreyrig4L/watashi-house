@@ -1,0 +1,3 @@
+- @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+force le contexte spring boot a etre recharge apres ce test, permet ainsi de ne pas creer
+de conflit apres une suppression.

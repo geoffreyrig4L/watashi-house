@@ -22,26 +22,13 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<Page<Item>> getAll(@RequestParam("page") final Optional<Integer> page,
                                              @RequestParam("sortBy") final Optional<String> sortBy,
-                                             @RequestParam("orderBy") final Optional<String> orderBy) {
-        Page<Item> itemsList = itemService.getAll(page, sortBy, orderBy);
+                                             @RequestParam("orderBy") final Optional<String> orderBy,
+                                             @RequestParam("couleur") final Optional<String> couleur,
+                                             @RequestParam("min") final Optional<Integer> min,
+                                             @RequestParam("max") final Optional<Integer> max
+    ) {
+        Page<Item> itemsList = itemService.getAll(page, sortBy, orderBy, couleur, min, max);
         return ResponseEntity.ok(itemsList);
-    }
-
-    @GetMapping("/couleur={couleur}")
-    public ResponseEntity<Page<Item>> getItemsFilteredByColor(@RequestParam("page") final Optional<Integer> page,
-                                                                    @RequestParam("sortBy") final Optional<String> sortBy,
-                                                                    @RequestParam("orderBy") final Optional<String> orderBy,
-                                                                    @PathVariable("couleur") final String couleur) {
-        return ResponseEntity.ok(itemService.getItemsFilteredByColor(page, sortBy, orderBy, couleur));
-    }
-
-    @GetMapping("/prix")
-    public ResponseEntity<Page<Item>> getItemsFilteredByPrice(@RequestParam("page") final Optional<Integer> page,
-                                                                    @RequestParam("sortBy") final Optional<String> sortBy,
-                                                                    @RequestParam("orderBy") final Optional<String> orderBy,
-                                                                    @RequestParam("min") final int min,
-                                                                    @RequestParam("max") final int max) {
-        return ResponseEntity.ok(itemService.getItemsFilteredByPrice(page, sortBy, orderBy, min, max));
     }
 
     @GetMapping("/{id}")
@@ -53,30 +40,30 @@ public class ItemController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/categorie={id_categorie}")
-    public ResponseEntity<Page<Item>> getItemsOfCategory(@PathVariable("id_categorie") final int id_categorie,
-                                                               @RequestParam("page") final Optional<Integer> page,
-                                                               @RequestParam("sortBy") final Optional<String> sortBy,
-                                                               @RequestParam("orderBy") final Optional<String> orderBy) {
-        Page<Item> itemsList = itemService.getItemsOfCategory(page, sortBy, orderBy, id_categorie);
+    @GetMapping("/categorie={id_category}")
+    public ResponseEntity<Page<Item>> getItemsOfCategory(@PathVariable("id_category") final int id_category,
+                                                         @RequestParam("page") final Optional<Integer> page,
+                                                         @RequestParam("sortBy") final Optional<String> sortBy,
+                                                         @RequestParam("orderBy") final Optional<String> orderBy) {
+        Page<Item> itemsList = itemService.getItemsOfCategory(page, sortBy, orderBy, id_category);
         return ResponseEntity.ok(itemsList);
     }
 
-    @GetMapping("/souscategorie={id_souscategorie}")
-    public ResponseEntity<Page<Item>> getItemsOfSubCategory(@PathVariable("id_souscategorie") final int id_souscategorie,
-                                                                   @RequestParam("page") final Optional<Integer> page,
-                                                                   @RequestParam("sortBy") final Optional<String> sortBy,
-                                                                   @RequestParam("orderBy") final Optional<String> orderBy) {
-        Page<Item> itemsList = itemService.getItemsOfSubCategory(page, sortBy, orderBy, id_souscategorie);
+    @GetMapping("/souscategorie={id_subCategory}")
+    public ResponseEntity<Page<Item>> getItemsOfSubCategory(@PathVariable("id_subCategory") final int id_subCategory,
+                                                            @RequestParam("page") final Optional<Integer> page,
+                                                            @RequestParam("sortBy") final Optional<String> sortBy,
+                                                            @RequestParam("orderBy") final Optional<String> orderBy) {
+        Page<Item> itemsList = itemService.getItemsOfSubCategory(page, sortBy, orderBy, id_subCategory);
         return ResponseEntity.ok(itemsList);
     }
 
-    @GetMapping("/piece={id_piece}")
-    public ResponseEntity<Page<Item>> getItemsOfRoom(@PathVariable("id_piece") final int id_piece,
-                                                           @RequestParam("page") final Optional<Integer> page,
-                                                           @RequestParam("sortBy") final Optional<String> sortBy,
-                                                           @RequestParam("orderBy") final Optional<String> orderBy) {
-        Page<Item> itemsList = itemService.getItemsOfRoom(page, sortBy, orderBy, id_piece);
+    @GetMapping("/piece={id_room}")
+    public ResponseEntity<Page<Item>> getItemsOfRoom(@PathVariable("id_room") final int id_room,
+                                                     @RequestParam("page") final Optional<Integer> page,
+                                                     @RequestParam("sortBy") final Optional<String> sortBy,
+                                                     @RequestParam("orderBy") final Optional<String> orderBy) {
+        Page<Item> itemsList = itemService.getItemsOfRoom(page, sortBy, orderBy, id_room);
         return ResponseEntity.ok(itemsList);
     }
 
@@ -100,8 +87,8 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateItem(@PathVariable("id") final int id,
-                                                @RequestBody Item modified) {
+    public ResponseEntity<String> updateItem(@PathVariable("id") final int id, @RequestBody Item modified) {
+        System.out.println(modified.toString());
         Optional<Item> optItem = itemService.get(id);
         if (optItem.isPresent()) {
             Item current = optItem.get();
@@ -132,6 +119,20 @@ public class ItemController {
             if (modified.getPrice() != 0) {
                 current.setPrice(modified.getPrice());
             }
+            if (modified.getCollection() != null) {
+                current.setCollection(modified.getCollection());
+            }
+//            if(!modified.getSubCategories().isEmpty()){
+//                current.setSubCategories(modified.getSubCategories());
+//            }
+//            if(!modified.getCategories().isEmpty()){
+//                current.getCategories().clear();
+//                current.getCategories().addAll(modified.getCategories());
+//            }
+//            if(!modified.getRooms().isEmpty()){
+//                current.getRooms().clear();
+//                current.getRooms().addAll(modified.getRooms());
+//            }
             itemService.save(current);
             return ResponseEntity.ok().body("L'article " + current.getId() + " a été modifié.");
         }

@@ -100,17 +100,7 @@ public class UserController {
         return ResponseEntity.badRequest().body("L'utilisateur est introuvable.");
     }
 
-    /*@PostMapping("/connexion")
-    public ResponseEntity<String> signIn(@RequestBody User userSupplied){
-        var userFound = userService.getByEmail(userSupplied.getEmail());
-        if(userFound == null || !isHashSame(userSupplied, userFound.getHash())){
-            return ResponseEntity.ok("L'email et / ou le mot de passe sont invalides.");
-        }
-        String jwt = AuthenticationWithJWT.create(userFound);
-        return ResponseEntity.ok(jwt);
-    }
-
-    private boolean isHashSame(User userSupplied, String hashUserFound) {
+    /*private boolean isHashSame(User userSupplied, String hashUserFound) {
         String hash = Password.init().hash(userSupplied.getHash().toCharArray(), userSupplied.getSalt() );
         System.out.println(hash + " - " + hashUserFound);
         return hashUserFound.equals(hash);
@@ -120,7 +110,7 @@ public class UserController {
     public ResponseEntity<String> signIn(@RequestBody User user){
         System.out.println(user.toString());
         var userFound = userService.getByEmail(user.getEmail());
-        if(userFound == null){
+        if(userFound == null /* || !isHashSame(userSupplied, userFound.getHash()*/){
             return ResponseEntity.ok("L'email et / ou le mot de passe sont invalides");
         }
         String jwt = AuthenticationWithJWT.create(userFound);
