@@ -19,7 +19,7 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Integer
     Page<Item> itemsByColor(@Param("couleur") String couleur, Pageable pageable);
 
     @Query(value = "SELECT * FROM articles a HAVING a.prix > :min AND a.prix < :max",
-            countQuery = "SELECT COUNT(*) FROM articles a HAVING a.prix > :min AND a.prix < :max",
+            countQuery = "SELECT COUNT(*) FROM articles a WHERE a.prix > :min AND a.prix < :max",
             nativeQuery = true)
     Page<Item> itemsByPrice(int min, int max, Pageable pageable);
 
@@ -28,8 +28,8 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Integer
             nativeQuery = true)
     Page<Item> itemsOfCategory(@Param("id_categorie") int id_category, Pageable pageable);
 
-    @Query(value = "SELECT DISTINCT a.* FROM articles a, souscategories_articles sca WHERE a.id_article = ca.article_id AND sca.souscategorie_id = :id_souscategorie",
-            countQuery = "SELECT COUNT(*) FROM articles a, souscategories_articles sca WHERE a.id_article = ca.article_id AND sca.souscategorie_id = :id_souscategorie",
+    @Query(value = "SELECT DISTINCT a.* FROM articles a, souscategories_articles sca WHERE a.id_article = sca.article_id AND sca.souscategorie_id = :id_souscategorie",
+            countQuery = "SELECT COUNT(*) FROM articles a, souscategories_articles sca WHERE a.id_article = sca.article_id AND sca.souscategorie_id = :id_souscategorie",
             nativeQuery = true)
     Page<Item> itemsOfSubCategory(@Param("id_souscategorie") int id_subCategory, Pageable pageable);
 

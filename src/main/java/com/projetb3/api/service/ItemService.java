@@ -20,13 +20,7 @@ public class ItemService {
     }
 
     public Page<Item> getAll(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy) {
-        return itemRepository.findAll(PageRequest.of(
-                        page.orElse(0),
-                        20,
-                        getOrder(orderBy),
-                        sortBy.orElse("id")
-                )
-        );
+        return itemRepository.findAll(PageRequest.of(page.orElse(0), 20, getOrder(orderBy), sortBy.orElse("id")));
     }
 
     public void delete(final int id_item) {
@@ -47,13 +41,6 @@ public class ItemService {
         return itemRepository.itemsByPrice(min, max, pageable);
     }
 
-    public static Sort.Direction getOrder(Optional<String> orderBy) {
-        if (orderBy.isPresent() && orderBy.get().equals("ASC")) {
-            return Sort.Direction.ASC;
-        }
-        return Sort.Direction.DESC;
-    }
-
     public Page<Item> getItemsOfCategory(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int id_category) {
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
         return itemRepository.itemsOfCategory(id_category, pageable);
@@ -63,8 +50,15 @@ public class ItemService {
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
         return itemRepository.itemsOfSubCategory(id_subCategory, pageable);
     }
+
     public Page<Item> getItemsOfRoom(Optional<Integer> page, Optional<String> sortBy, Optional<String> orderBy, int id_room) {
         Pageable pageable = PageRequest.of(page.orElse(0), 20, getOrder(orderBy),sortBy.orElse("id"));
         return itemRepository.itemsOfRoom(id_room, pageable);
+    }
+    public static Sort.Direction getOrder(Optional<String> orderBy) {
+        if (orderBy.isPresent() && orderBy.get().equals("ASC")) {
+            return Sort.Direction.ASC;
+        }
+        return Sort.Direction.DESC;
     }
 }

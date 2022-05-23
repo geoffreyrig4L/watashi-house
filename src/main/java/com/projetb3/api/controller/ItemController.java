@@ -35,22 +35,13 @@ public class ItemController {
         return ResponseEntity.ok(itemService.getItemsFilteredByColor(page, sortBy, orderBy, couleur));
     }
 
-    @GetMapping("/prix")
+    @GetMapping("/prixMin={min}/prixMax={max}")
     public ResponseEntity<Page<Item>> getItemsFilteredByPrice(@RequestParam("page") final Optional<Integer> page,
                                                                     @RequestParam("sortBy") final Optional<String> sortBy,
                                                                     @RequestParam("orderBy") final Optional<String> orderBy,
-                                                                    @RequestParam("min") final int min,
-                                                                    @RequestParam("max") final int max) {
+                                                                    @PathVariable("min") final int min,
+                                                                    @PathVariable("max") final int max) {
         return ResponseEntity.ok(itemService.getItemsFilteredByPrice(page, sortBy, orderBy, min, max));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Item> getItem(@PathVariable("id") final int id) {
-        Optional<Item> item = itemService.get(id);
-        if (item.isPresent()) {
-            return ResponseEntity.ok(item.get());
-        }
-        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/categorie={id_category}")
@@ -78,6 +69,15 @@ public class ItemController {
                                                            @RequestParam("orderBy") final Optional<String> orderBy) {
         Page<Item> itemsList = itemService.getItemsOfRoom(page, sortBy, orderBy, id_piece);
         return ResponseEntity.ok(itemsList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Item> getItem(@PathVariable("id") final int id) {
+        Optional<Item> item = itemService.get(id);
+        if (item.isPresent()) {
+            return ResponseEntity.ok(item.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
