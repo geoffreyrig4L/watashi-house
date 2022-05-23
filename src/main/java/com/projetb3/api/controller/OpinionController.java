@@ -67,10 +67,10 @@ public class OpinionController {
         if (optOpinion.isPresent()) {
             Opinion current = optOpinion.get();
             if(modified.getNote() >= 0){
-                current.setNote(current.getNote());
+                current.setNote(modified.getNote());
             }
             if(modified.getComment() != null){
-                current.setComment(current.getComment());
+                current.setComment(modified.getComment());
             }
             opinionService.save(current);
             return ResponseEntity.ok().body("L'avis " + current.getId() + " a été modifié.");
