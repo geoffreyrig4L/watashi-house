@@ -17,11 +17,15 @@ public class CartService {
         return cartRepository.findAll();
     }
 
-    public Optional<Cart> get(int id) {
-        return cartRepository.bucketOfUser(id);
+    public Optional<Cart> cartOfUser(int id) {
+        return cartRepository.cartOfUser(id);
     }
 
     public void save(Cart cart) {
         cartRepository.save(cart);
+    }
+
+    public Optional<Cart> get(int id) {
+        return cartRepository.findById(id);
     }
 }

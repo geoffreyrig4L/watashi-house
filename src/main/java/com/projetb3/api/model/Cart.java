@@ -28,7 +28,7 @@ public class Cart {
     private User user;
 
     @ManyToMany(
-            cascade = CascadeType.MERGE
+            cascade = { CascadeType.MERGE, CascadeType.DETACH }
     )
     @JoinTable(
             name = "paniers_articles",

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -24,9 +25,18 @@ public class CartController {
         return ResponseEntity.ok(cartsList);
     }
 
-    @GetMapping("/utilisateur={id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Cart> get(@PathVariable("id") final int id) {
         Optional<Cart> cart = cartService.get(id);
+        if (cart.isPresent()) {
+            return ResponseEntity.ok(cart.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/utilisateur={id}")
+    public ResponseEntity<Cart> cartOfUser(@PathVariable("id") final int id) {
+        Optional<Cart> cart = cartService.cartOfUser(id);
         if (cart.isPresent()) {
             return ResponseEntity.ok(cart.get());
         }
@@ -41,12 +51,14 @@ public class CartController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateCart(@PathVariable("id") final int id, @RequestBody Cart modified) {
+        System.out.println(modified.getItems());
         Optional<Cart> optCart = cartService.get(id);
         if (optCart.isPresent()) {
             Cart current = optCart.get();
             if(modified.getPrice() != 0) {
                 current.setPrice(modified.getPrice());
             }
+            current.getItems().clear();
             if(!modified.getItems().isEmpty()){
                 current.setItems(modified.getItems());
             }

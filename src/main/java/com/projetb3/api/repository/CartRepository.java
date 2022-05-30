@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface CartRepository extends CrudRepository<Cart,Integer> {
 
     @Query(value = "select * from paniers p where p.utilisateur_id = :id_utilisateur", nativeQuery = true)
-    Optional<Cart> bucketOfUser(int id_utilisateur);
+    Optional<Cart> cartOfUser(int id_utilisateur);
 }
