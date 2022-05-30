@@ -1,7 +1,9 @@
 package com.projetb3.api.controller;
 
 import com.projetb3.api.model.DebitCard;
+import com.projetb3.api.model.Item;
 import com.projetb3.api.service.DebitCardService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +22,8 @@ public class DebitCardController {
 
     @GetMapping
     public ResponseEntity<Iterable<DebitCard>> getAll() {
-        Iterable<DebitCard> listeCartes = debitCardService.getAll();
-        return ResponseEntity.ok(listeCartes);
+        Iterable<DebitCard> debitCardsList = debitCardService.getAll();
+        return ResponseEntity.ok(debitCardsList);
     }
 
     @GetMapping("/{id}")
@@ -31,6 +33,12 @@ public class DebitCardController {
             return ResponseEntity.ok(debitCard.get());
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/utilisateur={id}")
+    public ResponseEntity<Iterable<DebitCard>> getCardOfUser(@PathVariable("id") final int id) {
+        Iterable<DebitCard> debitCardsList = debitCardService.getCardOfUser(id);
+        return ResponseEntity.ok(debitCardsList);
     }
 
     @PostMapping

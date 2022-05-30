@@ -5,8 +5,6 @@ c
 3src/main/java/com/projetb3/api/model/DebitCard.java,1\2\1220b37d69be742733c28472128a2222e47f11b6
 m
 =src/main/java/com/projetb3/api/repository/RoomRepository.java,7\6\76be41d5e6a40866abf7337bc39501fec1a5ee04
-l
-<src/main/java/com/projetb3/api/service/DebitCardService.java,a\a\aa49df76dd957be1caa5c94896e9873c7969d3b6
 m
 =src/main/java/com/projetb3/api/service/CollectionService.java,9\4\9405f393d858aa102935c0a2769a9a9198379978
 h
@@ -19,8 +17,6 @@ k
 ;src/test/java/com/projetb3/api/DebitCardControllerTest.java,b\6\b63bddb764d7abd9633acb21cc3e41333eb3e825
 n
 >src/main/java/com/projetb3/api/repository/OrderRepository.java,f\0\f0e73b9b79d17a9f70c739bcd165f24c90954060
-r
-Bsrc/main/java/com/projetb3/api/repository/DebitCardRepository.java,a\f\afbb25b8d0c03f91e3006b0201634f0b969bdb6d
 s
 Csrc/main/java/com/projetb3/api/repository/CollectionRepository.java,8\b\8bf89c0b75d1053d9d9adc270a86485f11b9c7f4
 =
@@ -29,18 +25,12 @@ Csrc/main/java/com/projetb3/api/repository/CollectionRepository.java,8\b\8bf89c
 service.txt,4\a\4a752b8bc4f38e31b01c3bdf61486a80ff693378
 s
 Csrc/main/java/com/projetb3/api/controller/CollectionController.java,a\9\a9c59730fe36e521e0e06252b59aceea921962c5
-r
-Bsrc/main/java/com/projetb3/api/controller/DebitCardController.java,a\f\afa83a49855d2b5b3080d9d163fdd8e1c6629418
 t
 Dsrc/main/java/com/projetb3/api/repository/SubCategoryRepository.java,3\6\368f2431cbd0714f36797e5d2aa87281dde3ca56
 ^
 .src/main/java/com/projetb3/api/model/Room.java,5\d\5de462c43dfa65eb8f607fb851ef65592dbd7ea4
-^
-.src/main/java/com/projetb3/api/model/Item.java,e\3\e36c8ba798b3cb7eebbd8d1883dc35f21453a6a7
 e
 5src/main/java/com/projetb3/api/model/SubCategory.java,c\a\ca894559399723292326cb72c16807be4a73e55c
-q
-Asrc/main/java/com/projetb3/api/repository/CategoryRepository.java,0\1\018dd81d6f92294d019498603a266e43f370638e
 r
 Bsrc/main/java/com/projetb3/api/security/AuthenticationWithJWT.java,c\6\c631f382cd34c38375368892e12b3b1933d3d64c
 f

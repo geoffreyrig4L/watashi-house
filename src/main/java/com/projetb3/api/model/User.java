@@ -70,7 +70,7 @@ public class User {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
+    @JsonIgnore
     List<Order> orders = new ArrayList<>();
 
     @OneToMany(

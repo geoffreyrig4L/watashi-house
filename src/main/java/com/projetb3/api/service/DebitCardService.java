@@ -30,4 +30,8 @@ public class DebitCardService {
     public void save(DebitCard debitCard) {
         debitCardRepository.save(debitCard);
     }
+
+    public Iterable<DebitCard> getCardOfUser(int id) {
+        return debitCardRepository.cardsOfUser(id);
+    }
 }
