@@ -1,5 +1,6 @@
 package com.projetb3.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
@@ -10,19 +11,20 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name="paniers")
-public class Bucket {
+@Table(name = "paniers")
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="id_panier")
+    @Column(name = "id_panier")
     private int id;
 
-    @Column(name ="prix")
+    @Column(name = "prix")
     private int price;
 
     @OneToOne
     @JoinColumn(name="utilisateur_id")
+    @JsonBackReference
     private User user;
 
     @ManyToMany(
@@ -33,7 +35,6 @@ public class Bucket {
             joinColumns = @JoinColumn(name = "panier_id"),
             inverseJoinColumns = @JoinColumn(name = "article_id")
     )
-    @JsonManagedReference
     private List<Item> items = new ArrayList<>();
 }
 

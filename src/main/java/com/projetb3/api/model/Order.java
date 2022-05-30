@@ -35,7 +35,6 @@ public class Order {
             targetEntity = User.class
     )
     @JoinColumn(name = "utilisateur_id")
-    @JsonBackReference
     private User user;
 
     @ManyToMany(

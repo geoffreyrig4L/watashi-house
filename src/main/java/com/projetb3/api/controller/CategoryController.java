@@ -21,8 +21,8 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<Iterable<Category>> getAll() {
-        Iterable<Category> listeCategorys = categoryService.getAll();
-        return ResponseEntity.ok(listeCategorys);
+        Iterable<Category> categoriesList = categoryService.getAll();
+        return ResponseEntity.ok(categoriesList);
     }
 
     @GetMapping("/{id}")

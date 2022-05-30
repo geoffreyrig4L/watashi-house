@@ -36,7 +36,7 @@ public class RoomController {
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Room room) {
         roomService.save(room);
-        return ResponseEntity.ok().body("La catégorie a été créée.");
+        return ResponseEntity.ok().body("La pièce a été créée.");
     }
 
     @DeleteMapping("/{id}")
@@ -44,7 +44,7 @@ public class RoomController {
         Optional<Room> optRoom = roomService.get(id);
         if (optRoom.isPresent()) {
             roomService.delete(id);
-            return ResponseEntity.ok().body("La catégorie a été supprimée.");
+            return ResponseEntity.ok().body("La pièce a été supprimée.");
         }
         return ResponseEntity.notFound().build();
     }

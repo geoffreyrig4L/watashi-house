@@ -61,7 +61,7 @@ public class User {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonManagedReference
+    @JsonIgnore
     List<DebitCard> debitCards = new ArrayList<>();
 
     @OneToMany(
@@ -81,6 +81,12 @@ public class User {
     )
     @JsonIgnore
     private List<Opinion> opinions = new ArrayList<>();
+
+    @OneToOne(
+            mappedBy = "user"
+    )
+    @JsonIgnore
+    private Cart cart;
 
     public void saltToString(byte[] salt){
         this.salt = salt.toString();
