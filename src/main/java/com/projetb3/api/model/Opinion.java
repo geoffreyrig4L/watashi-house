@@ -38,6 +38,6 @@ public class Opinion {
             targetEntity= User.class
     )
     @JoinColumn(name="utilisateur_id")
-    @JsonIgnore   //doit récupérer uniquement le nom de l'user
+    @JsonManagedReference
     private User user;
 }

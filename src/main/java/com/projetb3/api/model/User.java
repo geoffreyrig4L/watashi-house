@@ -79,7 +79,7 @@ public class User {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JsonIgnore
+    @JsonBackReference
     private List<Opinion> opinions = new ArrayList<>();
 
     @OneToOne(

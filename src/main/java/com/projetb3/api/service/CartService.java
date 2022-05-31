@@ -28,4 +28,8 @@ public class CartService {
     public Optional<Cart> get(int id) {
         return cartRepository.findById(id);
     }
+
+    public void deleteItemOfCart(int id_item, int id_cart) {
+        cartRepository.deleteItemOfCart(id_item, id_cart);
+    }
 }

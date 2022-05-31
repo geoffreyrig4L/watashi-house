@@ -47,20 +47,13 @@ public class CartController {
         return ResponseEntity.ok().body("Le panier a été crée.");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateCart(@PathVariable("id") final int id, @RequestBody Cart modified) {
-        Optional<Cart> optCart = cartService.get(id);
+    @GetMapping("{id_cart}/supprimerArticle={id_item}")
+    public ResponseEntity<String> deleteItemOfCart(@PathVariable("id_cart") final int id_cart, @PathVariable("id_item") final int id_item){
+        Optional<Cart> optCart = cartService.get(id_cart);
         if (optCart.isPresent()) {
-            Cart current = optCart.get();
-            if(modified.getPrice() != 0) {
-                current.setPrice(modified.getPrice());
-            }
-            current.getItems().clear();
-            if(!modified.getItems().isEmpty()){
-                current.setItems(modified.getItems());
-            }
-            cartService.save(current);
-            return ResponseEntity.ok().body("Le panier " + current.getId() + " a été modifié.");
+            Cart cart = optCart.get();
+            cartService.deleteItemOfCart(id_item, cart.getId());
+            return ResponseEntity.ok().body("L'article " + id_item + " a été supprimé du panier " + cart.getId());
         }
         return ResponseEntity.notFound().build();
     }

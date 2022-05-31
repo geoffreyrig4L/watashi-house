@@ -33,8 +33,6 @@ f
 6src/test/java/com/projetb3/api/UserControllerTest.java,1\4\144f18aeb86fe046b66796d46d7b651e926c312a
 p
 @src/main/java/com/projetb3/api/controller/OpinionController.java,c\2\c2d9a62502028144d925c53b625371029b3a8157
-a
-1src/main/java/com/projetb3/api/model/Opinion.java,b\0\b07033defbd5f8c415a071f2388c01c7ce60b235
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 q
@@ -53,13 +51,9 @@ m
 =src/main/java/com/projetb3/api/controller/RoomController.java,c\2\c2d635cfff7a3546492569abc061dbb3240b5067
 r
 Bsrc/main/java/com/projetb3/api/controller/DebitCardController.java,a\f\afa83a49855d2b5b3080d9d163fdd8e1c6629418
-m
-=src/main/java/com/projetb3/api/repository/CartRepository.java,6\b\6b047b61cf8b6ce5b2bc897261de2bb7ba6c27ed
 q
 Asrc/main/java/com/projetb3/api/controller/CategoryController.java,d\0\d0633c6565318749407b4d6ef1b3be38d20bebae
 b
 2src/main/java/com/projetb3/api/model/Category.java,3\f\3fd6bbf561a560cb1908cfc3dbe243b87acb227d
-^
-.src/main/java/com/projetb3/api/model/User.java,c\3\c3aab4839433acc38fda651ae82f7b06a2c3e055
 ^
 .src/main/java/com/projetb3/api/model/Item.java,e\3\e36c8ba798b3cb7eebbd8d1883dc35f21453a6a7
