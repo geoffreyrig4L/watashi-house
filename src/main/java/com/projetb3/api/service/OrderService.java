@@ -29,4 +29,5 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    public void decrementItemStock(int id_item) {orderRepository.updateStock(id_item);}
 }

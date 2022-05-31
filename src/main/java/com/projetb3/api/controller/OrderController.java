@@ -1,6 +1,7 @@
 package com.projetb3.api.controller;
 
 import com.projetb3.api.model.Order;
+import com.projetb3.api.service.ItemService;
 import com.projetb3.api.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, ItemService itemService) {
         this.orderService = orderService;
     }
 
@@ -32,27 +33,27 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<String> processToCreation(@RequestBody Order order) {
-        fillFields(order);
-        return create(order);
-    }
-
-    private void fillFields(Order order) {
         order.fillFields();
+        return create(order);
     }
 
     private ResponseEntity<String> create(Order order) {
         if (canItCreate(order)) {
+            decrementItemStock(order);
             orderService.save(order);
             return ResponseEntity.ok().body("La commande a été créée.");
         }
         return ResponseEntity.badRequest().body("Veuillez entrer une requete valide.");
     }
 
+    private void decrementItemStock(Order order) {
+        order.getItems().forEach(item -> orderService.decrementItemStock(item.getId()));
+    }
+
     private boolean canItCreate(Order order) {
         return !order.getItems().isEmpty() &&
                 order.getUser().getId() > 0;
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") final int id) {

@@ -72,7 +72,7 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Item> getItem(@PathVariable("id") final int id) {
+    public ResponseEntity<Item> get(@PathVariable("id") final int id) {
         Optional<Item> item = itemService.get(id);
         if (item.isPresent()) {
             return ResponseEntity.ok(item.get());
@@ -90,7 +90,7 @@ public class ItemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteItem(@PathVariable("id") final int id) {
+    public ResponseEntity<String> delete(@PathVariable("id") final int id) {
         Optional<Item> optItem = itemService.get(id);
         if (optItem.isPresent()) {
             itemService.delete(id);
@@ -100,8 +100,7 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateItem(@PathVariable("id") final int id,
-                                                @RequestBody Item modified) {
+    public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody Item modified) {
         Optional<Item> optItem = itemService.get(id);
         if (optItem.isPresent()) {
             Item current = optItem.get();

@@ -43,7 +43,7 @@ public class CartController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping(consumes = {"application/json"})
+    @PostMapping
     public ResponseEntity<String> create(@RequestBody Cart cart) {
         cartService.save(cart);
         return ResponseEntity.ok().body("Le panier a été crée.");
@@ -51,7 +51,6 @@ public class CartController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateCart(@PathVariable("id") final int id, @RequestBody Cart modified) {
-        System.out.println(modified.getItems());
         Optional<Cart> optCart = cartService.get(id);
         if (optCart.isPresent()) {
             Cart current = optCart.get();
