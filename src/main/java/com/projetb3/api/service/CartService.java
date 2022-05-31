@@ -32,4 +32,12 @@ public class CartService {
     public void deleteItemOfCart(int id_item, int id_cart) {
         cartRepository.deleteItemOfCart(id_item, id_cart);
     }
+
+    public void deleteAllItemsOfCart(int id) {
+        cartRepository.deleteAllItemsOfCart(id);
+    }
+
+    public void addItemOfCart(int id_item, int id_cart) {
+        cartRepository.addItemInCart(id_item, id_cart);
+    }
 }

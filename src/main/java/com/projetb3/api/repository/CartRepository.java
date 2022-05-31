@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.Optional;
 
@@ -20,4 +19,14 @@ public interface CartRepository extends CrudRepository<Cart,Integer> {
     @Modifying
     @Query(value = "delete from paniers_articles where article_id = :id_item and panier_id = :id_cart " , nativeQuery = true)
     void deleteItemOfCart(int id_item, int id_cart);
+
+    @Transactional
+    @Modifying
+    @Query(value = "delete from paniers_articles where panier_id = :id_cart " , nativeQuery = true)
+    void deleteAllItemsOfCart(int id_cart);
+
+    @Transactional
+    @Modifying
+    @Query(value = "insert into paniers_articles values (:id_cart,:id_item)" , nativeQuery = true)
+    void addItemInCart(int id_item, int id_cart);
 }
