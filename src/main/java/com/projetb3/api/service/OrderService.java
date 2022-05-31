@@ -30,4 +30,8 @@ public class OrderService {
     }
 
     public void decrementItemStock(int id_item) {orderRepository.updateStock(id_item);}
+
+    public int getPriceOfItem(int id_item) {
+        return orderRepository.getPriceOfItem(id_item);
+    }
 }

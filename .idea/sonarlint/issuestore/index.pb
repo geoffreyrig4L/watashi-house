@@ -55,8 +55,6 @@ r
 Bsrc/main/java/com/projetb3/api/controller/DebitCardController.java,a\f\afa83a49855d2b5b3080d9d163fdd8e1c6629418
 m
 =src/main/java/com/projetb3/api/repository/CartRepository.java,6\b\6b047b61cf8b6ce5b2bc897261de2bb7ba6c27ed
-_
-/src/main/java/com/projetb3/api/model/Order.java,e\d\ed36d89d34ced65cfe3c886dd51fe3a63ccafe30
 q
 Asrc/main/java/com/projetb3/api/controller/CategoryController.java,d\0\d0633c6565318749407b4d6ef1b3be38d20bebae
 b

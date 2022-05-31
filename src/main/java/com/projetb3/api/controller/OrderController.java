@@ -1,5 +1,6 @@
 package com.projetb3.api.controller;
 
+import com.projetb3.api.model.Item;
 import com.projetb3.api.model.Order;
 import com.projetb3.api.service.ItemService;
 import com.projetb3.api.service.OrderService;
@@ -40,6 +41,7 @@ public class OrderController {
     private ResponseEntity<String> create(Order order) {
         if (canItCreate(order)) {
             decrementItemStock(order);
+
             orderService.save(order);
             return ResponseEntity.ok().body("La commande a été créée.");
         }
@@ -47,7 +49,12 @@ public class OrderController {
     }
 
     private void decrementItemStock(Order order) {
-        order.getItems().forEach(item -> orderService.decrementItemStock(item.getId()));
+        int totalPrice = 0;
+        for(Item item : order.getItems()){
+            orderService.decrementItemStock(item.getId());
+            totalPrice += orderService.getPriceOfItem(item.getId());
+        }
+        order.setTotalPrice(totalPrice);
     }
 
     private boolean canItCreate(Order order) {

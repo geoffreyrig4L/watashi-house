@@ -12,6 +12,9 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE articles SET stock = stock - 1 WHERE id_article = :id ", nativeQuery = true)
-    void updateStock(int id);
+    @Query(value = "UPDATE articles SET stock = stock - 1 WHERE id_article = :id_item", nativeQuery = true)
+    void updateStock(int id_item);
+
+    @Query(value = "SELECT a.prix FROM articles a WHERE a.id_article = :id_item", nativeQuery = true)
+    int getPriceOfItem(int id_item);
 }
