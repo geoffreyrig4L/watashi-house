@@ -33,8 +33,6 @@ f
 6src/test/java/com/projetb3/api/UserControllerTest.java,1\4\144f18aeb86fe046b66796d46d7b651e926c312a
 p
 @src/main/java/com/projetb3/api/controller/OpinionController.java,c\2\c2d9a62502028144d925c53b625371029b3a8157
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 q
 Asrc/main/java/com/projetb3/api/repository/CategoryRepository.java,0\1\018dd81d6f92294d019498603a266e43f370638e
 l

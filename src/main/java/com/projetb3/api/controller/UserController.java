@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,15 +105,14 @@ public class UserController {
         return ResponseEntity.badRequest().body("L'utilisateur est introuvable.");
     }
 
-    /*private boolean isHashSame(User userSupplied, String hashUserFound) {
-        String hash = Password.init().hash(userSupplied.getHash().toCharArray(), userSupplied.getSalt() );
+    private boolean isHashSame(User userSupplied, String hashUserFound) {
+        byte[] hash = Password.hashPassword(userSupplied.getHash().toCharArray(), userSupplied.getSalt().getBytes());
         System.out.println(hash + " - " + hashUserFound);
         return hashUserFound.equals(hash);
-    }*/
+    }
 
     @PostMapping(path="/connexion", consumes= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> signIn(@RequestBody User user) {
-        System.out.println(user.getEmail());
+    public ResponseEntity<Object> signIn(@RequestBody User user){
         var userFound = userService.getByEmail(user.getEmail());
         if (userFound == null) {
             return ResponseEntity.badRequest().build();
@@ -132,7 +132,7 @@ public class UserController {
 
     public void password(User user) {
         byte[] salt = salt();
-        user.hashToString(Password.hash(user.getHash().toCharArray(), salt));
+        user.hashToString(Password.hashPassword(user.getHash().toCharArray(), salt));
         user.saltToString(salt);
     }
 
