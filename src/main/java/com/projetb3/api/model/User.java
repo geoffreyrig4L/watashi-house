@@ -87,11 +87,7 @@ public class User {
     @JsonIgnore
     private Cart cart;
 
-    public void saltToString(byte[] salt){
+    public void setSalt(byte[] salt){
         this.salt = Hex.encodeHexString(salt);
-    }
-
-    public void hashToString(byte[] hash){
-        this.hash = Hex.encodeHexString(hash);
     }
 }

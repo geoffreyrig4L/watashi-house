@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -58,7 +57,6 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody User modified) {
         Optional<User> optUser = userService.get(id);
-        System.out.println(modified.toString());
         if (optUser.isPresent()) {
             User current = optUser.get();
             if (modified.getGender() != null) {
@@ -83,10 +81,7 @@ public class UserController {
                 current.setZipCode(modified.getZipCode());
             }
             if (modified.getHash() != null) {
-                current.setHash(modified.getHash());
-            }
-            if (modified.getSalt() != null) {
-                current.setSalt(modified.getSalt());
+                createHashAndSalt(current, modified.getHash());
             }
             if (modified.getCity() != null) {
                 current.setCity(modified.getCity());
@@ -104,14 +99,14 @@ public class UserController {
     }
 
     private boolean isHashSame(String hashUserSupplied, User userSaved) {
-        return Password.validatePassword(hashUserSupplied.toCharArray(), userSaved.getHash());
+        return Password.validate(hashUserSupplied.toCharArray(), userSaved.getHash());
     }
 
     @PostMapping("/connexion")
     public ResponseEntity<Object> signIn(@RequestBody User user) {
         var userSaved = userService.getByEmail(user.getEmail());
         if (userSaved == null || !isHashSame(user.getHash(), userSaved)) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("🛑 Cette combinaison e-mail / mot de passe n'existe pas.");
         }
         String jwt = AuthenticationWithJWT.create(userSaved);
         Map<String, Object> json = new HashMap<>();
@@ -121,22 +116,15 @@ public class UserController {
 
     @PostMapping("/inscription")
     public ResponseEntity<String> signUp(@RequestBody User user) {
-        createPassword(user);
+        createHashAndSalt(user, user.getHash());
         userService.save(user);
         return ResponseEntity.ok().body("Vous êtes désormais inscrit.");
     }
 
-    public void createPassword(User user) {
-        byte[] salt = salt();
-        String password = Password.createPassword(user.getHash().toCharArray(), salt);
-        user.setHash(password);
-        user.saltToString(salt);
-    }
-
-    private byte[] salt() {
-        var random = new SecureRandom();
-        byte[] salt = new byte[24];
-        random.nextBytes(salt);
-        return salt;
+    public void createHashAndSalt(User user, String password) {
+        byte[] salt = Password.createSalt();
+        String hash = Password.create(password.toCharArray(), salt);
+        user.setSalt(salt);
+        user.setHash(hash);
     }
 }

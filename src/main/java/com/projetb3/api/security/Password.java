@@ -4,17 +4,28 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
 public class Password {
 
+    public static final int SALT_BYTES = 24;
+    public static final int HASH_BYTES = 24;
+    public static final int PBKDF2_ITERATIONS = 1000;
 
     public Password() {
     }
 
-    public static String createPassword(final char[] password, final byte[] salt) {
-        byte[] hash = pbkd2f(password, salt, 1000, 24);
-        return 1000 + ":" + toHex(salt) + ":" +  toHex(hash);
+    public static String create(final char[] password, final byte[] salt) {
+        byte[] hash = pbkd2f(password, salt, PBKDF2_ITERATIONS, HASH_BYTES);
+        return PBKDF2_ITERATIONS + ":" + toHex(salt) + ":" +  toHex(hash);
+    }
+
+    public static byte[] createSalt() {
+        var random = new SecureRandom();
+        byte[] salt = new byte[SALT_BYTES];
+        random.nextBytes(salt);
+        return salt;
     }
 
     private static byte[] pbkd2f(char[] password, byte[] salt, int iterations, int bytes) {
@@ -27,7 +38,7 @@ public class Password {
         }
     }
 
-    public static boolean validatePassword(char[] password, String storedPassword) {
+    public static boolean validate(char[] password, String storedPassword) {
         String[] params = storedPassword.split(":");
         int iterations = Integer.parseInt(params[0]);
         byte[] salt = fromHex(params[1]);
