@@ -38,6 +38,5 @@ public class Opinion {
             targetEntity= User.class
     )
     @JoinColumn(name="utilisateur_id")
-    @JsonManagedReference
     private User user;
 }

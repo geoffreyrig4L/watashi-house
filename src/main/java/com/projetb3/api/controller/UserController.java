@@ -5,6 +5,7 @@ import com.projetb3.api.security.AuthenticationWithJWT;
 import com.projetb3.api.security.Password;
 import com.projetb3.api.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -109,8 +110,9 @@ public class UserController {
         return hashUserFound.equals(hash);
     }*/
 
-    @PostMapping("/connexion")
+    @PostMapping(path="/connexion", consumes= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> signIn(@RequestBody User user) {
+        System.out.println(user.getEmail());
         var userFound = userService.getByEmail(user.getEmail());
         if (userFound == null) {
             return ResponseEntity.badRequest().build();
