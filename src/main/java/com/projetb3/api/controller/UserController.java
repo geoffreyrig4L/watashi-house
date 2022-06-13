@@ -4,13 +4,13 @@ import com.projetb3.api.model.User;
 import com.projetb3.api.security.AuthenticationWithJWT;
 import com.projetb3.api.security.Password;
 import com.projetb3.api.service.UserService;
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,19 +105,20 @@ public class UserController {
         return ResponseEntity.badRequest().body("L'utilisateur est introuvable.");
     }
 
-    private boolean isHashSame(User userSupplied, String hashUserFound) {
-        byte[] hash = Password.hashPassword(userSupplied.getHash().toCharArray(), userSupplied.getSalt().getBytes());
-        System.out.println(hash + " - " + hashUserFound);
-        return hashUserFound.equals(hash);
+    private boolean isHashSame(String hashUserSupplied, User userSaved) {
+        byte[] hash = Password.hashPassword(hashUserSupplied.toCharArray(), userSaved.getSalt().getBytes());
+        String hashedString = Hex.encodeHexString(hash);
+        return hashedString.equals(userSaved.getHash());
     }
 
     @PostMapping(path="/connexion", consumes= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> signIn(@RequestBody User user){
-        var userFound = userService.getByEmail(user.getEmail());
-        if (userFound == null) {
+        var userSaved = userService.getByEmail(user.getEmail());
+        isHashSame(user.getHash(), userSaved);
+        if (userSaved == null) {
             return ResponseEntity.badRequest().build();
         }
-        String jwt = AuthenticationWithJWT.create(userFound);
+        String jwt = AuthenticationWithJWT.create(userSaved);
         Map<String, Object> json = new HashMap<>();
         json.put("token", jwt);
         return new ResponseEntity<>(json, HttpStatus.OK);

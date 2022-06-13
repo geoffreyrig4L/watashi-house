@@ -2,6 +2,7 @@ package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.apache.commons.codec.binary.Hex;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -87,10 +88,10 @@ public class User {
     private Cart cart;
 
     public void saltToString(byte[] salt){
-        this.salt = salt.toString();
+        this.salt = Hex.encodeHexString(salt);
     }
 
     public void hashToString(byte[] hash){
-        this.hash = hash.toString();
+        this.hash = Hex.encodeHexString(hash);
     }
 }
