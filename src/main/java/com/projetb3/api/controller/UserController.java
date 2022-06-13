@@ -4,7 +4,6 @@ import com.projetb3.api.model.User;
 import com.projetb3.api.security.AuthenticationWithJWT;
 import com.projetb3.api.security.Password;
 import com.projetb3.api.service.UserService;
-import org.apache.commons.codec.binary.Hex;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -105,13 +104,7 @@ public class UserController {
     }
 
     private boolean isHashSame(String hashUserSupplied, User userSaved) {
-
-
-
-
-//        System.out.println(hashedString + " - " + userSaved.getHash());
-//        return hashedString.equals(userSaved.getHash());
-        return true;
+        return Password.validatePassword(hashUserSupplied.toCharArray(), userSaved.getHash());
     }
 
     @PostMapping("/connexion")
@@ -135,14 +128,14 @@ public class UserController {
 
     public void createPassword(User user) {
         byte[] salt = salt();
-        byte[] password = Password.hashPassword(user.getHash().toCharArray(), salt);
-        user.hashToString(password);
+        String password = Password.createPassword(user.getHash().toCharArray(), salt);
+        user.setHash(password);
         user.saltToString(salt);
     }
 
     private byte[] salt() {
         var random = new SecureRandom();
-        byte[] salt = new byte[16];
+        byte[] salt = new byte[24];
         random.nextBytes(salt);
         return salt;
     }
