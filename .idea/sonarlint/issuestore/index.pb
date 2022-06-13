@@ -27,8 +27,6 @@ Dsrc/main/java/com/projetb3/api/repository/SubCategoryRepository.java,3\6\368f2
 .src/main/java/com/projetb3/api/model/Room.java,5\d\5de462c43dfa65eb8f607fb851ef65592dbd7ea4
 e
 5src/main/java/com/projetb3/api/model/SubCategory.java,c\a\ca894559399723292326cb72c16807be4a73e55c
-r
-Bsrc/main/java/com/projetb3/api/security/AuthenticationWithJWT.java,c\6\c631f382cd34c38375368892e12b3b1933d3d64c
 f
 6src/test/java/com/projetb3/api/UserControllerTest.java,1\4\144f18aeb86fe046b66796d46d7b651e926c312a
 p
@@ -51,16 +49,8 @@ q
 Asrc/main/java/com/projetb3/api/controller/CategoryController.java,d\0\d0633c6565318749407b4d6ef1b3be38d20bebae
 b
 2src/main/java/com/projetb3/api/model/Category.java,3\f\3fd6bbf561a560cb1908cfc3dbe243b87acb227d
-^
-.src/main/java/com/projetb3/api/model/Item.java,e\3\e36c8ba798b3cb7eebbd8d1883dc35f21453a6a7
-g
-7src/main/java/com/projetb3/api/service/ItemService.java,9\5\9582d5cd6781261ad1bf28c9223c0a12a7b6e6c1
-m
-=src/main/java/com/projetb3/api/repository/ItemRepository.java,3\7\3718fda517acc6d9ecde524c83d4eba1b5f8b255
 S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
-m
-=src/main/java/com/projetb3/api/controller/ItemController.java,f\8\f89d600e22f19217f9faaa0e499ab177d9ff4ac3
 _
 /src/main/java/com/projetb3/api/model/Order.java,e\d\ed36d89d34ced65cfe3c886dd51fe3a63ccafe30
 n

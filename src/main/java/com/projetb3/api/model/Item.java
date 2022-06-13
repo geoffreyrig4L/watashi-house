@@ -1,11 +1,8 @@
 package com.projetb3.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +49,7 @@ public class Item {
             targetEntity = Collection.class
     )
     @JoinColumn(name = "collection_id")
+    @JsonIgnore
     private Collection collection;
 
     @OneToMany(
@@ -72,6 +70,7 @@ public class Item {
             joinColumns = {@JoinColumn(name = "article_id")},
             inverseJoinColumns = {@JoinColumn(name = "categorie_id")}
     )
+    @JsonIgnore
     private List<Category> categories = new ArrayList<>();
 
     @ManyToMany(
@@ -83,6 +82,7 @@ public class Item {
             joinColumns = { @JoinColumn(name = "article_id")} ,
             inverseJoinColumns = { @JoinColumn(name = "piece_id") }
     )
+    @JsonIgnore
     private List<Room> rooms = new ArrayList<>();
 
     @ManyToMany(
@@ -94,6 +94,7 @@ public class Item {
             joinColumns = { @JoinColumn(name = "article_id") },
             inverseJoinColumns = { @JoinColumn(name = "souscategorie_id") }
     )
+    @JsonIgnore
     private List<SubCategory> subCategories = new ArrayList<>();
 
     @ManyToMany(
