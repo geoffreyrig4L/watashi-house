@@ -1,9 +1,0 @@
-
-b
-java:S4684-"@Replace this persistent entity with a simple POJO or DTO object.(Ö¦¼ùÿÿÿÿ8êÔÓ¬‘0
-b
-java:S4684>"@Replace this persistent entity with a simple POJO or DTO object.(ãòí±øÿÿÿÿ8÷ÔÓ¬‘0
-U
-java:S1128"8Remove this unused import 'com.projetb3.api.model.Item'.(¸ïŠÙ8Åãæ­‘0
-c
-java:S1128"ARemove this unused import 'org.springframework.data.domain.Page'.(˜âüÿÿÿÿ8Æãæ­‘0

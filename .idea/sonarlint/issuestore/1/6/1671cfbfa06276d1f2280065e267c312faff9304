@@ -1,5 +1,0 @@
-
-m	java:S117""QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜àÈÚ8—ÿˆ0
-m	java:S117&"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÙÜ8Ÿ—ÿˆ0
-…
-java:S1488"hImmediately return this expression instead of assigning it to the temporary variable "savedSubCategory".(ÄŞ•Î8Ÿ—ÿˆ0
