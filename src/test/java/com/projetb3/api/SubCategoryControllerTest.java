@@ -1,7 +1,7 @@
 package com.projetb3.api;
 
-import com.projetb3.api.model.Category;
-import com.projetb3.api.repository.CategoryRepository;
+import com.projetb3.api.model.SubCategory;
+import com.projetb3.api.repository.SubCategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,82 +19,86 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CategoryControllerTest implements H2TestJpaConfig {
+class SubCategoryControllerTest implements H2TestJpaConfig {
 
     @Autowired
     public MockMvc mockMvc;
 
     @Autowired
-    public CategoryRepository categoryRepository;
+    public SubCategoryRepository subCategoryRepository;
 
     @BeforeEach
     void insertInH2(){
-        saveCategorieInH2( "Meuble");
-        saveCategorieInH2("Decoration");
-        saveCategorieInH2("Luminaire");
+        saveCategorieInH2("table");
+        saveCategorieInH2("chaise");
+        saveCategorieInH2("bureau");
     }
 
     private void saveCategorieInH2(String nom) {
-        Category category = new Category();
-        category.setName(nom);
-        categoryRepository.save(category);
+        SubCategory subCategory = new SubCategory();
+        subCategory.setName(nom);
+        subCategoryRepository.save(subCategory);
     }
 
     @Test
-    void should_get_all_categories() throws Exception{
-        mockMvc.perform(get("/categories"))
+    void should_get_all_subCategories() throws Exception{
+        mockMvc.perform(get("/sous-categories"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].name",is("Meuble")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].name",is("table")));
     }
 
     @Test
-    void should_get_one_category() throws Exception{
-        mockMvc.perform(get("/categories/1"))
+    void should_get_one_subCategory() throws Exception{
+        mockMvc.perform(get("/sous-categories/1"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name",is("Meuble")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name",is("table")));
     }
 
     @Test
-    void should_not_get_one_category() throws Exception{
-        mockMvc.perform(get("/categories/50"))
+    void should_not_get_one_subCategory() throws Exception{
+        mockMvc.perform(get("/sous-categories/50"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void should_put_one_category() throws Exception{
-        mockMvc.perform(put("/categories/2")
+    void should_put_one_subCategory() throws Exception{
+        mockMvc.perform(put("/sous-categories/2")
                         .content("{\"id\":2,\"name\":\"canapé\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/categories/2"))
+        mockMvc.perform(get("/sous-categories/2"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name",is("canapé")));
     }
 
     @Test
-    void should_not_put_one_category() throws Exception{
-        mockMvc.perform(put("/categories/50")
+    void should_not_put_one_subCategory() throws Exception{
+        mockMvc.perform(put("/sous-categories/50")
                         .content("{\"id\":2,\"name\":table de chevet\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void should_delete_one_category() throws Exception{
-        mockMvc.perform(delete("/categories/3")
+    void should_delete_one_subCategory() throws Exception{
+        mockMvc.perform(delete("/sous-categories/3")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void should_not_delete_one_category() throws Exception{
-        mockMvc.perform(delete("/categories/50")
+    void should_not_delete_one_subCategory() throws Exception{
+        mockMvc.perform(delete("/sous-categories/50")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void getCategoriesOfRoom() {
+    void getSubCategoriesOfSubCategory() {
+    }
+
+    @Test
+    void getSubCategoriesOfRoom() {
     }
 }

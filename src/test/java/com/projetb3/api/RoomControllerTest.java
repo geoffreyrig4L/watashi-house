@@ -1,7 +1,7 @@
 package com.projetb3.api;
 
-import com.projetb3.api.model.Order;
-import com.projetb3.api.repository.OrderRepository;
+import com.projetb3.api.model.Room;
+import com.projetb3.api.repository.RoomRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.time.LocalDateTime;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -22,81 +21,80 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class OrderControllerTest implements H2TestJpaConfig {
+class RoomControllerTest implements H2TestJpaConfig {
 
     @Autowired
     public MockMvc mockMvc;
 
     @Autowired
-    public OrderRepository orderRepository;
+    public RoomRepository roomRepository;
 
     @BeforeEach
     void insertInH2(){
-        saveOrderInH2("1234567890", 2000);
-        saveOrderInH2("0987654321", 3000);
-        saveOrderInH2("1114447770", 4000);
+        saveRoomInH2("salle de bain");
+        saveRoomInH2("salon");
+        saveRoomInH2("chambre");
     }
 
-    private void saveOrderInH2(String number, int prixTot) {
-        Order order = new Order();
-        order.setNumber(number);
-        order.setDateOfPurchase(LocalDateTime.now());
-        order.setTotalPrice(prixTot);
-        orderRepository.save(order);
+    private void saveRoomInH2(String name) {
+        Room room = new Room();
+        room.setName(name);
+        roomRepository.save(room);
     }
 
     @Test
-    void should_get_all_orders() throws Exception{
-        mockMvc.perform(get("/commandes"))
+    void should_get_all_rooms() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/pieces"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].number",is("1234567890")))
-                .andExpect(jsonPath("$.content[1].number",is("0987654321")))
-                .andExpect(jsonPath("$.content[2].number",is("1114447770")));
+                .andExpect(jsonPath("$.content[0].name", is("salle de bain")))
+                .andExpect(jsonPath("$.content[1].name", is("salon")))
+                .andExpect(jsonPath("$.content[2].name", is("chambre")));
     }
 
+
     @Test
-    void should_get_one_order() throws Exception{
-        mockMvc.perform(get("/commandes/1"))
+    void should_get_one_room() throws Exception{
+        mockMvc.perform(get("/rooms/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.number",is("1234567890")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name",is("salon")));
     }
 
     @Test
-    void should_not_get_one_order() throws Exception{
-        mockMvc.perform(get("/commandes/50"))
+    void should_not_get_one_room() throws Exception{
+        mockMvc.perform(get("/rooms/50"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void should_put_one_order() throws Exception{
-        mockMvc.perform(put("/commandes/2")
-                        .content("{\"id\":2,\"number\":\"22222222222222\"}")
+    void should_put_one_room() throws Exception{
+        mockMvc.perform(put("/rooms/2")
+                        .content("{\"id\":2,\"name\":\"cuisine\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/commandes/2"))
+        mockMvc.perform(get("/rooms/2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.number",is("22222222222222")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name",is("cuisine")));
     }
 
     @Test
-    void should_not_put_one_order() throws Exception{
-        mockMvc.perform(put("/commandes/50")
-                        .content("{\"id\":2,\"number\":\"\"}")
+    void should_not_put_one_room() throws Exception{
+        mockMvc.perform(put("/rooms/50")
+                        .content("{\"id\":2,\"name\":toilette\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void should_delete_one_order() throws Exception{
-        mockMvc.perform(delete("/commandes/3")
+    void should_delete_one_room() throws Exception{
+        mockMvc.perform(delete("/rooms/2")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void should_not_delete_one_order() throws Exception{
-        mockMvc.perform(delete("/commandes/50")
+    void should_not_delete_one_room() throws Exception{
+        mockMvc.perform(delete("/rooms/50")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
