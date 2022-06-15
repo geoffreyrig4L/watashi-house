@@ -1,6 +1,7 @@
 package com.projetb3.api.repository;
 
 import com.projetb3.api.model.Cart;
+import com.projetb3.api.model.Item;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -29,4 +30,7 @@ public interface CartRepository extends CrudRepository<Cart,Integer> {
     @Modifying
     @Query(value = "insert into paniers_articles values (:id_cart,:id_item)" , nativeQuery = true)
     void addItemInCart(int id_item, int id_cart);
+
+    @Query(value = "SELECT a.prix FROM articles a WHERE a.id_article = :id_item", nativeQuery = true)
+    int getPriceOfItem(int id_item);
 }

@@ -33,12 +33,6 @@ b
 2src/main/java/com/projetb3/api/model/Category.java,3\f\3fd6bbf561a560cb1908cfc3dbe243b87acb227d
 S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
-n
->src/main/java/com/projetb3/api/repository/OrderRepository.java,f\0\f0e73b9b79d17a9f70c739bcd165f24c90954060
-h
-8src/main/java/com/projetb3/api/service/OrderService.java,0\2\0240394ac1e3f05b64dee55c911865f8837251b6
-m
-=src/main/java/com/projetb3/api/repository/CartRepository.java,6\b\6b047b61cf8b6ce5b2bc897261de2bb7ba6c27ed
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 m

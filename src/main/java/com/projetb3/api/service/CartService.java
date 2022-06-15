@@ -1,6 +1,7 @@
 package com.projetb3.api.service;
 
 import com.projetb3.api.model.Cart;
+import com.projetb3.api.model.Item;
 import com.projetb3.api.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,9 @@ public class CartService {
 
     public void delete(final int id) {
         cartRepository.deleteById(id);
+    }
+
+    public int getPriceOfItem(int id_item) {
+        return cartRepository.getPriceOfItem(id_item);
     }
 }

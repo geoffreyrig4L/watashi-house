@@ -41,7 +41,6 @@ public class OrderController {
     private ResponseEntity<String> create(Order order) {
         if (canItCreate(order)) {
             decrementItemStock(order);
-
             orderService.save(order);
             return ResponseEntity.ok().body("La commande a été créée.");
         }
