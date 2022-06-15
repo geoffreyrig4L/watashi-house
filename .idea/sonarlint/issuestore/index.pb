@@ -25,8 +25,6 @@ l
 <src/main/java/com/projetb3/api/service/DebitCardService.java,a\a\aa49df76dd957be1caa5c94896e9873c7969d3b6
 r
 Bsrc/main/java/com/projetb3/api/repository/DebitCardRepository.java,a\f\afbb25b8d0c03f91e3006b0201634f0b969bdb6d
-k
-;src/main/java/com/projetb3/api/service/CategoryService.java,8\3\831a3a520034338d13e5771a990ca19c8bacde49
 g
 7src/main/java/com/projetb3/api/service/UserService.java,9\d\9dc46ce6dbb0e43eab673f59aafeacf96cbe3b6e
 r
@@ -39,14 +37,8 @@ n
 >src/main/java/com/projetb3/api/repository/OrderRepository.java,f\0\f0e73b9b79d17a9f70c739bcd165f24c90954060
 h
 8src/main/java/com/projetb3/api/service/OrderService.java,0\2\0240394ac1e3f05b64dee55c911865f8837251b6
-n
->src/main/java/com/projetb3/api/controller/OrderController.java,7\1\717031789333fe5a9068d29923af28c1d57a243a
-g
-7src/main/java/com/projetb3/api/service/CartService.java,2\2\22095403ac027e6bd1b6fbd8466a4314f5afab2f
 m
 =src/main/java/com/projetb3/api/repository/CartRepository.java,6\b\6b047b61cf8b6ce5b2bc897261de2bb7ba6c27ed
-a
-1src/main/java/com/projetb3/api/model/Opinion.java,b\0\b07033defbd5f8c415a071f2388c01c7ce60b235
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 m

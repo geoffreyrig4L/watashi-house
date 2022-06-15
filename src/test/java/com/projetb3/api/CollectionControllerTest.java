@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) // force le contexte spring boot a etre recharge apres ce test, permet ainsi de ne pas creer de conflit apres une suppression   ELLE EST PRESENTE DANS LE H2TestJpaConfig DONT CETTE CLASSE HERITE
-public class CollectionControllerTest implements H2TestJpaConfig {
+class CollectionControllerTest implements H2TestJpaConfig {
 
     @Autowired
     public MockMvc mockMvc;

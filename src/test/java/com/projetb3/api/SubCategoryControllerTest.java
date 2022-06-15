@@ -29,12 +29,12 @@ class SubCategoryControllerTest implements H2TestJpaConfig {
 
     @BeforeEach
     void insertInH2(){
-        saveCategorieInH2("table");
-        saveCategorieInH2("chaise");
-        saveCategorieInH2("bureau");
+        saveSubCategoryInH2("table");
+        saveSubCategoryInH2("chaise");
+        saveSubCategoryInH2("bureau");
     }
 
-    private void saveCategorieInH2(String nom) {
+    private void saveSubCategoryInH2(String nom) {
         SubCategory subCategory = new SubCategory();
         subCategory.setName(nom);
         subCategoryRepository.save(subCategory);

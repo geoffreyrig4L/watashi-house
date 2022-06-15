@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class UserControllerTest implements H2TestJpaConfig {
+class UserControllerTest implements H2TestJpaConfig {
 
     @Autowired
     public MockMvc mockMvc;
@@ -29,13 +29,13 @@ public class UserControllerTest implements H2TestJpaConfig {
 
     @BeforeEach
     void insertInH2() {
-        saveUtilisateurInH2(0, "Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo", "95210", "Argenteuil", "France", "client");
-        saveUtilisateurInH2(1, "Madame", "Talia", "Zhao", "talia.zhao@gmail.com", "tzao", "0602020202", "42 avenue du général de Gaulle", "93421", "Pantin", "France", "client");
-        saveUtilisateurInH2(2, "Monsieur", "Helio", "Pinto", "helio.pinto@gmail.com", "hpinto", "0603030303", "45 rue de Marie Curie", "77231", "Meaux", "France", "client");
+        saveUserInH2(0, "Madame", "Olivia", "Hamer", "olivia.hamer@gmail.com", "ohamer", "0601010101", "31 rue de Victor Hugo", "95210", "Argenteuil", "France", "client");
+        saveUserInH2(1, "Madame", "Talia", "Zhao", "talia.zhao@gmail.com", "tzao", "0602020202", "42 avenue du général de Gaulle", "93421", "Pantin", "France", "client");
+        saveUserInH2(2, "Monsieur", "Helio", "Pinto", "helio.pinto@gmail.com", "hpinto", "0603030303", "45 rue de Marie Curie", "77231", "Meaux", "France", "client");
     }
 
-    private User saveUtilisateurInH2(int id, String gender, String firstname, String lastname, String email, String password, String phone,
-                                     String address, String zipCode, String city, String country, String typeUser) {
+    private User saveUserInH2(int id, String gender, String firstname, String lastname, String email, String password, String phone,
+                              String address, String zipCode, String city, String country, String typeUser) {
         User user = new User();
         user.setId(id);
         user.setGender(gender);

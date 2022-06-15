@@ -1,8 +1,6 @@
 package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,13 +20,17 @@ public class Cart {
     @Column(name = "prix")
     private int price;
 
-    @OneToOne
+    @OneToOne(
+            cascade = { CascadeType.MERGE,
+                    CascadeType.DETACH }
+    )
     @JoinColumn(name="utilisateur_id")
     @JsonBackReference
     private User user;
 
     @ManyToMany(
-            cascade = { CascadeType.MERGE, CascadeType.DETACH }
+            cascade = { CascadeType.MERGE,
+                    CascadeType.DETACH }
     )
     @JoinTable(
             name = "paniers_articles",

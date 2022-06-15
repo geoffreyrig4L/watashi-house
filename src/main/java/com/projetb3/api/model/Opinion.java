@@ -1,6 +1,6 @@
 package com.projetb3.api.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,15 +26,21 @@ public class Opinion {
     private LocalDateTime dateOfPublication;
 
     @ManyToOne(
-            cascade = CascadeType.MERGE,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.DETACH
+            },
             targetEntity= Item.class
     )
-    @JoinColumn(name="article_id", nullable = false)
+    @JoinColumn(name="article_id")
     @JsonBackReference
     private Item item;
 
     @ManyToOne(
-            cascade = CascadeType.MERGE,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.DETACH
+            },
             targetEntity= User.class
     )
     @JoinColumn(name="utilisateur_id")

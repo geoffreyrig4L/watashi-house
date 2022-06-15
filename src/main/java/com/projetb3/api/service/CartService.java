@@ -40,4 +40,8 @@ public class CartService {
     public void addItemOfCart(int id_item, int id_cart) {
         cartRepository.addItemInCart(id_item, id_cart);
     }
+
+    public void delete(final int id) {
+        cartRepository.deleteById(id);
+    }
 }

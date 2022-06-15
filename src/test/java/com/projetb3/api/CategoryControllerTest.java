@@ -10,16 +10,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class CategoryControllerTest implements H2TestJpaConfig {
+class CategoryControllerTest implements H2TestJpaConfig {
 
     @Autowired
     public MockMvc mockMvc;
@@ -29,12 +29,12 @@ public class CategoryControllerTest implements H2TestJpaConfig {
 
     @BeforeEach
     void insertInH2(){
-        saveCategorieInH2( "Meuble");
-        saveCategorieInH2("Decoration");
-        saveCategorieInH2("Luminaire");
+        saveCategoryInH2( "Meuble");
+        saveCategoryInH2("Decoration");
+        saveCategoryInH2("Luminaire");
     }
 
-    private void saveCategorieInH2(String nom) {
+    private void saveCategoryInH2(String nom) {
         Category category = new Category();
         category.setName(nom);
         categoryRepository.save(category);
@@ -44,14 +44,14 @@ public class CategoryControllerTest implements H2TestJpaConfig {
     void should_get_all_categories() throws Exception{
         mockMvc.perform(get("/categories"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].name",is("Meuble")));
+                .andExpect(jsonPath("$.content[0].name",is("Meuble")));
     }
 
     @Test
     void should_get_one_category() throws Exception{
         mockMvc.perform(get("/categories/1"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name",is("Meuble")));
+                .andExpect(jsonPath("$.name",is("Meuble")));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class CategoryControllerTest implements H2TestJpaConfig {
                 .andExpect(status().isOk());
         mockMvc.perform(get("/categories/2"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name",is("canapé")));
+                .andExpect(jsonPath("$.name",is("canapé")));
     }
 
     @Test
