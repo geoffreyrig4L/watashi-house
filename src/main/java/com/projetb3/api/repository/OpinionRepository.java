@@ -19,9 +19,6 @@ public interface OpinionRepository extends CrudRepository<Opinion,Integer> {
     @Query(value = "SELECT DISTINCT * FROM avis a WHERE article_id = :id_article", nativeQuery = true)
     List<Opinion> opinionsOfItem(@Param("id_article") int id);
 
-//    @Query(value = "SELECT DISTINCT COUNT(*) FROM avis WHERE article_id = :id_article", nativeQuery = true)
-//    int totalOpinionsOfItem(@Param("id_article") int id);
-
     @Query(value = "SELECT DISTINCT AVG(note) FROM avis WHERE article_id = :id_article", nativeQuery = true)
-    float averageNote(@Param("id_article") int id);
+    Float averageNote(@Param("id_article") int id);
 }

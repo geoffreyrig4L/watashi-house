@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-
 public class CategoryControllerTest implements H2TestJpaConfig {
 
     @Autowired
@@ -35,14 +34,9 @@ public class CategoryControllerTest implements H2TestJpaConfig {
         saveCategorieInH2("bureau");
     }
 
-    // , List<SubCategory> subCategories, List<Room> rooms, List<Item> items
-
     private void saveCategorieInH2(String nom) {
         Category category = new Category();
         category.setName(nom);
-//        category.setSubCategories(subCategories);
-//        category.setRooms(rooms);
-//        category.setItems(items);
         categoryRepository.save(category);
     }
 
@@ -50,45 +44,43 @@ public class CategoryControllerTest implements H2TestJpaConfig {
     void should_get_all_categories() throws Exception{
         mockMvc.perform(get("/categories"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].nom",is("table")))
-                .andExpect(jsonPath("$.content[1].nom",is("chaise")))
-                .andExpect(jsonPath("$.content[2].nom",is("bureau")));
+                .andExpect(jsonPath("$.content[1].name",is("table")));
     }
 
     @Test
-    void should_get_one_categorie() throws Exception{
+    void should_get_one_category() throws Exception{
         mockMvc.perform(get("/categories/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nom",is("table")));
+                .andExpect(jsonPath("$.name",is("table")));
     }
 
     @Test
-    void should_not_get_one_categorie() throws Exception{
+    void should_not_get_one_category() throws Exception{
         mockMvc.perform(get("/categories/50"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void should_put_one_categorie() throws Exception{
+    void should_put_one_category() throws Exception{
         mockMvc.perform(put("/categories/2")
-                        .content("{\"id_categorie\":2,\"nom\":\"canapé\"}")
+                        .content("{\"id\":2,\"name\":\"canapé\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         mockMvc.perform(get("/categories/2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nom",is("canapé")));
+                .andExpect(jsonPath("$.name",is("canapé")));
     }
 
     @Test
-    void should_not_put_one_categorie() throws Exception{
+    void should_not_put_one_category() throws Exception{
         mockMvc.perform(put("/categories/50")
-                        .content("{\"id_categorie\":2,\"nom\":table de chevet\"}")
-                        .contentType(MediaType.APPLICATION_JSON))       //specifie le type de contenu =json
-                .andExpect(status().isBadRequest());        //badRequest comme dans la methode update de categorieController
+                        .content("{\"id\":2,\"name\":table de chevet\"}")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    void should_delete_one_categorie() throws Exception{
+    void should_delete_one_category() throws Exception{
         mockMvc.perform(delete("/categories/3")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -96,9 +88,9 @@ public class CategoryControllerTest implements H2TestJpaConfig {
     }
 
     @Test
-    void should_not_delete_one_categorie() throws Exception{
+    void should_not_delete_one_category() throws Exception{
         mockMvc.perform(delete("/categories/50")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
 }

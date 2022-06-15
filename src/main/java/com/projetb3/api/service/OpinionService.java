@@ -35,7 +35,7 @@ public class OpinionService {
         return opinionRepository.opinionsOfItem(id);
     }
 
-    public float getAverageOfItem(int id) {
+    public Float getAverageOfItem(int id) {
         return opinionRepository.averageNote(id);
     }
 }

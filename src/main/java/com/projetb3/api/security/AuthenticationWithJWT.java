@@ -22,6 +22,7 @@ public class AuthenticationWithJWT {
     public static String create(User user) {
         try{
             return JWT.create()
+                    .withClaim("id", user.getId())
                     .withClaim("firstname", user.getFirstname())
                     .withClaim("lastname", user.getLastname())
                     .withClaim("email", user.getEmail())
