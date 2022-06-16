@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-import static com.projetb3.api.security.AuthenticationWithJWT.verifier;
+import static com.projetb3.api.security.AuthenticationWithJWT.verifySenderOfRequest;
 
 @Controller
 @RequestMapping("/cartes-de-paiement")
@@ -22,7 +22,7 @@ public class DebitCardController {
 
     @GetMapping
     public ResponseEntity<Iterable<DebitCard>> getAll(@RequestHeader("Authentication") final String token) {
-        if (verifier(token, Optional.empty())) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
             Iterable<DebitCard> debitCardsList = debitCardService.getAll();
             return ResponseEntity.ok(debitCardsList);
         }
@@ -31,7 +31,7 @@ public class DebitCardController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DebitCard> get(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
-        if (verifier(token, Optional.empty())) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
             Optional<DebitCard> debitCard = debitCardService.get(id);
             if (debitCard.isPresent()) {
                 return ResponseEntity.ok(debitCard.get());
@@ -45,7 +45,7 @@ public class DebitCardController {
     public ResponseEntity<Iterable<DebitCard>> getCardOfUser(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Iterable<DebitCard> debitCardsList = debitCardService.getCardOfUser(id);
         Optional<String> firstname = Optional.of(debitCardsList.iterator().next().getUser().getFirstname());
-        if (verifier(token, firstname)) {
+        if (verifySenderOfRequest(token, firstname)) {
             return ResponseEntity.ok(debitCardsList);
         }
         return ResponseEntity.badRequest().build();
@@ -53,7 +53,7 @@ public class DebitCardController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody DebitCard debitCard, @RequestHeader("Authentication") final String token) {
-        if (verifier(token, Optional.of(debitCard.getUser().getFirstname()))) {
+        if (verifySenderOfRequest(token, Optional.of(debitCard.getUser().getFirstname()))) {
             debitCardService.save(debitCard);
             return ResponseEntity.ok().body("La carte de paiement a été créée.");
         }
@@ -63,7 +63,7 @@ public class DebitCardController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<DebitCard> debitCard = debitCardService.get(id);
-        if (debitCard.isPresent() && verifier(token, Optional.of(debitCard.get().getUser().getFirstname()))) {
+        if (debitCard.isPresent() && verifySenderOfRequest(token, Optional.of(debitCard.get().getUser().getFirstname()))) {
             debitCardService.delete(id);
             return ResponseEntity.ok().body("La carte de paiement a été supprimée.");
         }
@@ -75,7 +75,7 @@ public class DebitCardController {
                                          @RequestBody DebitCard modified,
                                          @RequestHeader("Authentication") final String token) {
         Optional<DebitCard> optDebitCard = debitCardService.get(id);
-        if (optDebitCard.isPresent() && verifier(token, Optional.of(optDebitCard.get().getUser().getFirstname()))) {
+        if (optDebitCard.isPresent() && verifySenderOfRequest(token, Optional.of(optDebitCard.get().getUser().getFirstname()))) {
                 DebitCard current = optDebitCard.get();
                 if (modified.getNumber() != null) {
                     current.setNumber(modified.getNumber());

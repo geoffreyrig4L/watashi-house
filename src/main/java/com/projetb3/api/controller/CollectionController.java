@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-import static com.projetb3.api.security.AuthenticationWithJWT.verifier;
+import static com.projetb3.api.security.AuthenticationWithJWT.verifySenderOfRequest;
 
 @Controller
 @RequestMapping("/collections")
@@ -37,7 +37,7 @@ public class CollectionController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Collection collection, @RequestHeader("Authentication") final String token) {
-        if (verifier(token, Optional.empty())) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
             collectionService.save(collection);
             return ResponseEntity.ok().body("La collection a été créée.");
         }
@@ -46,7 +46,7 @@ public class CollectionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
-        if (verifier(token, Optional.empty())) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
             Optional<Collection> optCollection = collectionService.get(id);
             if (optCollection.isPresent()) {
                 collectionService.deleteCollection(id);
@@ -59,7 +59,7 @@ public class CollectionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody Collection modified, @RequestHeader("Authentication") final String token) {
-        if (verifier(token, Optional.empty())) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
             Optional<Collection> optCollection = collectionService.get(id);
             if (optCollection.isPresent()) {
                 Collection current = optCollection.get();

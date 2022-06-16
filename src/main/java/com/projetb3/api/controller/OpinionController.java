@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static com.projetb3.api.security.AuthenticationWithJWT.verifyJwt;
+import static com.projetb3.api.security.AuthenticationWithJWT.verifySenderOfRequest;
+
 @Controller
 @RequestMapping("/avis")
 public class OpinionController {
@@ -21,21 +24,27 @@ public class OpinionController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Opinion>> getAll() {
-        Iterable<Opinion> listOpinion = opinionService.getAll();
-        return ResponseEntity.ok(listOpinion);
+    public ResponseEntity<Iterable<Opinion>> getAll(@RequestHeader("Authentication") final String token) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
+            Iterable<Opinion> listOpinion = opinionService.getAll();
+            return ResponseEntity.ok(listOpinion);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Opinion> get(@PathVariable("id") final int id) {
-        Optional<Opinion> opinion = opinionService.get(id);
-        return opinion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Opinion> get(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
+            Optional<Opinion> opinion = opinionService.get(id);
+            return opinion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") final int id) {
+    public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Opinion> optOpinion = opinionService.get(id);
-        if (optOpinion.isPresent()) {
+        if (optOpinion.isPresent() && verifySenderOfRequest(token, Optional.of(optOpinion.get().getUser().getFirstname()))) {
             opinionService.delete(id);
             return ResponseEntity.ok().body("L'avis a été supprimé.");
         }
@@ -54,27 +63,31 @@ public class OpinionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody Opinion opinion) {
-        System.out.println(opinion.toString());
-        opinion.setDateOfPublication(LocalDateTime.now());
-        opinionService.save(opinion);
-        return ResponseEntity.ok().body("L'avis a été crée.");
+    public ResponseEntity<String> create(@RequestBody Opinion opinion, @RequestHeader("Authentication") final String token) {
+        if(verifyJwt(token) == null){
+            opinion.setDateOfPublication(LocalDateTime.now());
+            opinionService.save(opinion);
+            return ResponseEntity.ok().body("L'avis a été crée.");
+        }
+        return ResponseEntity.badRequest().body("🛑 Vous devez être connecté pour écrire un avis");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody Opinion modified) {
+    public ResponseEntity<String> update(@PathVariable("id") final int id,
+                                         @RequestBody Opinion modified,
+                                         @RequestHeader("Authentication") final String token) {
         Optional<Opinion> optOpinion = opinionService.get(id);
-        if (optOpinion.isPresent()) {
+        if (optOpinion.isPresent() && verifySenderOfRequest(token, Optional.of(optOpinion.get().getUser().getFirstname()))) {
             Opinion current = optOpinion.get();
-            if(modified.getNote() >= 0){
+            if (modified.getNote() >= 0) {
                 current.setNote(modified.getNote());
             }
-            if(modified.getComment() != null){
+            if (modified.getComment() != null) {
                 current.setComment(modified.getComment());
             }
             opinionService.save(current);
             return ResponseEntity.ok().body("L'avis " + current.getId() + " a été modifié.");
         }
-        return ResponseEntity.badRequest().body("L'avis est introuvable.");
+        return ResponseEntity.badRequest().build();
     }
 }

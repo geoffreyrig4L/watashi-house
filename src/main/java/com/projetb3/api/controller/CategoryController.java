@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static com.projetb3.api.security.AuthenticationWithJWT.verifier;
+import static com.projetb3.api.security.AuthenticationWithJWT.verifySenderOfRequest;
 
 @Controller
 @RequestMapping("/categories")
@@ -44,7 +44,7 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Category category, @RequestHeader("Authentication") final String token) {
-        if (verifier(token, Optional.empty())) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
             categoryService.save(category);
             return ResponseEntity.ok().body("La catégorie a été créée.");
         }
@@ -53,7 +53,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
-        if (verifier(token, Optional.empty())) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
             Optional<Category> optCategory = categoryService.get(id);
             if (optCategory.isPresent()) {
                 categoryService.delete(id);
@@ -66,7 +66,7 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody Category modified, @RequestHeader("Authentication") final String token) {
-        if (verifier(token, Optional.empty())) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
             Optional<Category> optCategory = categoryService.get(id);
             if (optCategory.isPresent()) {
                 Category current = optCategory.get();

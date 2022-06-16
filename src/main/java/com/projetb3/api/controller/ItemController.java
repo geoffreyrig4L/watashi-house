@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+import static com.projetb3.api.security.AuthenticationWithJWT.verifySenderOfRequest;
+
 @Controller
 @RequestMapping("/articles")
 public class ItemController {
@@ -29,44 +31,44 @@ public class ItemController {
 
     @GetMapping("/couleur={couleur}")
     public ResponseEntity<Page<Item>> getItemsFilteredByColor(@RequestParam("page") final Optional<Integer> page,
-                                                                    @RequestParam("sortBy") final Optional<String> sortBy,
-                                                                    @RequestParam("orderBy") final Optional<String> orderBy,
-                                                                    @PathVariable("couleur") final String couleur) {
+                                                              @RequestParam("sortBy") final Optional<String> sortBy,
+                                                              @RequestParam("orderBy") final Optional<String> orderBy,
+                                                              @PathVariable("couleur") final String couleur) {
         return ResponseEntity.ok(itemService.getItemsFilteredByColor(page, sortBy, orderBy, couleur));
     }
 
     @GetMapping("/prixMin={min}/prixMax={max}")
     public ResponseEntity<Page<Item>> getItemsFilteredByPrice(@RequestParam("page") final Optional<Integer> page,
-                                                                    @RequestParam("sortBy") final Optional<String> sortBy,
-                                                                    @RequestParam("orderBy") final Optional<String> orderBy,
-                                                                    @PathVariable("min") final int min,
-                                                                    @PathVariable("max") final int max) {
+                                                              @RequestParam("sortBy") final Optional<String> sortBy,
+                                                              @RequestParam("orderBy") final Optional<String> orderBy,
+                                                              @PathVariable("min") final int min,
+                                                              @PathVariable("max") final int max) {
         return ResponseEntity.ok(itemService.getItemsFilteredByPrice(page, sortBy, orderBy, min, max));
     }
 
     @GetMapping("/categorie={id_category}")
     public ResponseEntity<Page<Item>> getItemsOfCategory(@PathVariable("id_category") final int id_category,
-                                                               @RequestParam("page") final Optional<Integer> page,
-                                                               @RequestParam("sortBy") final Optional<String> sortBy,
-                                                               @RequestParam("orderBy") final Optional<String> orderBy) {
+                                                         @RequestParam("page") final Optional<Integer> page,
+                                                         @RequestParam("sortBy") final Optional<String> sortBy,
+                                                         @RequestParam("orderBy") final Optional<String> orderBy) {
         Page<Item> itemsList = itemService.getItemsOfCategory(page, sortBy, orderBy, id_category);
         return ResponseEntity.ok(itemsList);
     }
 
     @GetMapping("/souscategorie={id_souscategorie}")
     public ResponseEntity<Page<Item>> getItemsOfSubCategory(@PathVariable("id_souscategorie") final int id_souscategorie,
-                                                                   @RequestParam("page") final Optional<Integer> page,
-                                                                   @RequestParam("sortBy") final Optional<String> sortBy,
-                                                                   @RequestParam("orderBy") final Optional<String> orderBy) {
+                                                            @RequestParam("page") final Optional<Integer> page,
+                                                            @RequestParam("sortBy") final Optional<String> sortBy,
+                                                            @RequestParam("orderBy") final Optional<String> orderBy) {
         Page<Item> itemsList = itemService.getItemsOfSubCategory(page, sortBy, orderBy, id_souscategorie);
         return ResponseEntity.ok(itemsList);
     }
 
     @GetMapping("/piece={id_piece}")
     public ResponseEntity<Page<Item>> getItemsOfRoom(@PathVariable("id_piece") final int id_piece,
-                                                           @RequestParam("page") final Optional<Integer> page,
-                                                           @RequestParam("sortBy") final Optional<String> sortBy,
-                                                           @RequestParam("orderBy") final Optional<String> orderBy) {
+                                                     @RequestParam("page") final Optional<Integer> page,
+                                                     @RequestParam("sortBy") final Optional<String> sortBy,
+                                                     @RequestParam("orderBy") final Optional<String> orderBy) {
         Page<Item> itemsList = itemService.getItemsOfRoom(page, sortBy, orderBy, id_piece);
         return ResponseEntity.ok(itemsList);
     }
@@ -80,32 +82,33 @@ public class ItemController {
         return ResponseEntity.notFound().build();
     }
 
+    /**
+     * marche pas !!!
+     */
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody Item item) {
-        System.out.println(item.getRooms() + " - " + item.getCategories() + " - " + item.getSubCategories());
-        if (item.getCategories().isEmpty() ||
-                item.getSubCategories().isEmpty() ||
-                item.getRooms().isEmpty()) {
-            return ResponseEntity.badRequest().body("🛑 L'article doit être associé à une pièce, une catégorie et une sous-catégorie.");
+    public ResponseEntity<String> create(@RequestBody Item item, @RequestHeader("Authentication") final String token) {
+        //System.out.println(item.getRooms() + " - " + item.getCategories() + " - " + item.getSubCategories());
+        if (verifySenderOfRequest(token, Optional.empty()) && item.getCategories().isEmpty() || item.getSubCategories().isEmpty() || item.getRooms().isEmpty()) {
+            return ResponseEntity.badRequest().body("🛑");
         }
         itemService.save(item);
         return ResponseEntity.ok().body("L'article a été crée.");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") final int id) {
+    public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Item> optItem = itemService.get(id);
-        if (optItem.isPresent()) {
+        if (optItem.isPresent() && verifySenderOfRequest(token, Optional.empty())) {
             itemService.delete(id);
             return ResponseEntity.ok().body("L'article a été supprimé.");
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody Item modified) {
+    public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody Item modified, @RequestHeader("Authentication") final String token) {
         Optional<Item> optItem = itemService.get(id);
-        if (optItem.isPresent()) {
+        if (optItem.isPresent() && verifySenderOfRequest(token, Optional.empty())) {
             Item current = optItem.get();
             if (modified.getName() != null) {
                 current.setName(modified.getName());
@@ -137,6 +140,6 @@ public class ItemController {
             itemService.save(current);
             return ResponseEntity.ok().body("L'article " + current.getId() + " a été modifié.");
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.badRequest().build();
     }
 }

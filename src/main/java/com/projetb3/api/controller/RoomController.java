@@ -1,12 +1,15 @@
 package com.projetb3.api.controller;
 
 import com.projetb3.api.model.Room;
+import com.projetb3.api.security.AuthenticationWithJWT;
 import com.projetb3.api.service.RoomService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+
+import static com.projetb3.api.security.AuthenticationWithJWT.verifySenderOfRequest;
 
 @Controller
 @RequestMapping("/pieces")
@@ -34,15 +37,18 @@ public class RoomController {
     }
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody Room room) {
-        roomService.save(room);
-        return ResponseEntity.ok().body("La pièce a été créée.");
+    public ResponseEntity<String> create(@RequestBody Room room, @RequestHeader("Authentication") final String token) {
+        if(verifySenderOfRequest(token, Optional.empty())){
+            roomService.save(room);
+            return ResponseEntity.ok().body("La pièce a été créée.");
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") final int id) {
+    public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Room> optRoom = roomService.get(id);
-        if (optRoom.isPresent()) {
+        if (optRoom.isPresent() && verifySenderOfRequest(token, Optional.empty())) {
             roomService.delete(id);
             return ResponseEntity.ok().body("La pièce a été supprimée.");
         }
@@ -50,9 +56,9 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody Room modified) {
+    public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody Room modified, @RequestHeader("Authentication") final String token) {
         Optional<Room> optRoom = roomService.get(id);
-        if (optRoom.isPresent()) {
+        if (optRoom.isPresent() && verifySenderOfRequest(token, Optional.empty())){
             Room current = optRoom.get();
             if (modified.getName() != null) {
                 current.setName(modified.getName());

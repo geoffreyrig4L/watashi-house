@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static com.projetb3.api.security.AuthenticationWithJWT.verifier;
+import static com.projetb3.api.security.AuthenticationWithJWT.verifySenderOfRequest;
 
 @Controller
 @RequestMapping("/paniers")
@@ -24,7 +24,7 @@ public class CartController {
 
     @GetMapping
     public ResponseEntity<Iterable<Cart>> getAll(@RequestHeader("Authentication") final String token) {
-        if (verifier(token, Optional.empty())) {
+        if (verifySenderOfRequest(token, Optional.empty())) {
             Iterable<Cart> cartsList = cartService.getAll();
             return ResponseEntity.ok(cartsList);
         }
@@ -34,7 +34,7 @@ public class CartController {
     @GetMapping("/{id}")
     public ResponseEntity<Cart> get(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Cart> cart = cartService.get(id);
-        if (cart.isPresent() && verifier(token, Optional.empty())) {
+        if (cart.isPresent() && verifySenderOfRequest(token, Optional.empty())) {
             return ResponseEntity.ok(cart.get());
         }
         return ResponseEntity.notFound().build();
@@ -43,7 +43,7 @@ public class CartController {
     @GetMapping("/utilisateur={id}")
     public ResponseEntity<Cart> cartOfUser(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Cart> cart = cartService.cartOfUser(id);
-        if (cart.isPresent() && verifier(token, Optional.of(cart.get().getUser().getFirstname()))) {
+        if (cart.isPresent() && verifySenderOfRequest(token, Optional.of(cart.get().getUser().getFirstname()))) {
             return ResponseEntity.ok(cart.get());
         }
         return ResponseEntity.notFound().build();
@@ -58,7 +58,7 @@ public class CartController {
     @DeleteMapping({"/{id}"})
     public ResponseEntity<String> delete(@PathVariable final int id, @RequestHeader("Authentication") final String token) {
         Optional<Cart> optCart = cartService.get(id);
-        if (optCart.isPresent() && verifier(token, Optional.empty())) {
+        if (optCart.isPresent() && verifySenderOfRequest(token, Optional.empty())) {
             cartService.delete(id);
             return ResponseEntity.ok().body("Le panier a été supprimée.");
         }
@@ -70,7 +70,7 @@ public class CartController {
                                                    @PathVariable("id_item") final int id_item,
                                                    @RequestHeader("Authentication") final String token) {
         Optional<Cart> optCart = cartService.get(id_cart);
-        if (optCart.isPresent() && verifier(token, Optional.of(optCart.get().getUser().getFirstname()))) {
+        if (optCart.isPresent() && verifySenderOfRequest(token, Optional.of(optCart.get().getUser().getFirstname()))) {
             Cart cart = optCart.get();
             cartService.deleteItemOfCart(id_item, cart.getId());
             saveWithGoodPrice(cart);
@@ -83,7 +83,7 @@ public class CartController {
     public ResponseEntity<String> deleteAllItemsOfCart(@PathVariable("id_cart") final int id_cart,
                                                        @RequestHeader("Authentication") final String token) {
         Optional<Cart> optCart = cartService.get(id_cart);
-        if (optCart.isPresent() && verifier(token, Optional.of(optCart.get().getUser().getFirstname()))) {
+        if (optCart.isPresent() && verifySenderOfRequest(token, Optional.of(optCart.get().getUser().getFirstname()))) {
             Cart cart = optCart.get();
             cartService.deleteAllItemsOfCart(cart.getId());
             saveWithGoodPrice(cart);
@@ -97,7 +97,7 @@ public class CartController {
                                                 @PathVariable("id_item") final int id_item,
                                                 @RequestHeader("Authentication") final String token) {
         Optional<Cart> optCart = cartService.get(id_cart);
-        if (optCart.isPresent() && verifier(token, Optional.of(optCart.get().getUser().getFirstname()))) {
+        if (optCart.isPresent() && verifySenderOfRequest(token, Optional.of(optCart.get().getUser().getFirstname()))) {
             Cart cart = optCart.get();
             cartService.addItemOfCart(id_item, cart.getId());
             saveWithGoodPrice(cart);
