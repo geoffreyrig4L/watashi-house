@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static com.projetb3.api.security.AuthenticationWithJWT.verifier;
+
 @Controller
 @RequestMapping("/paniers")
 public class CartController {
@@ -21,24 +23,27 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Cart>> getAll() {
-        Iterable<Cart> cartsList = cartService.getAll();
-        return ResponseEntity.ok(cartsList);
+    public ResponseEntity<Iterable<Cart>> getAll(@RequestHeader("Authentication") final String token) {
+        if (verifier(token, Optional.empty())) {
+            Iterable<Cart> cartsList = cartService.getAll();
+            return ResponseEntity.ok(cartsList);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cart> get(@PathVariable("id") final int id) {
+    public ResponseEntity<Cart> get(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Cart> cart = cartService.get(id);
-        if (cart.isPresent()) {
+        if (cart.isPresent() && verifier(token, Optional.empty())) {
             return ResponseEntity.ok(cart.get());
         }
         return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/utilisateur={id}")
-    public ResponseEntity<Cart> cartOfUser(@PathVariable("id") final int id) {
+    public ResponseEntity<Cart> cartOfUser(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Cart> cart = cartService.cartOfUser(id);
-        if (cart.isPresent()) {
+        if (cart.isPresent() && verifier(token, Optional.of(cart.get().getUser().getFirstname()))) {
             return ResponseEntity.ok(cart.get());
         }
         return ResponseEntity.notFound().build();
@@ -46,15 +51,14 @@ public class CartController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Cart cart) {
-        System.out.println(cart.getItems());
         saveWithGoodPrice(cart);
         return ResponseEntity.ok().body("Le panier a été crée.");
     }
 
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<String> delete(@PathVariable final int id) {
+    public ResponseEntity<String> delete(@PathVariable final int id, @RequestHeader("Authentication") final String token) {
         Optional<Cart> optCart = cartService.get(id);
-        if (optCart.isPresent()) {
+        if (optCart.isPresent() && verifier(token, Optional.empty())) {
             cartService.delete(id);
             return ResponseEntity.ok().body("Le panier a été supprimée.");
         }
@@ -62,9 +66,11 @@ public class CartController {
     }
 
     @DeleteMapping("{id_cart}/supprimerArticle={id_item}")
-    public ResponseEntity<String> deleteItemOfCart(@PathVariable("id_cart") final int id_cart, @PathVariable("id_item") final int id_item){
+    public ResponseEntity<String> deleteItemOfCart(@PathVariable("id_cart") final int id_cart,
+                                                   @PathVariable("id_item") final int id_item,
+                                                   @RequestHeader("Authentication") final String token) {
         Optional<Cart> optCart = cartService.get(id_cart);
-        if (optCart.isPresent()) {
+        if (optCart.isPresent() && verifier(token, Optional.of(optCart.get().getUser().getFirstname()))) {
             Cart cart = optCart.get();
             cartService.deleteItemOfCart(id_item, cart.getId());
             saveWithGoodPrice(cart);
@@ -74,9 +80,10 @@ public class CartController {
     }
 
     @DeleteMapping("{id_cart}/supprimerArticle")
-    public ResponseEntity<String> deleteAllItemsOfCart(@PathVariable("id_cart") final int id_cart){
+    public ResponseEntity<String> deleteAllItemsOfCart(@PathVariable("id_cart") final int id_cart,
+                                                       @RequestHeader("Authentication") final String token) {
         Optional<Cart> optCart = cartService.get(id_cart);
-        if (optCart.isPresent()){
+        if (optCart.isPresent() && verifier(token, Optional.of(optCart.get().getUser().getFirstname()))) {
             Cart cart = optCart.get();
             cartService.deleteAllItemsOfCart(cart.getId());
             saveWithGoodPrice(cart);
@@ -86,9 +93,11 @@ public class CartController {
     }
 
     @PostMapping("{id_cart}/ajouterArticle={id_item}")
-    public ResponseEntity<String> addItemInCart(@PathVariable("id_cart") final int id_cart, @PathVariable("id_item") final int id_item){
+    public ResponseEntity<String> addItemInCart(@PathVariable("id_cart") final int id_cart,
+                                                @PathVariable("id_item") final int id_item,
+                                                @RequestHeader("Authentication") final String token) {
         Optional<Cart> optCart = cartService.get(id_cart);
-        if (optCart.isPresent()) {
+        if (optCart.isPresent() && verifier(token, Optional.of(optCart.get().getUser().getFirstname()))) {
             Cart cart = optCart.get();
             cartService.addItemOfCart(id_item, cart.getId());
             saveWithGoodPrice(cart);
@@ -99,7 +108,7 @@ public class CartController {
 
     private int computePrice(List<Item> items) {
         int price = 0;
-        for(Item item : items){
+        for (Item item : items) {
             price += cartService.getPriceOfItem(item.getId());
         }
         return price;

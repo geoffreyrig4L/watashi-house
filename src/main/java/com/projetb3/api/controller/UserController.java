@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.projetb3.api.security.AuthenticationWithJWT.create;
+import static com.projetb3.api.security.AuthenticationWithJWT.verifier;
+
 @Controller
 @RequestMapping("/utilisateurs")
 public class UserController {
@@ -25,7 +28,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Iterable<User>> getAll(@RequestHeader("Authentication") final String token) {
-        if (AuthenticationWithJWT.verifier(token)) {
+        if (verifier(token, Optional.empty())) {
             Iterable<User> usersList = userService.getAll();
             return ResponseEntity.ok(usersList);
         }
@@ -34,19 +37,16 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> get(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
-        if (AuthenticationWithJWT.verifier(token)) {
-            Optional<User> user = userService.get(id);
-            if (user.isPresent()) {
-                return ResponseEntity.ok(user.get());
-            }
-            return ResponseEntity.notFound().build();
+        Optional<User> user = userService.get(id);
+        if (user.isPresent() && verifier(token, Optional.of(user.get().getFirstname()))) {
+            return ResponseEntity.ok(user.get());
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/nom={nom}")
     public ResponseEntity<Iterable<User>> getByName(@PathVariable("nom") final String lastname, @RequestHeader("Authentication") final String token) {
-        if (AuthenticationWithJWT.verifier(token)) {
+        if (verifier(token, Optional.empty())) {
             Iterable<User> usersList = userService.getByName(lastname);
             return ResponseEntity.ok(usersList);
         }
@@ -54,8 +54,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
-        if (AuthenticationWithJWT.verifier(token)) {
+    public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token){
+        if (verifier(token, Optional.empty())) {
             Optional<User> optUser = userService.get(id);
             if (optUser.isPresent()) {
                 userService.delete(id);
@@ -67,7 +67,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody User modified, @RequestHeader("Authentication") final String token) {
-        if (AuthenticationWithJWT.verifier(token)) {
+        if (verifier(token, Optional.of(modified.getFirstname()))) {
             Optional<User> optUser = userService.get(id);
             if (optUser.isPresent()) {
                 User current = optUser.get();
@@ -122,7 +122,7 @@ public class UserController {
         if (userSaved == null || !isHashSame(user.getHash(), userSaved)) {
             return ResponseEntity.badRequest().body("🛑 Cette combinaison e-mail / mot de passe n'existe pas.");
         }
-        String jwt = AuthenticationWithJWT.create(userSaved);
+        String jwt = create(userSaved);
         Map<String, Object> json = new HashMap<>();
         json.put("token", jwt);
         return new ResponseEntity<>(json, HttpStatus.OK);

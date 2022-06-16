@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 public class AuthenticationWithJWT {
 
@@ -33,7 +34,8 @@ public class AuthenticationWithJWT {
         }
     }
 
-    public static boolean verifier(String token){
+    public static boolean verifier(String token, Optional<String> selector){
+
         try{
             JWTVerifier verifier = JWT.require(ALGORITHM)
                     .withIssuer("auth0")
@@ -41,7 +43,8 @@ public class AuthenticationWithJWT {
                     .acceptExpiresAt(3600)
                     .build();
             DecodedJWT jwt = verifier.verify(token);
-            return jwt.getClaim("typeUser").toString().equals("\"administrateur\"");
+            return jwt.getClaim("typeUser").toString().equals("\"administrateur\"") ||
+                    jwt.getClaim("firstname").toString().equals("\""+selector.orElse("")+"\"");
         } catch (JWTVerificationException exception){
             throw new JWTVerificationException("Le token est invalide {}", exception);
         }
