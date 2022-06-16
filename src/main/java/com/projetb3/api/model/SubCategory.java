@@ -21,7 +21,8 @@ public class SubCategory {
     private String name;
 
     @ManyToMany(
-            mappedBy = "subCategories"
+            mappedBy = "subCategories",
+            cascade = CascadeType.MERGE
     )
     @JsonIgnore
     private Set<Item> items = new HashSet<>();

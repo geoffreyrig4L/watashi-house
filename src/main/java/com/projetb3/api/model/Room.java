@@ -20,14 +20,14 @@ public class Room {
     @Column(name = "nom")
     private String name;
 
-    /**@ManyToMany(
-            mappedBy = "pieces"
+    @ManyToMany(
+            mappedBy = "rooms",
+            cascade = CascadeType.MERGE
     )
     @JsonIgnore
-    private Set<Item> items = new HashSet<>();*/
+    private List<Item> items = new ArrayList<>();
 
     @ManyToMany(
-            fetch = FetchType.LAZY,
             cascade = CascadeType.MERGE
     )
     @JoinTable(

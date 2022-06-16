@@ -62,7 +62,6 @@ public class Item {
     private List<Opinion> opinions = new ArrayList<>();
 
     @ManyToMany(
-            fetch = FetchType.LAZY,
             cascade = CascadeType.MERGE
     )
     @JoinTable(
@@ -74,7 +73,6 @@ public class Item {
     private List<Category> categories = new ArrayList<>();
 
     @ManyToMany(
-            fetch = FetchType.LAZY,
             cascade = CascadeType.MERGE
     )
     @JoinTable(
@@ -86,7 +84,6 @@ public class Item {
     private List<Room> rooms = new ArrayList<>();
 
     @ManyToMany(
-            fetch = FetchType.LAZY,
             cascade = CascadeType.MERGE
     )
     @JoinTable(

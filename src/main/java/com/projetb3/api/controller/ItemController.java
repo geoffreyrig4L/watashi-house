@@ -82,8 +82,10 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Item item) {
-        if (item.getCategories().isEmpty()) {
-            return ResponseEntity.ok().body("L'article doit être associé à une catégorie. Catégorie : " + item.getCategories());
+        if (item.getCategories().isEmpty() ||
+                item.getSubCategories().isEmpty() ||
+                item.getRooms().isEmpty()) {
+            return ResponseEntity.badRequest().body("🛑 L'article doit être associé à une pièce, une catégorie et une sous-catégorie.");
         }
         itemService.save(item);
         return ResponseEntity.ok().body("L'article a été crée.");
@@ -122,13 +124,13 @@ public class ItemController {
             if (modified.getImage4() != null) {
                 current.setImage1(modified.getImage4());
             }
-            if (modified.getStock() != 0) {
+            if (modified.getStock() >= 0) {
                 current.setStock(modified.getStock());
             }
             if (modified.getColor() != null) {
                 current.setColor(modified.getColor());
             }
-            if (modified.getPrice() != 0) {
+            if (modified.getPrice() > 0) {
                 current.setPrice(modified.getPrice());
             }
             itemService.save(current);

@@ -22,13 +22,13 @@ public class Category {
     private String name;
 
     @ManyToMany(
-            mappedBy = "categories"
+            mappedBy = "categories",
+            cascade = CascadeType.MERGE
     )
     @JsonIgnore
     private List<Item> items = new ArrayList<>();
 
     @OneToMany(
-            fetch = FetchType.LAZY,
             cascade = CascadeType.MERGE
     )
     @JoinColumn(name = "categorie_id")
@@ -36,6 +36,7 @@ public class Category {
     private List<SubCategory> subCategories = new ArrayList<>();
 
     @ManyToMany(
+            cascade = CascadeType.MERGE,
             mappedBy = "subCategories"
     )
     @JsonIgnore
