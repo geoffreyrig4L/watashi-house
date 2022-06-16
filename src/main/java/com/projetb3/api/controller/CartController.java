@@ -46,6 +46,7 @@ public class CartController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Cart cart) {
+        System.out.println(cart.getItems());
         saveWithGoodPrice(cart);
         return ResponseEntity.ok().body("Le panier a été crée.");
     }

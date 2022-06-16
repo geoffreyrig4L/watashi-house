@@ -82,6 +82,7 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Item item) {
+        System.out.println(item.getRooms() + " - " + item.getCategories() + " - " + item.getSubCategories());
         if (item.getCategories().isEmpty() ||
                 item.getSubCategories().isEmpty() ||
                 item.getRooms().isEmpty()) {

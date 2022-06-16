@@ -62,47 +62,30 @@ public class Item {
     private List<Opinion> opinions = new ArrayList<>();
 
     @ManyToMany(
-            cascade = CascadeType.MERGE
-    )
-    @JoinTable(
-            name = "categories_articles",
-            joinColumns = {@JoinColumn(name = "article_id")},
-            inverseJoinColumns = {@JoinColumn(name = "categorie_id")}
-    )
-    @JsonIgnore
-    private List<Category> categories = new ArrayList<>();
-
-    @ManyToMany(
-            cascade = CascadeType.MERGE
-    )
-    @JoinTable(
-            name="pieces_articles",
-            joinColumns = { @JoinColumn(name = "article_id")} ,
-            inverseJoinColumns = { @JoinColumn(name = "piece_id") }
+            mappedBy = "items"
     )
     @JsonIgnore
     private List<Room> rooms = new ArrayList<>();
 
     @ManyToMany(
-            cascade = CascadeType.MERGE
+            mappedBy = "items"
     )
-    @JoinTable(
-            name="souscategories_articles",
-            joinColumns = { @JoinColumn(name = "article_id") },
-            inverseJoinColumns = { @JoinColumn(name = "souscategorie_id") }
+    @JsonIgnore
+    private List<Category> categories = new ArrayList<>();
+
+    @ManyToMany(
+            mappedBy = "items"
     )
     @JsonIgnore
     private List<SubCategory> subCategories = new ArrayList<>();
 
     @ManyToMany(
-            cascade = CascadeType.MERGE,
             mappedBy = "items"
     )
     @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 
     @ManyToMany(
-            cascade = CascadeType.MERGE,
             mappedBy = "items"
     )
     @JsonIgnore

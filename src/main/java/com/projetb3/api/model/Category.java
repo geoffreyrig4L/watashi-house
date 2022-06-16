@@ -22,10 +22,14 @@ public class Category {
     private String name;
 
     @ManyToMany(
-            mappedBy = "categories",
-            cascade = CascadeType.MERGE
+            cascade = { CascadeType.MERGE,
+                    CascadeType.DETACH }
     )
-    @JsonIgnore
+    @JoinTable(
+            name = "categories_articles",
+            joinColumns = {@JoinColumn(name = "article_id")},
+            inverseJoinColumns = {@JoinColumn(name = "categorie_id")}
+    )
     private List<Item> items = new ArrayList<>();
 
     @OneToMany(
@@ -36,7 +40,6 @@ public class Category {
     private List<SubCategory> subCategories = new ArrayList<>();
 
     @ManyToMany(
-            cascade = CascadeType.MERGE,
             mappedBy = "subCategories"
     )
     @JsonIgnore

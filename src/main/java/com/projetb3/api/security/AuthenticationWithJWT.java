@@ -8,20 +8,19 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.projetb3.api.model.User;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.Objects;
 
 public class AuthenticationWithJWT {
 
-    private final static Algorithm ALGORITHM = Algorithm.HMAC256("zabuifbauickbdc");
+    private final static Algorithm ALGORITHM = Algorithm.HMAC256("oknvoibjemrolvmdspmckvnsmvjbocmznctczxbbdc");
 
     public static String create(User user) {
         try{
             return JWT.create()
+                    .withIssuer("auth0")
                     .withClaim("id", user.getId())
                     .withClaim("firstname", user.getFirstname())
                     .withClaim("lastname", user.getLastname())
@@ -34,17 +33,17 @@ public class AuthenticationWithJWT {
         }
     }
 
-    //pour authentifier si l'user est connecté avant d'effectuer une opération
-    public static DecodedJWT verifier(String token){
+    public static boolean verifier(String token){
         try{
             JWTVerifier verifier = JWT.require(ALGORITHM)
-                    .acceptLeeway(36000)
-                    .acceptExpiresAt(36000)
+                    .withIssuer("auth0")
+                    .acceptLeeway(1)
+                    .acceptExpiresAt(3600)
                     .build();
-            verifier.verify(token);
-            return JWT.decode(token);
+            DecodedJWT jwt = verifier.verify(token);
+            return jwt.getClaim("typeUser").toString().equals("\"administrateur\"");
         } catch (JWTVerificationException exception){
-            throw new JWTVerificationException("Le token est invalide", exception);
+            throw new JWTVerificationException("Le token est invalide {}", exception);
         }
     }
 }
