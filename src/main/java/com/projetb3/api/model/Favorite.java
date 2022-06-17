@@ -9,16 +9,13 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "paniers")
-public class Cart {
+@Table(name = "favoris")
+public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_panier")
+    @Column(name = "id_favori")
     private int id;
-
-    @Column(name = "prix")
-    private int price;
 
     @OneToOne(
             cascade = { CascadeType.MERGE,
@@ -32,8 +29,8 @@ public class Cart {
                     CascadeType.DETACH }
     )
     @JoinTable(
-            name = "paniers_articles",
-            joinColumns = @JoinColumn(name = "panier_id"),
+            name = "favoris_articles",
+            joinColumns = @JoinColumn(name = "favori_id"),
             inverseJoinColumns = @JoinColumn(name = "article_id")
     )
     private List<Item> items = new ArrayList<>();

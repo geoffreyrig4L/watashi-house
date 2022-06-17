@@ -87,6 +87,12 @@ public class User {
     @JsonIgnore
     private Cart cart;
 
+    @OneToOne(
+            mappedBy = "user"
+    )
+    @JsonIgnore
+    private Favorite favorite;
+
     public void setSalt(byte[] salt){
         this.salt = Hex.encodeHexString(salt);
     }
