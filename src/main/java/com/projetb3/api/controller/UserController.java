@@ -131,6 +131,7 @@ public class UserController {
     public ResponseEntity<String> signUp(@RequestBody User user) {
         createHashAndSalt(user, user.getHash());
         userService.save(user);
+        userService.createCartAndFavoritesToUser(user.getId());
         return ResponseEntity.ok().body("Vous êtes désormais inscrit.");
     }
 
@@ -139,5 +140,10 @@ public class UserController {
         String hash = Password.create(password.toCharArray(), salt);
         user.setSalt(salt);
         user.setHash(hash);
+    }
+
+    @PostMapping("deconnexion")
+    public ResponseEntity<String> logOut(){
+        return ResponseEntity.ok().body("Vous êtes désormais déconnectée .");
     }
 }

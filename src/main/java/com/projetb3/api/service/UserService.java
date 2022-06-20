@@ -38,4 +38,9 @@ public class UserService {
     public List<User> getByName(String lastname) {
         return userRepository.findAllByName(lastname);
     }
+
+    public void createCartAndFavoritesToUser(int id_user) {
+        userRepository.createCartToUser(id_user);
+        userRepository.createFavoritesToUser(id_user);
+    }
 }
