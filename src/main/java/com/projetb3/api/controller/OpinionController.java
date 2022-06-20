@@ -44,8 +44,9 @@ public class OpinionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Opinion> optOpinion = opinionService.get(id);
-        if (optOpinion.isPresent() && verifySenderOfRequest(token, Optional.of(optOpinion.get().getUser().getFirstname()))) {
+        if (optOpinion.isPresent() && verifySenderOfRequest(token, Optional.of(optOpinion.get().getUser().getFirstname()))){
             opinionService.delete(id);
+            saveNewNoteOfItem(optOpinion.get().getItem().getId());
             return ResponseEntity.ok().body("L'avis a été supprimé.");
         }
         return ResponseEntity.notFound().build();
@@ -64,12 +65,18 @@ public class OpinionController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Opinion opinion, @RequestHeader("Authentication") final String token) {
-        if(verifyJwt(token) == null){
+        if(verifyJwt(token) != null){
             opinion.setDateOfPublication(LocalDateTime.now());
             opinionService.save(opinion);
+            saveNewNoteOfItem(opinion.getItem().getId());
             return ResponseEntity.ok().body("L'avis a été crée.");
         }
         return ResponseEntity.badRequest().body("🛑 Vous devez être connecté pour écrire un avis");
+    }
+
+    private void saveNewNoteOfItem(int id_opinion) {
+        float avg = opinionService.getAverageOfItem(id_opinion);
+        opinionService.setNoteOfItem(id_opinion, avg);
     }
 
     @PutMapping("/{id}")
@@ -81,6 +88,7 @@ public class OpinionController {
             Opinion current = optOpinion.get();
             if (modified.getNote() >= 0) {
                 current.setNote(modified.getNote());
+                saveNewNoteOfItem(modified.getItem().getId());
             }
             if (modified.getComment() != null) {
                 current.setComment(modified.getComment());

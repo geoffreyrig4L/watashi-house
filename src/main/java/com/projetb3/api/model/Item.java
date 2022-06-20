@@ -44,6 +44,9 @@ public class Item {
     @Column(name = "stock")
     private int stock;
 
+    @Column(name = "note")
+    private float note;
+
     @ManyToOne(
             cascade = CascadeType.MERGE,
             targetEntity = Collection.class
