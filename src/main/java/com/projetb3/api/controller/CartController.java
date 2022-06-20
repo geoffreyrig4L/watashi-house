@@ -49,12 +49,6 @@ public class CartController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public ResponseEntity<String> create(@RequestBody Cart cart) {
-        saveWithGoodPrice(cart);
-        return ResponseEntity.ok().body("Le panier a été crée.");
-    }
-
     @DeleteMapping({"/{id}"})
     public ResponseEntity<String> delete(@PathVariable final int id, @RequestHeader("Authentication") final String token) {
         Optional<Cart> optCart = cartService.get(id);

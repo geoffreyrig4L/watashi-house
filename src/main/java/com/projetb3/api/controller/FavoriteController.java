@@ -47,12 +47,6 @@ public class FavoriteController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public ResponseEntity<String> create(@RequestBody Favorite favorite) {
-        favoriteService.save(favorite);
-        return ResponseEntity.ok().body("L'instance des favoris a été crée.");
-    }
-
     @DeleteMapping({"/{id}"})
     public ResponseEntity<String> delete(@PathVariable final int id, @RequestHeader("Authentication") final String token) {
         Optional<Favorite> optFavorite = favoriteService.get(id);
