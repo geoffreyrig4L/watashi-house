@@ -30,6 +30,7 @@ public class Category {
             joinColumns = {@JoinColumn(name = "article_id")},
             inverseJoinColumns = {@JoinColumn(name = "categorie_id")}
     )
+    @JsonIgnore
     private List<Item> items = new ArrayList<>();
 
     @OneToMany(

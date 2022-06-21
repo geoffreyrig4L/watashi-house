@@ -18,7 +18,7 @@ public interface CartRepository extends CrudRepository<Cart,Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "delete from paniers_articles where article_id = :id_item and panier_id = :id_cart " , nativeQuery = true)
+    @Query(value = "delete from paniers_articles where article_id = :id_item and panier_id = :id_cart LIMIT 1" , nativeQuery = true)
     void deleteItemOfCart(int id_item, int id_cart);
 
     @Transactional

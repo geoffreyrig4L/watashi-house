@@ -141,9 +141,4 @@ public class UserController {
         user.setSalt(salt);
         user.setHash(hash);
     }
-
-    @PostMapping("deconnexion")
-    public ResponseEntity<String> logOut(){
-        return ResponseEntity.ok().body("Vous êtes désormais déconnectée .");
-    }
 }

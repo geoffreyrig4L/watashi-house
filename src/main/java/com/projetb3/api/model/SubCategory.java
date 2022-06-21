@@ -29,6 +29,7 @@ public class SubCategory {
             joinColumns = { @JoinColumn(name = "article_id") },
             inverseJoinColumns = { @JoinColumn(name = "souscategorie_id") }
     )
+    @JsonIgnore
     private Set<Item> items = new HashSet<>();
 
     @ManyToOne(
