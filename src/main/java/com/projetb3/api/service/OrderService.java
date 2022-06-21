@@ -5,6 +5,7 @@ import com.projetb3.api.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,5 +34,12 @@ public class OrderService {
 
     public int getPriceOfItem(int id_item) {
         return orderRepository.getPriceOfItem(id_item);
+    }
+
+    public List<Order> getOrdersOfUser(int id_user) { return orderRepository.getOrdersOfUsers(id_user);
+    }
+
+    public String getFirstnameOfUser(int id_user) {
+        return orderRepository.getFirstnameOfUser(id_user).orElse("");
     }
 }

@@ -2,9 +2,8 @@ package com.projetb3.api.controller;
 
 import com.projetb3.api.model.Item;
 import com.projetb3.api.model.Order;
-import com.projetb3.api.security.AuthenticationWithJWT;
-import com.projetb3.api.service.ItemService;
 import com.projetb3.api.service.OrderService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +41,15 @@ public class OrderController {
         return ResponseEntity.badRequest().build();
     }
 
-    /** !!! faire get les commandes d'un user !!! */
+    @GetMapping("/utilisateurs={id_user}")
+    public ResponseEntity<List<Order>> getOrdersOfUser(@PathVariable("id_user") final int id_user, @RequestHeader("Authentication") final String token) {
+        String firstnameOfUser = orderService.getFirstnameOfUser(id_user);
+        if(verifySenderOfRequest(token, Optional.of(firstnameOfUser))) {
+            List<Order> ordersList = orderService.getOrdersOfUser(id_user);
+            return ResponseEntity.ok(ordersList);
+        }
+        return ResponseEntity.badRequest().build();
+    }
 
     @PostMapping
     public ResponseEntity<String> processToCreation(@RequestBody Order order, @RequestHeader("Authentication") final String token) {

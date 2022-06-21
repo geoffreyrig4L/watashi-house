@@ -84,11 +84,7 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Item item, @RequestHeader("Authentication") final String token) {
-        System.out.println(item.getRooms());
-        System.out.println(item.getCategories());
-        System.out.println(item.getSubCategories());
-        System.out.println(item.getCollection());
-        if (verifySenderOfRequest(token, Optional.empty())) {
+        if (verifySenderOfRequest(token, Optional.empty()) && !item.getRooms().isEmpty() && !item.getCategories().isEmpty() && !item.getSubCategories().isEmpty()) {
             itemService.save(item);
             return ResponseEntity.ok().body("L'article a été crée.");
         }
