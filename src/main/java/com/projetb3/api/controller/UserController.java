@@ -128,7 +128,7 @@ public class UserController {
     }
 
     @PostMapping("/inscription")
-    public ResponseEntity<String> signUp(@RequestBody User user) {
+    public ResponseEntity<String> signUp(@RequestBody User user){
         createHashAndSalt(user, user.getHash());
         userService.save(user);
         userService.createCartAndFavoritesToUser(user.getId());

@@ -79,7 +79,6 @@
     <orderEntry type="library" name="Maven: io.opencensus:opencensus-contrib-http-util:0.28.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.errorprone:error_prone_annotations:2.10.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.http-client:google-http-client-gson:1.41.0" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.8" level="project" />
     <orderEntry type="library" name="Maven: com.google.api-client:google-api-client:1.32.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.oauth-client:google-oauth-client:1.32.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.http-client:google-http-client-apache-v2:1.41.0" level="project" />
@@ -183,5 +182,24 @@
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:2.2" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
+    <orderEntry type="library" name="Maven: com.stripe:stripe-java:20.129.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.8" level="project" />
+    <orderEntry type="library" name="Maven: com.sparkjava:spark-core:2.9.3" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:4.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-http:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-util:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-io:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-webapp:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-xml:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-servlet:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-security:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-util-ajax:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-server:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-client:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-servlet:9.4.44.v20210927" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.4.44.v20210927" level="project" />
   </component>
 </module>
