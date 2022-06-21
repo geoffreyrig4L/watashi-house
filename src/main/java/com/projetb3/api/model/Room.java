@@ -21,13 +21,7 @@ public class Room {
     private String name;
 
     @ManyToMany(
-            cascade = { CascadeType.MERGE,
-                    CascadeType.DETACH }
-    )
-    @JoinTable(
-            name="pieces_articles",
-            joinColumns = { @JoinColumn(name = "article_id")} ,
-            inverseJoinColumns = { @JoinColumn(name = "piece_id") }
+            mappedBy = "rooms"
     )
     @JsonIgnore
     private List<Item> items = new ArrayList<>();

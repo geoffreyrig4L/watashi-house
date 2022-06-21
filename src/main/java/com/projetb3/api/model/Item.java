@@ -1,6 +1,8 @@
 package com.projetb3.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -48,11 +50,11 @@ public class Item {
     private float note;
 
     @ManyToOne(
-            cascade = CascadeType.MERGE,
-            targetEntity = Collection.class
+            cascade = CascadeType.MERGE
     )
     @JoinColumn(name = "collection_id")
-    @JsonIgnore
+    //permet de creer un article en lui assignant une collection sans qu'elle soit afficher lors de l'appel de l'article
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection collection;
 
     @OneToMany(
@@ -65,21 +67,39 @@ public class Item {
     private List<Opinion> opinions = new ArrayList<>();
 
     @ManyToMany(
-            mappedBy = "items"
+            cascade = { CascadeType.MERGE,
+                    CascadeType.DETACH }
     )
-    @JsonIgnore
+    @JoinTable(
+            name="pieces_articles",
+            joinColumns = { @JoinColumn(name = "article_id")} ,
+            inverseJoinColumns = { @JoinColumn(name = "piece_id") }
+    )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Room> rooms = new ArrayList<>();
 
     @ManyToMany(
-            mappedBy = "items"
+            cascade = { CascadeType.MERGE,
+                    CascadeType.DETACH }
     )
-    @JsonIgnore
+    @JoinTable(
+            name="categories_articles",
+            joinColumns = { @JoinColumn(name = "article_id")} ,
+            inverseJoinColumns = { @JoinColumn(name = "categorie_id") }
+    )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Category> categories = new ArrayList<>();
 
     @ManyToMany(
-            mappedBy = "items"
+            cascade = { CascadeType.MERGE,
+                    CascadeType.DETACH }
     )
-    @JsonIgnore
+    @JoinTable(
+            name="souscategories_articles",
+            joinColumns = { @JoinColumn(name = "article_id")} ,
+            inverseJoinColumns = { @JoinColumn(name = "souscategorie_id") }
+    )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<SubCategory> subCategories = new ArrayList<>();
 
     @ManyToMany(

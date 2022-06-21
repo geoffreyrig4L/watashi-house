@@ -21,13 +21,7 @@ public class SubCategory {
     private String name;
 
     @ManyToMany(
-            cascade = { CascadeType.MERGE,
-                    CascadeType.DETACH }
-    )
-    @JoinTable(
-            name="souscategories_articles",
-            joinColumns = { @JoinColumn(name = "article_id") },
-            inverseJoinColumns = { @JoinColumn(name = "souscategorie_id") }
+            mappedBy = "subCategories"
     )
     @JsonIgnore
     private Set<Item> items = new HashSet<>();

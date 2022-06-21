@@ -82,17 +82,17 @@ public class ItemController {
         return ResponseEntity.notFound().build();
     }
 
-    /**
-     * marche pas !!!
-     */
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Item item, @RequestHeader("Authentication") final String token) {
-        //System.out.println(item.getRooms() + " - " + item.getCategories() + " - " + item.getSubCategories());
-        if (verifySenderOfRequest(token, Optional.empty()) && item.getCategories().isEmpty() || item.getSubCategories().isEmpty() || item.getRooms().isEmpty()) {
-            return ResponseEntity.badRequest().body("🛑");
+        System.out.println(item.getRooms());
+        System.out.println(item.getCategories());
+        System.out.println(item.getSubCategories());
+        System.out.println(item.getCollection());
+        if (verifySenderOfRequest(token, Optional.empty())) {
+            itemService.save(item);
+            return ResponseEntity.ok().body("L'article a été crée.");
         }
-        itemService.save(item);
-        return ResponseEntity.ok().body("L'article a été crée.");
+        return ResponseEntity.badRequest().body("🛑 L'article n'a pas été créé.");
     }
 
     @DeleteMapping("/{id}")
@@ -102,7 +102,7 @@ public class ItemController {
             itemService.delete(id);
             return ResponseEntity.ok().body("L'article a été supprimé.");
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("🛑 Aucun article n'a été supprimé.");
     }
 
     @PutMapping("/{id}")

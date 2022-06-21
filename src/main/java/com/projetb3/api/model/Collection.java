@@ -21,9 +21,7 @@ public class Collection {
     private String name;
 
     @OneToMany(
-            targetEntity = Item.class,
-            mappedBy = "collection",
-            cascade = CascadeType.ALL
+            mappedBy = "collection"
     )
     @JsonIgnore
     List<Item> items = new ArrayList<>();
