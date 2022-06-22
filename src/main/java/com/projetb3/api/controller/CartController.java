@@ -3,14 +3,22 @@ package com.projetb3.api.controller;
 import com.projetb3.api.model.Cart;
 import com.projetb3.api.model.Item;
 import com.projetb3.api.service.CartService;
+import com.stripe.Stripe;
+import com.stripe.model.PaymentIntent;
+import com.stripe.param.PaymentIntentCreateParams;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static com.projetb3.api.security.AuthenticationWithJWT.verifyJwt;
 import static com.projetb3.api.security.AuthenticationWithJWT.verifySenderOfRequest;
+import static spark.Spark.post;
 
 @Controller
 @RequestMapping("/paniers")
