@@ -24,29 +24,23 @@ public class OpinionController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Opinion>> getAll(@RequestHeader("Authentication") final String token) {
-        if (verifySenderOfRequest(token, Optional.empty())) {
-            Iterable<Opinion> listOpinion = opinionService.getAll();
-            return ResponseEntity.ok(listOpinion);
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<Iterable<Opinion>> getAll() {
+        Iterable<Opinion> listOpinion = opinionService.getAll();
+        return ResponseEntity.ok(listOpinion);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Opinion> get(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
-        if (verifySenderOfRequest(token, Optional.empty())) {
-            Optional<Opinion> opinion = opinionService.get(id);
-            return opinion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<Opinion> get(@PathVariable("id") final int id) {
+        Optional<Opinion> opinion = opinionService.get(id);
+        return opinion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Opinion> optOpinion = opinionService.get(id);
-        if (optOpinion.isPresent() && verifySenderOfRequest(token, Optional.of(optOpinion.get().getUser().getFirstname()))){
+        if (optOpinion.isPresent() && verifySenderOfRequest(token, Optional.of(optOpinion.get().getUser().getId()))) {
             opinionService.delete(id);
-            saveNewNoteOfItem(optOpinion.get().getItem().getId());
+            saveNewNoteOfItem(optOpinion.get().getItem().getId(), true);
             return ResponseEntity.ok().body("L'avis a été supprimé.");
         }
         return ResponseEntity.notFound().build();
@@ -65,18 +59,24 @@ public class OpinionController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Opinion opinion, @RequestHeader("Authentication") final String token) {
-        if(verifyJwt(token) != null){
-            opinion.setDateOfPublication(LocalDateTime.now());
-            opinionService.save(opinion);
-            saveNewNoteOfItem(opinion.getItem().getId());
-            return ResponseEntity.ok().body("L'avis a été crée.");
+        if (verifyJwt(token) != null) {
+            if(opinion.getNote() >= 0 && opinion.getNote() <= 5){
+                opinion.setDateOfPublication(LocalDateTime.now());
+                opinionService.save(opinion);
+                saveNewNoteOfItem(opinion.getItem().getId(), true);
+                return ResponseEntity.ok().body("L'avis a été crée.");
+            }
+            return ResponseEntity.badRequest().body("🛑 La note doit être comprise entre 0 et 5.");
         }
         return ResponseEntity.badRequest().body("🛑 Vous devez être connecté pour écrire un avis");
     }
 
-    private void saveNewNoteOfItem(int id_opinion) {
-        float avg = opinionService.getAverageOfItem(id_opinion);
-        opinionService.setNoteOfItem(id_opinion, avg);
+    private void saveNewNoteOfItem(int id_item, boolean executeMethod) {
+        if(executeMethod){
+            Float avg = opinionService.getAverageOfItem(id_item);
+            System.out.println(avg);
+            //opinionService.setNoteOfItem(id_item, avg);
+        }
     }
 
     @PutMapping("/{id}")
@@ -84,16 +84,18 @@ public class OpinionController {
                                          @RequestBody Opinion modified,
                                          @RequestHeader("Authentication") final String token) {
         Optional<Opinion> optOpinion = opinionService.get(id);
-        if (optOpinion.isPresent() && verifySenderOfRequest(token, Optional.of(optOpinion.get().getUser().getFirstname()))) {
+        if (optOpinion.isPresent() && verifySenderOfRequest(token, Optional.of(optOpinion.get().getUser().getId()))) {
+            boolean setNote = false;
             Opinion current = optOpinion.get();
-            if (modified.getNote() >= 0) {
+            if (modified.getNote() != null && modified.getNote() >= 0 && modified.getNote() <= 5) {
                 current.setNote(modified.getNote());
-                saveNewNoteOfItem(modified.getItem().getId());
+                setNote = true;
             }
             if (modified.getComment() != null) {
                 current.setComment(modified.getComment());
             }
             opinionService.save(current);
+            saveNewNoteOfItem(current.getItem().getId(), setNote);
             return ResponseEntity.ok().body("L'avis " + current.getId() + " a été modifié.");
         }
         return ResponseEntity.badRequest().build();

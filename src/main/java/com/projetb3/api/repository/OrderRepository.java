@@ -27,7 +27,4 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     @Query(value = "SELECT c.* FROM commandes c WHERE c.utilisateur_id = :id_user", nativeQuery = true)
     List<Order> getOrdersOfUsers(@Param("id_user") int id_user);
-
-    @Query(value = "SELECT u.prenom FROM utilisateurs u WHERE u.id_utilisateur = :id_user", nativeQuery = true)
-    Optional<String> getFirstnameOfUser(@Param("id_user") int id_user);
 }

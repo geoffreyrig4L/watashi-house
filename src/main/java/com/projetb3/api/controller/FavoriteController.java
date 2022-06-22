@@ -41,7 +41,7 @@ public class FavoriteController {
     @GetMapping("/utilisateur={id}")
     public ResponseEntity<Favorite> favoritesOfUser(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Favorite> favorite = favoriteService.favoritesOfUser(id);
-        if (favorite.isPresent() && verifySenderOfRequest(token, Optional.of(favorite.get().getUser().getFirstname()))) {
+        if (favorite.isPresent() && verifySenderOfRequest(token, Optional.of(favorite.get().getUser().getId()))) {
             return ResponseEntity.ok(favorite.get());
         }
         return ResponseEntity.notFound().build();
@@ -62,7 +62,7 @@ public class FavoriteController {
                                                    @PathVariable("id_item") final int id_item,
                                                    @RequestHeader("Authentication") final String token) {
         Optional<Favorite> favorite = favoriteService.get(id_favorite);
-        if (favorite.isPresent() && verifySenderOfRequest(token, Optional.of(favorite.get().getUser().getFirstname()))) {
+        if (favorite.isPresent() && verifySenderOfRequest(token, Optional.of(favorite.get().getUser().getId()))) {
             favoriteService.deleteItemOfFavorites(id_item, favorite.get().getId());
             favoriteService.save(favorite.get());
             return ResponseEntity.ok().body("L'article " + id_item + " a été supprimé des favoris " + favorite.get().getId());
@@ -74,7 +74,7 @@ public class FavoriteController {
     public ResponseEntity<String> deleteAllItemsOfFavorites(@PathVariable("id_favorite") final int id_favorite,
                                                        @RequestHeader("Authentication") final String token) {
         Optional<Favorite> favorite = favoriteService.get(id_favorite);
-        if (favorite.isPresent() && verifySenderOfRequest(token, Optional.of(favorite.get().getUser().getFirstname()))) {
+        if (favorite.isPresent() && verifySenderOfRequest(token, Optional.of(favorite.get().getUser().getId()))) {
             favoriteService.deleteAllItemsOfFavorites(favorite.get().getId());
             favoriteService.save(favorite.get());
             return ResponseEntity.ok().body("Les favoris " + favorite.get().getId() + " ont été vidés.");
@@ -87,7 +87,7 @@ public class FavoriteController {
                                                 @PathVariable("id_item") final int id_item,
                                                 @RequestHeader("Authentication") final String token) {
         Optional<Favorite> favorite = favoriteService.get(id_favorite);
-        if (favorite.isPresent() && verifySenderOfRequest(token, Optional.of(favorite.get().getUser().getFirstname()))) {
+        if (favorite.isPresent() && verifySenderOfRequest(token, Optional.of(favorite.get().getUser().getId()))) {
             favoriteService.addItemOfFavorites(id_item, favorite.get().getId());
             favoriteService.save(favorite.get());
             return ResponseEntity.ok().body("L'article " + id_item + " a été ajouté aux favoris " + favorite.get().getId());

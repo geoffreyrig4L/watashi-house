@@ -47,7 +47,7 @@ public class Item {
     private int stock;
 
     @Column(name = "note")
-    private float note;
+    private Float note;
 
     @ManyToOne(
             cascade = CascadeType.MERGE

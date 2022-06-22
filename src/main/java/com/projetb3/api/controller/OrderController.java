@@ -35,7 +35,7 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<Order> get(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<Order> order = orderService.get(id);
-        if(order.isPresent() && verifySenderOfRequest(token, Optional.of(order.get().getUser().getFirstname()))){
+        if(order.isPresent() && verifySenderOfRequest(token, Optional.of(order.get().getUser().getId()))){
             return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
         }
         return ResponseEntity.badRequest().build();
@@ -43,8 +43,7 @@ public class OrderController {
 
     @GetMapping("/utilisateurs={id_user}")
     public ResponseEntity<List<Order>> getOrdersOfUser(@PathVariable("id_user") final int id_user, @RequestHeader("Authentication") final String token) {
-        String firstnameOfUser = orderService.getFirstnameOfUser(id_user);
-        if(verifySenderOfRequest(token, Optional.of(firstnameOfUser))) {
+        if(verifySenderOfRequest(token, Optional.of(id_user))) {
             List<Order> ordersList = orderService.getOrdersOfUser(id_user);
             return ResponseEntity.ok(ordersList);
         }

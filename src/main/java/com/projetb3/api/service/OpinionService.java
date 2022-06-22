@@ -1,6 +1,5 @@
 package com.projetb3.api.service;
 
-import com.projetb3.api.model.Item;
 import com.projetb3.api.model.Opinion;
 import com.projetb3.api.repository.OpinionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +34,8 @@ public class OpinionService {
         return opinionRepository.opinionsOfItem(id);
     }
 
-    public Float getAverageOfItem(int id) {
-        return opinionRepository.averageNote(id);
+    public Float getAverageOfItem(int id_article) {
+        return opinionRepository.averageNote(id_article);
     }
 
     public void setNoteOfItem(int id_item, float avg) {

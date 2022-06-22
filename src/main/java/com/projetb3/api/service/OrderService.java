@@ -38,8 +38,4 @@ public class OrderService {
 
     public List<Order> getOrdersOfUser(int id_user) { return orderRepository.getOrdersOfUsers(id_user);
     }
-
-    public String getFirstnameOfUser(int id_user) {
-        return orderRepository.getFirstnameOfUser(id_user).orElse("");
-    }
 }

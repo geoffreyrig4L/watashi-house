@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> get(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<User> user = userService.get(id);
-        if (user.isPresent() && verifySenderOfRequest(token, Optional.of(user.get().getFirstname()))) {
+        if (user.isPresent() && verifySenderOfRequest(token, Optional.of(user.get().getId()))) {
             return ResponseEntity.ok(user.get());
         }
         return ResponseEntity.notFound().build();
@@ -66,7 +66,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody User modified, @RequestHeader("Authentication") final String token) {
-        if (verifySenderOfRequest(token, Optional.of(modified.getFirstname()))) {
+        if (verifySenderOfRequest(token, Optional.of(id))) {
             Optional<User> optUser = userService.get(id);
             if (optUser.isPresent()) {
                 User current = optUser.get();
@@ -99,9 +99,6 @@ public class UserController {
                 }
                 if (modified.getCountry() != null) {
                     current.setCountry(modified.getCountry());
-                }
-                if (modified.getTypeUser() != null) {
-                    current.setTypeUser(modified.getTypeUser());
                 }
                 userService.save(current);
                 return ResponseEntity.ok().body("L'utilisateur " + current.getId() + " a été modifié.");

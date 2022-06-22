@@ -3,6 +3,7 @@ package com.projetb3.api.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -17,7 +18,7 @@ public class Opinion {
     private int id;
 
     @Column(name = "note")
-    private int note;
+    private Float note;
 
     @Column(name = "commentaire")
     private String comment;
@@ -44,5 +45,6 @@ public class Opinion {
             targetEntity= User.class
     )
     @JoinColumn(name="utilisateur_id")
+    @Nullable
     private User user;
 }

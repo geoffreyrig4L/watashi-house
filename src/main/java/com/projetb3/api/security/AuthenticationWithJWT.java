@@ -11,6 +11,7 @@ import com.projetb3.api.model.User;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 
 public class AuthenticationWithJWT {
@@ -26,6 +27,8 @@ public class AuthenticationWithJWT {
                     .withClaim("lastname", user.getLastname())
                     .withClaim("email", user.getEmail())
                     .withClaim("typeUser", user.getTypeUser())
+                    .withClaim("id_panier", user.getCart().getId())
+                    .withClaim("id_favoris", user.getFavorite().getId())
                     .withExpiresAt(Date.from(Instant.now().plus(3600, ChronoUnit.SECONDS)))
                     .sign(ALGORITHM);
         } catch (JWTCreationException exception) {
@@ -33,10 +36,10 @@ public class AuthenticationWithJWT {
         }
     }
 
-    public static boolean verifySenderOfRequest(String token, Optional<String> selector) {
+    public static boolean verifySenderOfRequest(String token, Optional<Integer> selector) {
         DecodedJWT jwt = verifyJwt(token);
         return jwt.getClaim("typeUser").toString().equals("\"administrateur\"") ||
-                jwt.getClaim("firstname").toString().equals("\"" + selector.orElse("") + "\"");
+                Objects.equals(jwt.getClaim("id").asInt(), selector.orElse(null));
     }
 
     public static DecodedJWT verifyJwt(String token) {

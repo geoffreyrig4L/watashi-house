@@ -44,8 +44,8 @@ public class DebitCardController {
     @GetMapping("/utilisateur={id}")
     public ResponseEntity<Iterable<DebitCard>> getCardOfUser(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Iterable<DebitCard> debitCardsList = debitCardService.getCardOfUser(id);
-        Optional<String> firstname = Optional.of(debitCardsList.iterator().next().getUser().getFirstname());
-        if (verifySenderOfRequest(token, firstname)) {
+        Optional<Integer> idOptional = Optional.of(debitCardsList.iterator().next().getUser().getId());
+        if (verifySenderOfRequest(token, idOptional)) {
             return ResponseEntity.ok(debitCardsList);
         }
         return ResponseEntity.badRequest().build();
@@ -53,7 +53,7 @@ public class DebitCardController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody DebitCard debitCard, @RequestHeader("Authentication") final String token) {
-        if (verifySenderOfRequest(token, Optional.of(debitCard.getUser().getFirstname()))) {
+        if (verifySenderOfRequest(token, Optional.of(debitCard.getUser().getId()))) {
             debitCardService.save(debitCard);
             return ResponseEntity.ok().body("La carte de paiement a été créée.");
         }
@@ -63,7 +63,7 @@ public class DebitCardController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<DebitCard> debitCard = debitCardService.get(id);
-        if (debitCard.isPresent() && verifySenderOfRequest(token, Optional.of(debitCard.get().getUser().getFirstname()))) {
+        if (debitCard.isPresent() && verifySenderOfRequest(token, Optional.of(debitCard.get().getUser().getId()))) {
             debitCardService.delete(id);
             return ResponseEntity.ok().body("La carte de paiement a été supprimée.");
         }
@@ -75,7 +75,7 @@ public class DebitCardController {
                                          @RequestBody DebitCard modified,
                                          @RequestHeader("Authentication") final String token) {
         Optional<DebitCard> optDebitCard = debitCardService.get(id);
-        if (optDebitCard.isPresent() && verifySenderOfRequest(token, Optional.of(optDebitCard.get().getUser().getFirstname()))) {
+        if (optDebitCard.isPresent() && verifySenderOfRequest(token, Optional.of(optDebitCard.get().getUser().getId()))) {
                 DebitCard current = optDebitCard.get();
                 if (modified.getNumber() != null) {
                     current.setNumber(modified.getNumber());
