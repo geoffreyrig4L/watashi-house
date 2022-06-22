@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +62,7 @@ public class OpinionController {
     public ResponseEntity<String> create(@RequestBody Opinion opinion, @RequestHeader("Authentication") final String token) {
         if (verifyJwt(token) != null) {
             if(opinion.getNote() >= 0 && opinion.getNote() <= 5){
-                opinion.setDateOfPublication(LocalDateTime.now());
+                opinion.setDateOfPublication(getDatetime());
                 opinionService.save(opinion);
                 saveNewNoteOfItem(opinion.getItem().getId(), true);
                 return ResponseEntity.ok().body("L'avis a été crée.");
@@ -69,6 +70,12 @@ public class OpinionController {
             return ResponseEntity.badRequest().body("🛑 La note doit être comprise entre 0 et 5.");
         }
         return ResponseEntity.badRequest().body("🛑 Vous devez être connecté pour écrire un avis");
+    }
+
+    private String getDatetime() {
+        var now = LocalDateTime.now();
+        var formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+        return now.format(formatter);
     }
 
     private void saveNewNoteOfItem(int id_item, boolean executeMethod) {

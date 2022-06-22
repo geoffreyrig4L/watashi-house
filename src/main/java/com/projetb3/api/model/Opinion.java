@@ -1,6 +1,8 @@
 package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.annotation.Nullable;
@@ -24,7 +26,7 @@ public class Opinion {
     private String comment;
 
     @Column(name= "datecreation")
-    private LocalDateTime dateOfPublication;
+    private String dateOfPublication;
 
     @ManyToOne(
             cascade = {
@@ -45,6 +47,6 @@ public class Opinion {
             targetEntity= User.class
     )
     @JoinColumn(name="utilisateur_id")
-    @Nullable
+    @JsonIgnoreProperties({"gender","email", "hash","salt","phone","address","zipCode","city","country","typeUser"})
     private User user;
 }

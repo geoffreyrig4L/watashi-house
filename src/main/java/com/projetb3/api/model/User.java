@@ -1,6 +1,7 @@
 package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.apache.commons.codec.binary.Hex;
 
@@ -31,9 +32,11 @@ public class User {
     private String email;
 
     @Column(name = "mdphash")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String hash;
 
     @Column(name = "mdpsalt")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String salt;
 
     @Column(name = "tel")
@@ -52,7 +55,7 @@ public class User {
     private String country;
 
     @Column(name = "typeuser")
-    private String typeUser;
+    private String typeUser = "client";
 
     @OneToMany(
             targetEntity= Order.class,
@@ -64,10 +67,8 @@ public class User {
     List<Order> orders = new ArrayList<>();
 
     @OneToMany(
-            targetEntity= Opinion.class,
             mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
     @JsonIgnore
     private List<Opinion> opinions = new ArrayList<>();
@@ -87,4 +88,10 @@ public class User {
     public void setSalt(byte[] salt){
         this.salt = Hex.encodeHexString(salt);
     }
+
+    @PreRemove
+    public void nullifiedAuthorOfOpinion(){
+        opinions.forEach(opinion -> opinion.setUser(null));
+    }
+
 }

@@ -26,7 +26,6 @@ public class AuthenticationWithJWT {
                     .withClaim("firstname", user.getFirstname())
                     .withClaim("lastname", user.getLastname())
                     .withClaim("email", user.getEmail())
-                    .withClaim("typeUser", user.getTypeUser())
                     .withClaim("id_panier", user.getCart().getId())
                     .withClaim("id_favoris", user.getFavorite().getId())
                     .withExpiresAt(Date.from(Instant.now().plus(3600, ChronoUnit.SECONDS)))

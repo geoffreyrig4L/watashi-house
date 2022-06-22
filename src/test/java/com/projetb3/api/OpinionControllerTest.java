@@ -33,12 +33,12 @@ class OpinionControllerTest implements H2TestJpaConfig {
 
     @BeforeEach
     void insertInH2(){
-        saveOpinionInH2("Ce canape est vraiment fantastique", 5);
-        saveOpinionInH2("Ce canape est vraiment cool", 3);
-        saveOpinionInH2("Ce canape est vraiment a chié", 1);
+        saveOpinionInH2("Ce canape est vraiment fantastique", 5.0F);
+        saveOpinionInH2("Ce canape est vraiment cool", 3.1F);
+        saveOpinionInH2("Ce canape est vraiment a chié", 1.4F);
     }
 
-    private void saveOpinionInH2(String comment, int note) {
+    private void saveOpinionInH2(String comment, Float note) {
         Opinion opinion = new Opinion();
         opinion.setComment(comment);
         opinion.setNote(note);

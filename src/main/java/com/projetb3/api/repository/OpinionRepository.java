@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface OpinionRepository extends CrudRepository<Opinion,Integer> {
 
-    @Query(value = "SELECT DISTINCT * FROM avis a WHERE article_id = :id_article", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT a.*, u.nom, u.prenom FROM avis a, utilisateurs u WHERE article_id = :id_article and a.utilisateur_id = u.id_utilisateur", nativeQuery = true)
     List<Opinion> opinionsOfItem(@Param("id_article") int id);
 
     @Query(value = "SELECT AVG(note) FROM avis WHERE article_id = :id_article", nativeQuery = true)

@@ -54,13 +54,11 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token){
-        if (verifySenderOfRequest(token, Optional.empty())) {
-            Optional<User> optUser = userService.get(id);
-            if (optUser.isPresent()) {
+        Optional<User> optUser = userService.get(id);
+            if (optUser.isPresent() && verifySenderOfRequest(token, Optional.of(optUser.get().getId()))) {
                 userService.delete(id);
                 return ResponseEntity.ok().body("L'utilisateur a été supprimé.");
             }
-        }
         return ResponseEntity.badRequest().body("🛑 L'utilisateur n'a pas été supprimé");
     }
 
@@ -126,6 +124,7 @@ public class UserController {
 
     @PostMapping("/inscription")
     public ResponseEntity<String> signUp(@RequestBody User user){
+        System.out.println(user.getTypeUser());
         createHashAndSalt(user, user.getHash());
         userService.save(user);
         userService.createCartAndFavoritesToUser(user.getId());
