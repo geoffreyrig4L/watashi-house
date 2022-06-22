@@ -74,8 +74,7 @@ public class OpinionController {
     private void saveNewNoteOfItem(int id_item, boolean executeMethod) {
         if(executeMethod){
             Float avg = opinionService.getAverageOfItem(id_item);
-            System.out.println(avg);
-            //opinionService.setNoteOfItem(id_item, avg);
+            opinionService.setNoteOfItem(id_item, avg);
         }
     }
 

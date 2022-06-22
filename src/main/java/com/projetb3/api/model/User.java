@@ -55,15 +55,6 @@ public class User {
     private String typeUser;
 
     @OneToMany(
-            targetEntity= DebitCard.class,
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @JsonIgnore
-    List<DebitCard> debitCards = new ArrayList<>();
-
-    @OneToMany(
             targetEntity= Order.class,
             mappedBy = "user",
             cascade = CascadeType.ALL,

@@ -38,7 +38,7 @@ public class OpinionService {
         return opinionRepository.averageNote(id_article);
     }
 
-    public void setNoteOfItem(int id_item, float avg) {
+    public void setNoteOfItem(int id_item, Float avg) {
         opinionRepository.setNoteOfItem(id_item, avg);
     }
 }

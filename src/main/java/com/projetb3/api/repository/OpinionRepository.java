@@ -22,5 +22,5 @@ public interface OpinionRepository extends CrudRepository<Opinion,Integer> {
     @Query(value = "UPDATE articles SET note = :avg WHERE id_article = :id_item", nativeQuery = true)
     @Modifying
     @Transactional
-    void setNoteOfItem(@Param("id_item") int id, float avg);
+    void setNoteOfItem(@Param("id_item") int id, Float avg);
 }
