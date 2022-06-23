@@ -121,7 +121,6 @@ public class UserController {
 
     @PostMapping("/inscription")
     public ResponseEntity<String> signUp(@RequestBody User user) {
-        System.out.println(user.getGender());
         if (verifyGender(user.getGender())) {
             user.setTypeUser("client");
             createHashAndSalt(user, user.getHash());

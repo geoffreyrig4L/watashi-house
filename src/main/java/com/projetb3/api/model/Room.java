@@ -1,6 +1,7 @@
 package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -27,14 +28,16 @@ public class Room {
     private List<Item> items = new ArrayList<>();
 
     @ManyToMany(
-            fetch = FetchType.LAZY,
+            mappedBy = "rooms",
             cascade = CascadeType.MERGE
     )
-    @JoinTable(
-            name="pieces_souscategories",
-            joinColumns = { @JoinColumn(name = "piece_id") },
-            inverseJoinColumns = { @JoinColumn(name = "souscategorie_id") }
-    )
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<SubCategory> subCategories = new ArrayList<>();
+
+    @ManyToMany(
+            mappedBy = "rooms",
+            cascade = CascadeType.MERGE
+    )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Category> categories = new ArrayList<>();
 }

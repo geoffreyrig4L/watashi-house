@@ -44,6 +44,7 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<String> create(@RequestBody Category category, @RequestHeader("Authentication") final String token) {
+        System.out.println(category.getRooms());
         if (verifySenderOfRequest(token, Optional.empty())) {
             categoryService.save(category);
             return ResponseEntity.ok().body("La catégorie a été créée.");

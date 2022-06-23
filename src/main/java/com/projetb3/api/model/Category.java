@@ -1,6 +1,7 @@
 package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -28,15 +29,19 @@ public class Category {
     private List<Item> items = new ArrayList<>();
 
     @OneToMany(
-            cascade = CascadeType.MERGE
+            mappedBy = "category"
     )
-    @JoinColumn(name = "categorie_id")
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<SubCategory> subCategories = new ArrayList<>();
 
     @ManyToMany(
-            mappedBy = "subCategories"
+            cascade = CascadeType.MERGE
     )
-    @JsonIgnore
+    @JoinTable(
+            name="pieces_categories",
+            joinColumns = { @JoinColumn(name = "categorie_id") },
+            inverseJoinColumns = { @JoinColumn(name = "piece_id") }
+    )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Room> rooms = new ArrayList<>();
 }

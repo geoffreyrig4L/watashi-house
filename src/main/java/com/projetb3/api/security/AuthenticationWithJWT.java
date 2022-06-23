@@ -29,7 +29,7 @@ public class AuthenticationWithJWT {
                     .withClaim("id_panier", user.getCart().getId())
                     .withClaim("id_favoris", user.getFavorite().getId())
                     .withClaim("typeUser", user.getTypeUser())
-                    .withExpiresAt(Date.from(Instant.now().plus(3600, ChronoUnit.SECONDS)))
+                    .withExpiresAt(Date.from(Instant.now().plus(7200, ChronoUnit.SECONDS)))
                     .sign(ALGORITHM);
         } catch (JWTCreationException exception) {
             throw new JWTCreationException("Erreur lors de la création du token", exception);
@@ -38,7 +38,6 @@ public class AuthenticationWithJWT {
 
     public static boolean verifySenderOfRequest(String token, Optional<Integer> selector) {
         DecodedJWT jwt = verifyJwt(token);
-        System.out.println(jwt.getClaim("typeUser"));
         return jwt.getClaim("typeUser").toString().equals("\"administrateur\"") ||
                 Objects.equals(jwt.getClaim("id").asInt(), selector.orElse(null));
     }
