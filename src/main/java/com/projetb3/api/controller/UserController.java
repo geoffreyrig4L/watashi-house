@@ -53,57 +53,54 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token){
+    public ResponseEntity<String> delete(@PathVariable("id") final int id, @RequestHeader("Authentication") final String token) {
         Optional<User> optUser = userService.get(id);
-            if (optUser.isPresent() && verifySenderOfRequest(token, Optional.of(optUser.get().getId()))) {
-                userService.delete(id);
-                return ResponseEntity.ok().body("L'utilisateur a été supprimé.");
-            }
+        if (optUser.isPresent() && verifySenderOfRequest(token, Optional.of(optUser.get().getId()))) {
+            userService.delete(id);
+            return ResponseEntity.ok().body("L'utilisateur a été supprimé.");
+        }
         return ResponseEntity.badRequest().body("🛑 L'utilisateur n'a pas été supprimé");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> update(@PathVariable("id") final int id, @RequestBody User modified, @RequestHeader("Authentication") final String token) {
-        if (verifySenderOfRequest(token, Optional.of(id))) {
-            Optional<User> optUser = userService.get(id);
-            if (optUser.isPresent()) {
-                User current = optUser.get();
-                if (modified.getGender() != null) {
-                    current.setGender(modified.getGender());
-                }
-                if (modified.getFirstname() != null) {
-                    current.setFirstname(modified.getFirstname());
-                }
-                if (modified.getLastname() != null) {
-                    current.setLastname(modified.getLastname());
-                }
-                if (modified.getEmail() != null) {
-                    current.setEmail(modified.getEmail());
-                }
-                if (modified.getPhone() != null) {
-                    current.setPhone(modified.getPhone());
-                }
-                if (modified.getAddress() != null) {
-                    current.setAddress(modified.getAddress());
-                }
-                if (modified.getZipCode() != null) {
-                    current.setZipCode(modified.getZipCode());
-                }
-                if (modified.getHash() != null) {
-                    createHashAndSalt(current, modified.getHash());
-                }
-                if (modified.getCity() != null) {
-                    current.setCity(modified.getCity());
-                }
-                if (modified.getCountry() != null) {
-                    current.setCountry(modified.getCountry());
-                }
-                userService.save(current);
-                return ResponseEntity.ok().body("L'utilisateur " + current.getId() + " a été modifié.");
+        Optional<User> optUser = userService.get(id);
+        if (optUser.isPresent() && verifySenderOfRequest(token, Optional.of(id))) {
+            User current = optUser.get();
+            if (modified.getGender() != null) {
+                current.setGender(modified.getGender());
             }
-            return ResponseEntity.badRequest().body("🛑 L'utilisateur est introuvable.");
+            if (modified.getFirstname() != null) {
+                current.setFirstname(modified.getFirstname());
+            }
+            if (modified.getLastname() != null) {
+                current.setLastname(modified.getLastname());
+            }
+            if (modified.getEmail() != null) {
+                current.setEmail(modified.getEmail());
+            }
+            if (modified.getPhone() != null) {
+                current.setPhone(modified.getPhone());
+            }
+            if (modified.getAddress() != null) {
+                current.setAddress(modified.getAddress());
+            }
+            if (modified.getZipCode() != null) {
+                current.setZipCode(modified.getZipCode());
+            }
+            if (modified.getHash() != null) {
+                createHashAndSalt(current, modified.getHash());
+            }
+            if (modified.getCity() != null) {
+                current.setCity(modified.getCity());
+            }
+            if (modified.getCountry() != null) {
+                current.setCountry(modified.getCountry());
+            }
+            userService.save(current);
+            return ResponseEntity.ok().body("L'utilisateur " + current.getId() + " a été modifié.");
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("🛑 L'utilisateur est introuvable.");
     }
 
     private boolean isHashSame(String hashUserSupplied, User userSaved) {
@@ -123,7 +120,8 @@ public class UserController {
     }
 
     @PostMapping("/inscription")
-    public ResponseEntity<String> signUp(@RequestBody User user){
+    public ResponseEntity<String> signUp(@RequestBody User user) {
+        user.setTypeUser("client");
         System.out.println(user.getTypeUser());
         createHashAndSalt(user, user.getHash());
         userService.save(user);
@@ -136,5 +134,18 @@ public class UserController {
         String hash = Password.create(password.toCharArray(), salt);
         user.setSalt(salt);
         user.setHash(hash);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> transformClientToAdmin(@PathVariable("id") final int id, @RequestBody User modified, @RequestHeader("Authentication") final String token) {
+        Optional<User> user = userService.get(id);
+        if (user.isPresent() && verifySenderOfRequest(token, Optional.empty())) {
+            if (modified.getTypeUser() != null) {
+                user.get().setGender("administrateur");
+            }
+            userService.save(user.get());
+            return ResponseEntity.ok().body("L'utilisateur " + user.get().getId() + " est devenu administrateur.");
+        }
+        return ResponseEntity.badRequest().body("🛑 L'utilisateur est introuvable.");
     }
 }

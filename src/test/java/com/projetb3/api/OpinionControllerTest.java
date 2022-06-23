@@ -42,7 +42,7 @@ class OpinionControllerTest implements H2TestJpaConfig {
         Opinion opinion = new Opinion();
         opinion.setComment(comment);
         opinion.setNote(note);
-        opinion.setDateOfPublication(LocalDateTime.now());
+        opinion.setDateOfPublication("");
         opinionRepository.save(opinion);
     }
 

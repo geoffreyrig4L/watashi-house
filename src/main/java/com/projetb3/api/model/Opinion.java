@@ -2,12 +2,9 @@ package com.projetb3.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.annotation.Nullable;
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Data

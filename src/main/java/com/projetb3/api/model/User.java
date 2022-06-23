@@ -55,7 +55,7 @@ public class User {
     private String country;
 
     @Column(name = "typeuser")
-    private String typeUser = "client";
+    private String typeUser;
 
     @OneToMany(
             targetEntity= Order.class,
