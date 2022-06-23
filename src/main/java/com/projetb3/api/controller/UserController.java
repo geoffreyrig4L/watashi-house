@@ -121,12 +121,19 @@ public class UserController {
 
     @PostMapping("/inscription")
     public ResponseEntity<String> signUp(@RequestBody User user) {
-        user.setTypeUser("client");
-        System.out.println(user.getTypeUser());
-        createHashAndSalt(user, user.getHash());
-        userService.save(user);
-        userService.createCartAndFavoritesToUser(user.getId());
-        return ResponseEntity.ok().body("Vous êtes désormais inscrit.");
+        System.out.println(user.getGender());
+        if (verifyGender(user.getGender())) {
+            user.setTypeUser("client");
+            createHashAndSalt(user, user.getHash());
+            userService.save(user);
+            userService.createCartAndFavoritesToUser(user.getId());
+            return ResponseEntity.ok().body("Vous êtes désormais inscrit.");
+        }
+        return ResponseEntity.badRequest().body("🛑 Le genre renseigné est incorrect.");
+    }
+
+    private boolean verifyGender(String gender) {
+        return gender.equals("Madame") || gender.equals("Monsieur");
     }
 
     public void createHashAndSalt(User user, String password) {
@@ -136,12 +143,12 @@ public class UserController {
         user.setHash(hash);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/transform-to-admin/{id}")
     public ResponseEntity<String> transformClientToAdmin(@PathVariable("id") final int id, @RequestBody User modified, @RequestHeader("Authentication") final String token) {
         Optional<User> user = userService.get(id);
         if (user.isPresent() && verifySenderOfRequest(token, Optional.empty())) {
             if (modified.getTypeUser() != null) {
-                user.get().setGender("administrateur");
+                user.get().setTypeUser("administrateur");
             }
             userService.save(user.get());
             return ResponseEntity.ok().body("L'utilisateur " + user.get().getId() + " est devenu administrateur.");
