@@ -16,7 +16,7 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_article")
+    @Column(name = "id_article")
     private int id;
 
     @Column(name = "nom")
@@ -58,7 +58,7 @@ public class Item {
     private Collection collection;
 
     @OneToMany(
-            targetEntity= Opinion.class,
+            targetEntity = Opinion.class,
             mappedBy = "item",
             cascade = CascadeType.ALL,
             orphanRemoval = true
@@ -67,37 +67,38 @@ public class Item {
     private List<Opinion> opinions = new ArrayList<>();
 
     @ManyToMany(
-            cascade = { CascadeType.MERGE,
-                    CascadeType.DETACH }
+            cascade = {CascadeType.MERGE,
+                    CascadeType.DETACH
+            }
     )
     @JoinTable(
-            name="pieces_articles",
-            joinColumns = { @JoinColumn(name = "article_id")} ,
-            inverseJoinColumns = { @JoinColumn(name = "piece_id") }
+            name = "pieces_articles",
+            joinColumns = {@JoinColumn(name = "article_id")},
+            inverseJoinColumns = {@JoinColumn(name = "piece_id")}
     )
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Room> rooms = new ArrayList<>();
 
     @ManyToMany(
-            cascade = { CascadeType.MERGE,
-                    CascadeType.DETACH }
+            cascade = {CascadeType.MERGE,
+                    CascadeType.DETACH}
     )
     @JoinTable(
-            name="categories_articles",
-            joinColumns = { @JoinColumn(name = "article_id")} ,
-            inverseJoinColumns = { @JoinColumn(name = "categorie_id") }
+            name = "categories_articles",
+            joinColumns = {@JoinColumn(name = "article_id")},
+            inverseJoinColumns = {@JoinColumn(name = "categorie_id")}
     )
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Category> categories = new ArrayList<>();
 
     @ManyToMany(
-            cascade = { CascadeType.MERGE,
-                    CascadeType.DETACH }
+            cascade = {CascadeType.MERGE,
+                    CascadeType.DETACH}
     )
     @JoinTable(
-            name="souscategories_articles",
-            joinColumns = { @JoinColumn(name = "article_id")} ,
-            inverseJoinColumns = { @JoinColumn(name = "souscategorie_id") }
+            name = "souscategories_articles",
+            joinColumns = {@JoinColumn(name = "article_id")},
+            inverseJoinColumns = {@JoinColumn(name = "souscategorie_id")}
     )
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<SubCategory> subCategories = new ArrayList<>();
