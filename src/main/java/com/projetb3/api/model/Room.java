@@ -28,16 +28,14 @@ public class Room {
     private List<Item> items = new ArrayList<>();
 
     @ManyToMany(
-            mappedBy = "rooms",
-            cascade = CascadeType.MERGE
+            mappedBy = "rooms"
     )
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     private List<SubCategory> subCategories = new ArrayList<>();
 
     @ManyToMany(
-            mappedBy = "rooms",
-            cascade = CascadeType.MERGE
+            mappedBy = "rooms"
     )
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     private List<Category> categories = new ArrayList<>();
 }
