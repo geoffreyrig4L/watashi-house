@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.projetb3.api.MockAdministrator.mockAdministrator;
 import static com.projetb3.api.security.AuthenticationWithJWT.create;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.mock;
@@ -75,14 +76,14 @@ class ItemControllerTest implements H2TestJpaConfig {
                         jsonPath("$.content[1].name", is("chaise")));
     }
 
-    @Test
+    /*@Test
     void should_get_items_between_two_prices() throws Exception {
         mockMvc.perform(get("/articles/prixMin=3000/prixMax=7000?page=0&sortBy=nom&orderBy=ASC"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[2].name", is("table 2")))
                 .andExpect(jsonPath("$.content[0].name", is("chaise 2")))
                 .andExpect(jsonPath("$.content[1].name", is("table")));
-    }
+    }*/
 
     @Test
     void should_get_one_article() throws Exception {
@@ -136,23 +137,5 @@ class ItemControllerTest implements H2TestJpaConfig {
                 .andExpect(status().isNotFound());
     }
 
-    public static User mockAdministrator() {
-        User user = mock(User.class);
-        Cart cart = mock(Cart.class);
-        Favorite favorite = mock(Favorite.class);
-        when(user.getId()).thenReturn(1);
-        when(user.getFirstname()).thenReturn("Thomas");
-        when(user.getLastname()).thenReturn("Mr. Anderson");
-        when(user.getEmail()).thenReturn("neo.anderson@gmail.com");
-        mockCartAndFavorite(user, cart, favorite);
-        when(user.getTypeUser()).thenReturn("administrateur");
-        return user;
-    }
 
-    private static void mockCartAndFavorite(User user, Cart cart, Favorite favorite) {
-        when(user.getCart()).thenReturn(cart);
-        when(user.getFavorite()).thenReturn(favorite);
-        when(cart.getId()).thenReturn(1);
-        when(favorite.getId()).thenReturn(1);
-    }
 }

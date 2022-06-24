@@ -21,15 +21,15 @@ public class Cart {
     private int price;
 
     @OneToOne(
-            cascade = { CascadeType.MERGE,
-                    CascadeType.DETACH }
+            cascade = {CascadeType.MERGE,
+                    CascadeType.DETACH}
     )
-    @JoinColumn(name="utilisateur_id")
+    @JoinColumn(name = "utilisateur_id")
     private User user;
 
     @ManyToMany(
-            cascade = { CascadeType.MERGE,
-                    CascadeType.DETACH }
+            cascade = {CascadeType.MERGE,
+                    CascadeType.DETACH}
     )
     @JoinTable(
             name = "paniers_articles",
@@ -37,6 +37,14 @@ public class Cart {
             inverseJoinColumns = @JoinColumn(name = "article_id")
     )
     private List<Item> items = new ArrayList<>();
+
+    public static int computePrice(List<Item> items) {
+        int price = 0;
+        for (Item item : items) {
+            price += item.getPrice();
+        }
+        return price;
+    }
 }
 
 

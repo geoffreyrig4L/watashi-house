@@ -30,7 +30,4 @@ public interface CartRepository extends CrudRepository<Cart,Integer> {
     @Modifying
     @Query(value = "insert into paniers_articles values (:id_cart,:id_item)" , nativeQuery = true)
     void addItemInCart(int id_item, int id_cart);
-
-    @Query(value = "SELECT a.prix FROM articles a WHERE a.id_article = :id_item", nativeQuery = true)
-    int getPriceOfItem(int id_item);
 }

@@ -19,7 +19,7 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Integer
             nativeQuery = true)
     Page<Item> itemsByColor(@Param("couleur") String couleur, Pageable pageable);
 
-    @Query(value = "SELECT * FROM articles a HAVING a.prix > :min AND a.prix < :max",
+    @Query(value = "SELECT a.*, a.id_article FROM articles a HAVING a.prix > :min AND a.prix < :max",
             countQuery = "SELECT COUNT(*) FROM articles a WHERE a.prix > :min AND a.prix < :max",
             nativeQuery = true)
     Page<Item> itemsByPrice(int min, int max, Pageable pageable);

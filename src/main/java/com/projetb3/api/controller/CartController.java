@@ -1,24 +1,15 @@
 package com.projetb3.api.controller;
 
 import com.projetb3.api.model.Cart;
-import com.projetb3.api.model.Item;
 import com.projetb3.api.service.CartService;
-import com.stripe.Stripe;
-import com.stripe.model.PaymentIntent;
-import com.stripe.param.PaymentIntentCreateParams;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import static com.projetb3.api.security.AuthenticationWithJWT.verifyJwt;
+import static com.projetb3.api.model.Cart.computePrice;
 import static com.projetb3.api.security.AuthenticationWithJWT.verifySenderOfRequest;
-import static spark.Spark.post;
 
 @Controller
 @RequestMapping("/paniers")
@@ -106,14 +97,6 @@ public class CartController {
             return ResponseEntity.ok().body("L'article " + id_item + " a été ajouté au panier " + cart.getId());
         }
         return ResponseEntity.notFound().build();
-    }
-
-    private int computePrice(List<Item> items) {
-        int price = 0;
-        for (Item item : items) {
-            price += cartService.getPriceOfItem(item.getId());
-        }
-        return price;
     }
 
     private void saveWithGoodPrice(Cart cart) {

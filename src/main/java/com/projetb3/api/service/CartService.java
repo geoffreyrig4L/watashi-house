@@ -45,8 +45,4 @@ public class CartService {
     public void delete(final int id) {
         cartRepository.deleteById(id);
     }
-
-    public int getPriceOfItem(int id_item) {
-        return cartRepository.getPriceOfItem(id_item);
-    }
 }
